@@ -7,15 +7,19 @@ const FLOWER_URLS = [
 
 const FlowerTransition = ({ onMidpoint, onComplete }) => {
   const canvasRef = useRef(null);
-  const [phase, setPhase] = useState('pouring'); // 'pouring' -> 'done'
+  const [phase, setPhase] = useState('pouring');
 
   useEffect(() => {
-    // 1. Timing logic
-    const midpointTimer = setTimeout(() => onMidpoint(), 2000); // Screen is densely covered at 2s
+    // 1. Precise timing based on our curtain physics
+    // The wave is moving at ~1500px per second.
+    // It covers the screen completely by 800ms.
+    const midpointTimer = setTimeout(() => onMidpoint(), 800); 
+    
+    // The entire wave finishes passing the screen by 2200ms.
     const doneTimer = setTimeout(() => {
       setPhase('done');
       onComplete();
-    }, 5500); // Max animation duration
+    }, 2800);
 
     // 2. Canvas setup
     const canvas = canvasRef.current;
@@ -24,7 +28,6 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
     
-    // Handle resizing
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -32,11 +35,11 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    // 3. Preload all images
+    // 3. Preload images
     const images = [];
     let loadedCount = 0;
     
-    FLOWER_URLS.forEach((url, i) => {
+    FLOWER_URLS.forEach((url) => {
       const img = new Image();
       img.src = url;
       img.onload = () => {
@@ -48,37 +51,35 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
       images.push(img);
     });
 
-    // 4. Particle System
+    // 4. Curtain Particle System
     const particles = [];
-    const NUM_FLOWERS = 200; // Easily handles 200+ with 0 lag on canvas
-
+    
     const startAnimation = () => {
-      // Generate particles
-      for (let i = 0; i < NUM_FLOWERS; i++) {
-        const size = 100 + Math.random() * 250; 
-        particles.push({
-          img: images[Math.floor(Math.random() * images.length)],
-          x: -50 + Math.random() * (canvas.width + 100), // Allow spawning off-edges slightly
-          y: -size - (Math.random() * 1000), // Negative starting Y creates staggered delay implicitly!
-          size: size,
-          speedY: 4 + Math.random() * 6, // Fall speed in pixels per frame
-          rotation: Math.random() * Math.PI * 2, // Current rotation in radians
-          rotationSpeed: (Math.random() - 0.5) * 0.05 // Spin speed
-        });
-      }
+      // We are creating a unified "curtain" or "wave" of flowers.
+      // It has a strict top and bottom bound so we don't get stragglers
+      // appearing from the top after the page has changed!
+      
+      // The wave starts just above the screen
+      const START_Y = -300; 
+      // The wave is extremely tall so it covers the screen for a full second
+      const CURTAIN_HEIGHT = Math.max(2500, canvas.height * 2.5); 
+      
+      // 500 massive flowers means >20x overlapping coverage (0 gaps)
+      const NUM_FLOWERS = 500; 
 
-      // We want to force a massive cluster to fall exactly around the 1.5s - 2.5s mark.
-      // So we'll artificially group a ton of them at a specific negative Y distance.
-      for (let i = 0; i < 100; i++) {
-        const size = 200 + Math.random() * 300; // Even bigger for the dense wall
+      for (let i = 0; i < NUM_FLOWERS; i++) {
+        const size = 150 + Math.random() * 300; // 150px to 450px!
+        const yPos = START_Y - (Math.random() * CURTAIN_HEIGHT);
+        
         particles.push({
           img: images[Math.floor(Math.random() * images.length)],
-          x: -50 + Math.random() * (canvas.width + 100),
-          y: -(canvas.height * 1.5) - (Math.random() * 500), // Grouped to fall in simultaneously
+          x: -150 + Math.random() * (canvas.width + 300), // Bleed off edges
+          y: yPos,
           size: size,
-          speedY: 6 + Math.random() * 5,
+          // Fast, uniform fall speed keeps the curtain intact as a solid block
+          speedY: 22 + Math.random() * 4, // 22 to 26 pixels per frame
           rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.03
+          rotationSpeed: (Math.random() - 0.5) * 0.04
         });
       }
 
@@ -87,14 +88,12 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
-          // Update physics
           p.y += p.speedY;
           p.rotation += p.rotationSpeed;
 
-          // Only draw if within vertical screen bounds
-          if (p.y > -p.size * 2 && p.y < canvas.height + p.size) {
+          // Only draw if it's currently visible on screen
+          if (p.y > -p.size && p.y < canvas.height + p.size) {
             ctx.save();
-            // Translate to center of flower for correct rotation
             ctx.translate(p.x, p.y);
             ctx.rotate(p.rotation);
             ctx.drawImage(p.img, -p.size / 2, -p.size / 2, p.size, p.size);
@@ -128,7 +127,7 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
         inset: 0,
         zIndex: 99999,
         pointerEvents: 'none',
-        display: 'block' // removes tiny inline-block bottom margin
+        display: 'block'
       }}
     />
   );
