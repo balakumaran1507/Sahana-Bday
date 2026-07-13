@@ -8,9 +8,11 @@ import UrduPoem from './components/UrduPoem';
 import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabeelah';
 import HubblePhoto from './components/HubblePhoto';
 import Outro from './components/Outro';
+import Auth from './components/Auth';
 import './index.css';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -59,6 +61,10 @@ function App() {
   };
 
   const CurrentComponent = steps[currentStep];
+
+  if (!isAuthenticated) {
+    return <Auth onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className="app-container" style={{ overflow: 'hidden' }}>
