@@ -28,7 +28,7 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
     const doneTimer = setTimeout(() => {
       setPhase('done');
       if (onCompleteRef.current) onCompleteRef.current();
-    }, 4500);
+    }, 6500);
 
     // 2. Canvas setup
     const canvas = canvasRef.current;
