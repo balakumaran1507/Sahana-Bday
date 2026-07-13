@@ -8,17 +8,25 @@ const FLOWER_URLS = [
 const FlowerTransition = ({ onMidpoint, onComplete }) => {
   const canvasRef = useRef(null);
   const [phase, setPhase] = useState('pouring');
+  
+  // Use refs to prevent the useEffect from re-triggering when App re-renders
+  const onMidpointRef = useRef(onMidpoint);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onMidpointRef.current = onMidpoint;
+    onCompleteRef.current = onComplete;
+  }, [onMidpoint, onComplete]);
 
   useEffect(() => {
     // 1. Precise timing based on our curtain physics
-    // The wave is moving at ~1500px per second.
-    // It covers the screen completely by 800ms.
-    const midpointTimer = setTimeout(() => onMidpoint(), 800); 
+    const midpointTimer = setTimeout(() => {
+      if (onMidpointRef.current) onMidpointRef.current();
+    }, 800); 
     
-    // The entire wave finishes passing the screen by 2200ms.
     const doneTimer = setTimeout(() => {
       setPhase('done');
-      onComplete();
+      if (onCompleteRef.current) onCompleteRef.current();
     }, 2800);
 
     // 2. Canvas setup
@@ -115,7 +123,7 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [onMidpoint, onComplete]);
+  }, []); // Run strictly once to prevent restarts!
 
   if (phase === 'done') return null;
 

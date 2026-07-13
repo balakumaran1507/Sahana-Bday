@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Hero from './components/Hero';
 import PhotoGallery from './components/PhotoGallery';
 import CakeCut from './components/CakeCut';
 import Playlist from './components/Playlist';
 import Letter from './components/Letter';
 import UrduPoem from './components/UrduPoem';
+import { MagazineIntro, MagazineLeft, MagazineRight, MagazineCenter, MagazineShowcase } from './components/MagazineCovers';
 import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabeelah';
 import HubblePhoto from './components/HubblePhoto';
 import BalaPass from './components/BalaPass';
@@ -19,20 +20,31 @@ function App() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+  
+  // Track the *active* src to prevent resetting audio across slides that share the same song
+  const [activeAudioSrc, setActiveAudioSrc] = useState('/placeholder-audio.mp3');
 
   const steps = [
-    Hero,
-    PhotoGallery,
-    CakeCut,
-    Playlist,
-    Letter,
-    UrduPoem,
-    IntroNabi1,
-    IntroNabi2,
-    IntroNabi3,
-    HubblePhoto,
-    BalaPass,
-    Outro
+    { component: Hero, audio: '/placeholder-audio.mp3' },
+    { component: PhotoGallery, audio: '/placeholder-audio.mp3' },
+    { component: CakeCut, audio: '/placeholder-audio.mp3' },
+    { component: Playlist, audio: '/placeholder-audio.mp3' },
+    { component: Letter, audio: '/placeholder-audio.mp3' },
+    { component: UrduPoem, audio: '/placeholder-audio.mp3' },
+    
+    // Magazine Section with custom audio
+    { component: MagazineIntro, audio: '/Iraade.mp3', audioStart: 40 },
+    { component: MagazineLeft, audio: '/Iraade.mp3' }, // Continues playing seamlessly
+    { component: MagazineRight, audio: '/Iraade.mp3' },
+    { component: MagazineCenter, audio: '/Iraade.mp3' },
+    { component: MagazineShowcase, audio: '/Iraade.mp3' },
+    
+    { component: IntroNabi1, audio: '/placeholder-audio.mp3' },
+    { component: IntroNabi2, audio: '/placeholder-audio.mp3' },
+    { component: IntroNabi3, audio: '/placeholder-audio.mp3' },
+    { component: HubblePhoto, audio: '/placeholder-audio.mp3' },
+    { component: BalaPass, audio: '/placeholder-audio.mp3' },
+    { component: Outro, audio: '/placeholder-audio.mp3' }
   ];
 
   const handleNext = () => {
@@ -66,7 +78,32 @@ function App() {
     }
   };
 
-  const CurrentComponent = steps[currentStep];
+  // Audio track switching logic
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    
+    const step = steps[currentStep];
+    const targetAudio = step.audio;
+    
+    if (activeAudioSrc !== targetAudio) {
+      setActiveAudioSrc(targetAudio);
+      
+      if (audioRef.current) {
+        audioRef.current.src = targetAudio;
+        if (step.audioStart) {
+          audioRef.current.currentTime = step.audioStart;
+        } else {
+          audioRef.current.currentTime = 0;
+        }
+        
+        if (isPlaying) {
+          audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
+        }
+      }
+    }
+  }, [currentStep, isAuthenticated, isPlaying, activeAudioSrc]);
+
+  const CurrentComponent = steps[currentStep].component;
 
   return (
     <div className="app-container" style={{ overflow: 'hidden' }}>
@@ -83,9 +120,7 @@ function App() {
         <Auth onLogin={() => setIsTransitioning(true)} />
       ) : (
         <>
-          <audio ref={audioRef} loop>
-            <source src="/placeholder-audio.mp3" type="audio/mpeg" />
-          </audio>
+          <audio ref={audioRef} loop src={activeAudioSrc} />
           
           <button 
             onClick={toggleAudio}
