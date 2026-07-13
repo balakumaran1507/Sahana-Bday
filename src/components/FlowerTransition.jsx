@@ -20,14 +20,15 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
 
   useEffect(() => {
     // 1. Precise timing based on our curtain physics
+    // Slower, taller curtain for a prolonged flow
     const midpointTimer = setTimeout(() => {
       if (onMidpointRef.current) onMidpointRef.current();
-    }, 800); 
+    }, 1200); 
     
     const doneTimer = setTimeout(() => {
       setPhase('done');
       if (onCompleteRef.current) onCompleteRef.current();
-    }, 2800);
+    }, 4500);
 
     // 2. Canvas setup
     const canvas = canvasRef.current;
@@ -63,29 +64,24 @@ const FlowerTransition = ({ onMidpoint, onComplete }) => {
     const particles = [];
     
     const startAnimation = () => {
-      // We are creating a unified "curtain" or "wave" of flowers.
-      // It has a strict top and bottom bound so we don't get stragglers
-      // appearing from the top after the page has changed!
-      
-      // The wave starts just above the screen
       const START_Y = -300; 
-      // The wave is extremely tall so it covers the screen for a full second
-      const CURTAIN_HEIGHT = Math.max(2500, canvas.height * 2.5); 
+      // Taller curtain so it flows much longer
+      const CURTAIN_HEIGHT = Math.max(3500, canvas.height * 3.5); 
       
-      // 500 massive flowers means >20x overlapping coverage (0 gaps)
-      const NUM_FLOWERS = 500; 
+      // Increased particle count to maintain extreme density over the taller curtain
+      const NUM_FLOWERS = 800; 
 
       for (let i = 0; i < NUM_FLOWERS; i++) {
-        const size = 150 + Math.random() * 300; // 150px to 450px!
+        const size = 150 + Math.random() * 300; 
         const yPos = START_Y - (Math.random() * CURTAIN_HEIGHT);
         
         particles.push({
           img: images[Math.floor(Math.random() * images.length)],
-          x: -150 + Math.random() * (canvas.width + 300), // Bleed off edges
+          x: -150 + Math.random() * (canvas.width + 300), 
           y: yPos,
           size: size,
-          // Fast, uniform fall speed keeps the curtain intact as a solid block
-          speedY: 22 + Math.random() * 4, // 22 to 26 pixels per frame
+          // Slower fall speed (approx 1000px/s) for a majestic graceful flow
+          speedY: 16 + Math.random() * 4, 
           rotation: Math.random() * Math.PI * 2,
           rotationSpeed: (Math.random() - 0.5) * 0.04
         });
