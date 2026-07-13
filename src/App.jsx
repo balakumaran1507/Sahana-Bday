@@ -7,6 +7,7 @@ import Letter from './components/Letter';
 import UrduPoem from './components/UrduPoem';
 import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabeelah';
 import HubblePhoto from './components/HubblePhoto';
+import BalaPass from './components/BalaPass';
 import Outro from './components/Outro';
 import Auth from './components/Auth';
 import './index.css';
@@ -28,6 +29,7 @@ function App() {
     IntroNabi2,
     IntroNabi3,
     HubblePhoto,
+    BalaPass,
     Outro
   ];
 
