@@ -5,33 +5,55 @@ const FLOWERS = [
   '/flower6.png', '/flower7.png', '/flower8.png', '/flower9.png', '/flower10.png',
 ];
 
-// Deterministically generate flower particle configs
-function generateFlowers(count) {
+// Generate a very dense array of flowers to completely cover the screen
+function generateDenseFlowers(count) {
   return Array.from({ length: count }, (_, i) => {
     const src = FLOWERS[i % FLOWERS.length];
-    const size = 80 + (i * 37 % 120);          // 80–200px
-    const left = (i * 7.3 + 5) % 95;           // 5–100vw spread
-    const delay = (i * 0.09) % 1.5;            // 0–1.5s stagger
-    const duration = 1.2 + (i * 0.11 % 0.8);   // 1.2–2.0s fall
-    const rotate = (i * 23 % 60) - 30;         // -30 to 30 deg
-    const swayX = (i % 2 === 0 ? 1 : -1) * (10 + (i * 17 % 30)); // sway left/right
-    return { src, size, left, delay, duration, rotate, swayX, id: i };
+    // Large sizes for maximum coverage
+    const size = 150 + Math.random() * 250; 
+    // Random positioning across the screen
+    const left = -10 + Math.random() * 110; 
+    const topOffset = -20 + Math.random() * 120; // Spread vertically across the view
+    // Delays for falling IN
+    const delayIn = Math.random() * 1.5; 
+    // Delays for falling OUT
+    const delayOut = Math.random() * 1.0; 
+    const rotate = -45 + Math.random() * 90; 
+    const zIndex = Math.floor(Math.random() * 100);
+    
+    return { src, size, left, topOffset, delayIn, delayOut, rotate, zIndex, id: i };
   });
 }
 
-const FLOWER_COUNT = 40;
-
-const FlowerTransition = ({ onComplete }) => {
-  const [phase, setPhase] = useState('raining');   // 'raining' | 'sweeping' | 'done'
-  const flowers = useMemo(() => generateFlowers(FLOWER_COUNT), []);
+const FlowerTransition = ({ onMidpoint, onComplete }) => {
+  const [phase, setPhase] = useState('fallingIn'); // 'fallingIn' -> 'covered' -> 'fallingOut' -> 'done'
+  const flowers = useMemo(() => generateDenseFlowers(120), []); // 120 large flowers for full coverage
 
   useEffect(() => {
-    // After ~2.2s start the sweep-away phase
-    const sweepTimer = setTimeout(() => setPhase('sweeping'), 2200);
-    // After sweep (~1s) signal parent to show the page
-    const doneTimer  = setTimeout(() => { setPhase('done'); onComplete(); }, 3300);
-    return () => { clearTimeout(sweepTimer); clearTimeout(doneTimer); };
-  }, [onComplete]);
+    // Phase 1: Flowers fall in to cover the screen (takes ~2s total with delays)
+    const coverTimer = setTimeout(() => {
+      setPhase('covered');
+      // Swap the background page under the overlay!
+      onMidpoint();
+    }, 2000);
+
+    // Phase 2: Start sweeping them away after a brief moment of full coverage
+    const sweepTimer = setTimeout(() => {
+      setPhase('fallingOut');
+    }, 2800);
+
+    // Phase 3: Transition is completely finished
+    const doneTimer = setTimeout(() => {
+      setPhase('done');
+      onComplete();
+    }, 4500);
+
+    return () => {
+      clearTimeout(coverTimer);
+      clearTimeout(sweepTimer);
+      clearTimeout(doneTimer);
+    };
+  }, [onMidpoint, onComplete]);
 
   if (phase === 'done') return null;
 
@@ -39,47 +61,43 @@ const FlowerTransition = ({ onComplete }) => {
     <div style={{
       position: 'fixed',
       inset: 0,
-      zIndex: 9999,
-      overflow: 'hidden',
+      zIndex: 99999,
       pointerEvents: 'none',
-      background: phase === 'sweeping' ? 'transparent' : '#f5ece4',
-      transition: 'background 0.8s ease',
+      overflow: 'hidden'
     }}>
-      {flowers.map(f => (
-        <img
-          key={f.id}
-          src={f.src}
-          alt=""
-          draggable="false"
-          onContextMenu={e => e.preventDefault()}
-          style={{
-            position: 'absolute',
-            top: phase === 'sweeping' ? '110vh' : '-180px',
-            left: `${f.left}vw`,
-            width: `${f.size}px`,
-            transform: `rotate(${f.rotate}deg)`,
-            pointerEvents: 'none',
-            willChange: 'transform, top',
-            transition: phase === 'raining'
-              ? `top ${f.duration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${f.delay}s,
-                 transform ${f.duration}s ease ${f.delay}s`
-              : `top 0.9s cubic-bezier(0.55, 0, 1, 0.45) ${f.id * 0.012}s`,
-            ...(phase === 'raining' && {
-              // Dynamic values injected inline so each flower has its own sway
-              animation: `sway${f.id % 4} ${f.duration}s ease ${f.delay}s`,
-            }),
-          }}
-        />
-      ))}
+      {flowers.map(f => {
+        // Calculate the Y position based on the phase
+        let yPos = '-150vh'; // Start way above screen
+        
+        if (phase === 'fallingIn' || phase === 'covered') {
+          // Move to cover position (randomly spread across the screen height)
+          yPos = `${f.topOffset}vh`;
+        } else if (phase === 'fallingOut') {
+          // Drop way below screen
+          yPos = '150vh';
+        }
 
-      {/* We use a dynamic keyframe injection for a few sway patterns */}
-      <style>{`
-        /* 4 sway patterns so flowers don't all move identically */
-        @keyframes sway0 { 0% { margin-left: 0; } 25% { margin-left: 15px; } 75% { margin-left: -12px; } 100% { margin-left: 0; } }
-        @keyframes sway1 { 0% { margin-left: 0; } 30% { margin-left: -18px; } 70% { margin-left: 10px; } 100% { margin-left: 0; } }
-        @keyframes sway2 { 0% { margin-left: 0; } 40% { margin-left: 20px; } 80% { margin-left: -8px; } 100% { margin-left: 0; } }
-        @keyframes sway3 { 0% { margin-left: 0; } 20% { margin-left: -14px; } 60% { margin-left: 16px; } 100% { margin-left: 0; } }
-      `}</style>
+        return (
+          <img
+            key={f.id}
+            src={f.src}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: `${f.left}vw`,
+              top: yPos,
+              width: `${f.size}px`,
+              transform: `rotate(${f.rotate}deg)`,
+              zIndex: f.zIndex,
+              // Springy fast transition for falling in, gravity-style transition for falling out
+              transition: phase === 'fallingOut' 
+                ? `top 1.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) ${f.delayOut}s` 
+                : `top 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${f.delayIn}s`,
+              opacity: 1
+            }}
+          />
+        );
+      })}
     </div>
   );
 };

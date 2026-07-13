@@ -10,10 +10,12 @@ import HubblePhoto from './components/HubblePhoto';
 import BalaPass from './components/BalaPass';
 import Outro from './components/Outro';
 import Auth from './components/Auth';
+import FlowerTransition from './components/FlowerTransition';
 import './index.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -34,29 +36,31 @@ function App() {
   ];
 
   const handleNext = () => {
-    // Autoplay music on the first interaction
-    if (currentStep === 0 && audioRef.current && !isPlaying) {
-      audioRef.current.play().catch(e => console.log("Audio autoplay blocked", e));
-      setIsPlaying(true);
-    }
-    
     if (currentStep < steps.length - 1) {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePrev = () => {
     if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep(currentStep - 1);
     }
   };
 
-  const toggleAudio = () => {
+  const startAudio = () => {
+    if (audioRef.current && !isPlaying) {
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleAudio = (e) => {
+    e.stopPropagation();
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch(e => console.error(e));
       }
       setIsPlaying(!isPlaying);
     }
@@ -64,46 +68,54 @@ function App() {
 
   const CurrentComponent = steps[currentStep];
 
-  if (!isAuthenticated) {
-    return <Auth onLogin={() => setIsAuthenticated(true)} />;
-  }
-
   return (
     <div className="app-container" style={{ overflow: 'hidden' }}>
-      {/* Background Audio Placeholder */}
-      <audio ref={audioRef} loop>
-        <source src="placeholder-audio.mp3" type="audio/mpeg" />
-      </audio>
       
-      {/* Floating music toggle button */}
-      <button 
-        onClick={toggleAudio}
-        style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 1000,
-          background: 'var(--glass-bg)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid var(--glass-border)',
-          borderRadius: '50%',
-          width: '50px',
-          height: '50px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: 'var(--glass-shadow)',
-          fontSize: '1.2rem'
-        }}
-      >
-        {isPlaying ? '🎵' : '🔇'}
-      </button>
+      {/* Flower wipe overlay */}
+      {isTransitioning && (
+        <FlowerTransition 
+          onMidpoint={() => setIsAuthenticated(true)}
+          onComplete={() => setIsTransitioning(false)}
+        />
+      )}
 
-      {/* Render the current slide */}
-      <div key={currentStep} className="fade-in" style={{ width: '100%', minHeight: '100vh' }}>
-        <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
-      </div>
+      {!isAuthenticated ? (
+        <Auth onLogin={() => setIsTransitioning(true)} />
+      ) : (
+        <>
+          <audio ref={audioRef} loop>
+            <source src="/placeholder-audio.mp3" type="audio/mpeg" />
+          </audio>
+          
+          <button 
+            onClick={toggleAudio}
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '20px',
+              zIndex: 1000,
+              background: 'var(--glass-bg)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid var(--glass-border)',
+              borderRadius: '50%',
+              width: '50px',
+              height: '50px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: 'var(--glass-shadow)',
+              fontSize: '1.2rem'
+            }}
+          >
+            {isPlaying ? '🎵' : '🔇'}
+          </button>
+          
+          <div onClick={startAudio} style={{ height: '100%' }}>
+            <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
+          </div>
+        </>
+      )}
     </div>
   );
 }
