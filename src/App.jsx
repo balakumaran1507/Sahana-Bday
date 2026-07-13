@@ -5,6 +5,7 @@ import CakeCut from './components/CakeCut';
 import Playlist from './components/Playlist';
 import Letter from './components/Letter';
 import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabeelah';
+import HubblePhoto from './components/HubblePhoto';
 import Outro from './components/Outro';
 import './index.css';
 
@@ -22,6 +23,7 @@ function App() {
     IntroNabi1,
     IntroNabi2,
     IntroNabi3,
+    HubblePhoto,
     Outro
   ];
 
