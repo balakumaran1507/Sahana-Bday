@@ -14,10 +14,34 @@
   --font-cute: 'Quicksand', sans-serif;
 }
 
+/* ============================================
+   GLOBAL SECURITY — Prevent casual content theft
+   ============================================ */
+
+/* Disable text selection globally */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Disable image dragging */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}
+
+/* Allow pointer events back for buttons/links inside components */
+button, a, input {
+  pointer-events: auto;
 }
 
 body {
