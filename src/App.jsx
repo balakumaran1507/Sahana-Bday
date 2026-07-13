@@ -4,6 +4,7 @@ import PhotoGallery from './components/PhotoGallery';
 import CakeCut from './components/CakeCut';
 import Playlist from './components/Playlist';
 import Letter from './components/Letter';
+import UrduPoem from './components/UrduPoem';
 import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabeelah';
 import HubblePhoto from './components/HubblePhoto';
 import Outro from './components/Outro';
@@ -20,6 +21,7 @@ function App() {
     CakeCut,
     Playlist,
     Letter,
+    UrduPoem,
     IntroNabi1,
     IntroNabi2,
     IntroNabi3,
