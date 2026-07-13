@@ -338,7 +338,7 @@ const BalaPass = ({ onNext, onPrev }) => {
           {(printPhase === 'idle' || printPhase === 'capturing' || printPhase === 'feeding' || printPhase === 'processing') && (
              <div style={{
                width: '100%',
-               height: printPhase === 'idle' ? 'auto' : '520px',
+               height: printPhase === 'idle' ? 'auto' : '650px',
                overflow: printPhase === 'idle' ? 'visible' : 'hidden',
                display: 'flex',
                justifyContent: 'center',
@@ -351,7 +351,7 @@ const BalaPass = ({ onNext, onPrev }) => {
                  width: '100%',
                  display: 'flex',
                  justifyContent: 'center',
-                 transform: printPhase === 'feeding' || printPhase === 'processing' ? 'translateY(600px)' : 'translateY(0)',
+                 transform: printPhase === 'feeding' || printPhase === 'processing' ? 'translateY(700px)' : 'translateY(0)',
                  transition: 'transform 1.5s cubic-bezier(0.5, 0, 1, 1)'
                }}>
                   <TicketCard innerRef={ticketRef} claimed={claimed} stamped={stamped} handleClaim={handleClaim} isClone={false} />
@@ -375,7 +375,7 @@ const BalaPass = ({ onNext, onPrev }) => {
           {printPhase !== 'idle' && (
             <div style={{
               width: '100%',
-              height: '520px',
+              height: '650px',
               overflow: 'hidden',
               display: 'flex',
               justifyContent: 'center',
@@ -387,7 +387,7 @@ const BalaPass = ({ onNext, onPrev }) => {
                  width: '100%',
                  display: 'flex',
                  justifyContent: 'center',
-                 transform: printPhase === 'ejecting' || printPhase === 'done' ? 'translateY(30px)' : 'translateY(-550px)',
+                 transform: printPhase === 'ejecting' || printPhase === 'done' ? 'translateY(30px)' : 'translateY(-700px)',
                  transition: 'transform 2.5s cubic-bezier(0, 0.2, 0.4, 1)' // smooth ease out
                }}>
                   <TicketCard claimed={claimed} stamped={stamped} isClone={true} />
