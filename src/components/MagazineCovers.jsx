@@ -48,8 +48,8 @@ export const MagazineIntro = ({ onNext, onPrev }) => {
           lineHeight: '1.6',
           animation: 'slideUp 1.4s ease-out'
         }}>
-          You might see yourself one way, but this is how the world sees you. 
-          A masterpiece. A cover star. 
+          You might see yourself one way, but this is exactly how I see you. 
+          A breathtaking masterpiece. The true star of my world. 
           <br/><br/>
           Or, you might just hate me entirely for making this... but honestly, it's a gamble I'm more than willing to take! 😉
         </p>
@@ -150,12 +150,31 @@ export const MagazineCenter = (props) => (
 
 export const MagazineShowcase = ({ onNext, onPrev }) => {
   const [activeIndex, setActiveIndex] = React.useState(1);
+  const [dragStartX, setDragStartX] = React.useState(null);
 
   const images = [
     { src: "/Nabeelah Left Cover.jpg", alt: "Left Cover" },
     { src: "/Nabeelah Centre Cover.jpg", alt: "Center Cover" },
     { src: "/Nabeelah Right cover.jpg", alt: "Right Cover" }
   ];
+
+  const handleDragStart = (e) => {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    setDragStartX(clientX);
+  };
+
+  const handleDragEnd = (e) => {
+    if (dragStartX === null) return;
+    const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const diff = clientX - dragStartX;
+
+    if (diff > 50) {
+      setActiveIndex((prev) => (prev === 0 ? 2 : prev - 1));
+    } else if (diff < -50) {
+      setActiveIndex((prev) => (prev === 2 ? 0 : prev + 1));
+    }
+    setDragStartX(null);
+  };
 
   const getStyle = (index) => {
     let position = index - activeIndex; 
@@ -174,8 +193,7 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
       maxHeight: '500px',
       objectFit: 'contain',
       borderRadius: '8px',
-      transition: 'all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)',
-      cursor: 'pointer',
+      transition: 'all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)',
       WebkitBoxReflect: 'below 5px linear-gradient(transparent, transparent, rgba(0,0,0,0.2))'
     };
 
@@ -231,35 +249,36 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
         The Complete Collection
       </h2>
 
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        maxWidth: '900px',
-        height: '55vh',
-        maxHeight: '550px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        perspective: '1200px',
-        zIndex: 10
-      }}>
+      <div 
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '900px',
+          height: '55vh',
+          maxHeight: '550px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          perspective: '1200px',
+          zIndex: 10,
+          cursor: dragStartX !== null ? 'grabbing' : 'grab'
+        }}
+        onMouseDown={handleDragStart}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+        onTouchStart={handleDragStart}
+        onTouchEnd={handleDragEnd}
+      >
         {images.map((img, i) => (
           <img 
             key={i}
             src={img.src}
             alt={img.alt}
-            style={getStyle(i)}
-            onClick={() => setActiveIndex(i)}
-            onMouseOver={(e) => {
-              if (activeIndex !== i) {
-                e.currentTarget.style.filter = 'brightness(0.9)';
-              }
+            style={{
+              ...getStyle(i),
+              pointerEvents: 'none' // Let container handle the drag events
             }}
-            onMouseOut={(e) => {
-              if (activeIndex !== i) {
-                e.currentTarget.style.filter = 'brightness(0.6)';
-              }
-            }}
+            draggable="false"
           />
         ))}
       </div>
@@ -272,7 +291,7 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
         zIndex: 10,
         animation: 'fadeIn 2s ease'
       }}>
-        Click any cover for a closer look. You are truly admired. ✨
+        Swipe left or right to explore. You are truly admired. ✨
       </p>
 
       <div style={{ position: 'absolute', bottom: '40px', zIndex: 30 }}>
