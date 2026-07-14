@@ -121,18 +121,22 @@ const Hero = ({ onNext }) => {
           </span>
         </div>
         
-        {/* Dynamic Image Content Replacement */}
-        <img 
-          src="/Nabeelah-Happy-Birthday-Night.png" 
-          alt="Happy Birthday Nabeelah"
-          style={{
-            width: '100%',
-            maxWidth: '400px',
-            margin: '0 auto 30px',
-            display: 'block',
-            filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))'
-          }}
-        />
+        {/* Beautiful Typography replacing the image */}
+        <h1 style={{ 
+          fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+          marginBottom: '15px', 
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 700,
+          color: '#ffffff',
+          letterSpacing: '2px',
+          lineHeight: '1.2',
+          textShadow: '0 4px 15px rgba(0,0,0,0.5)'
+        }}>
+          Happy Birthday,<br/>
+          <span style={{ color: '#ffb6c1', fontFamily: 'var(--font-cute)' }}>Beautiful.</span>
+        </h1>
+        
+        <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, transparent, #ec4899, transparent)', margin: '20px auto 30px' }} />
         
         <p style={{ 
           margin: '0 0 40px 0', 
