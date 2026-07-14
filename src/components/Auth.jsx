@@ -45,7 +45,7 @@ const Auth = ({ onLogin }) => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'url(/bg-morning.png) center/cover no-repeat', // Soft cute morning bg
+      background: 'url(/lock-screen-bg.avif) center/cover no-repeat', // New Blue lockscreen background
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -60,23 +60,23 @@ const Auth = ({ onLogin }) => {
         width: '90%', 
         padding: '40px 20px', 
         textAlign: 'center',
-        background: 'rgba(255, 255, 255, 0.7)',
+        background: 'rgba(255, 255, 255, 0.75)',
         backdropFilter: 'blur(15px)',
         WebkitBackdropFilter: 'blur(15px)',
         borderRadius: '30px',
-        boxShadow: '0 10px 30px rgba(255, 182, 193, 0.3), inset 0 2px 0 rgba(255,255,255,0.8)',
-        border: '1px solid rgba(255,255,255,0.5)'
+        boxShadow: '0 10px 30px rgba(96, 165, 250, 0.3), inset 0 2px 0 rgba(255,255,255,0.8)', // Blue tinted shadow
+        border: '1px solid rgba(255,255,255,0.6)'
       }}>
 
         <div style={{ fontSize: '3rem', marginBottom: '10px' }}>
-          🌸
+          🦋
         </div>
 
         <h1 style={{ 
           fontSize: '1.6rem', 
           marginBottom: '10px', 
           fontFamily: 'var(--font-heading)',
-          color: '#ff75a0',
+          color: '#3b82f6', // Elegant blue
           letterSpacing: '1px'
         }}>
           A Surprise Awaits!
@@ -84,11 +84,11 @@ const Auth = ({ onLogin }) => {
 
         <p style={{ 
           fontSize: '0.9rem', 
-          color: '#888', 
+          color: '#666', 
           marginBottom: '30px',
           fontWeight: 600
         }}>
-          Guess the date we never forget (0101) 💖
+          Guess the date we never forget (0101) 💙
         </p>
 
         {/* PIN Indicators */}
@@ -98,11 +98,11 @@ const Auth = ({ onLogin }) => {
               width: '14px',
               height: '14px',
               borderRadius: '50%',
-              backgroundColor: pin.length > index ? (error ? '#ff4444' : '#ff75a0') : 'transparent',
-              border: `2px solid ${error ? '#ff4444' : '#ff75a0'}`,
+              backgroundColor: pin.length > index ? (error ? '#ef4444' : '#60a5fa') : 'transparent',
+              border: `2px solid ${error ? '#ef4444' : '#60a5fa'}`,
               transition: 'all 0.2s',
               animation: error ? 'shake 0.4s' : 'none',
-              boxShadow: pin.length > index ? '0 0 10px rgba(255, 117, 160, 0.5)' : 'none'
+              boxShadow: pin.length > index ? '0 0 10px rgba(96, 165, 250, 0.5)' : 'none'
             }} />
           ))}
         </div>
@@ -117,9 +117,9 @@ const Auth = ({ onLogin }) => {
         }}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
             <button key={num} onClick={() => handleNumberClick(num.toString())} style={{
-              background: 'rgba(255, 255, 255, 0.5)',
+              background: 'rgba(255, 255, 255, 0.6)',
               border: 'none',
-              color: '#ff75a0',
+              color: '#3b82f6', // Blue numbers
               fontSize: '1.4rem',
               fontWeight: 600,
               fontFamily: 'var(--font-cute)',
@@ -130,14 +130,14 @@ const Auth = ({ onLogin }) => {
               boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
             }}
               onMouseOver={(e) => {
-                e.currentTarget.style.background = '#ff75a0';
+                e.currentTarget.style.background = '#60a5fa'; // Blue hover
                 e.currentTarget.style.color = '#fff';
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 15px rgba(255, 117, 160, 0.3)';
+                e.currentTarget.style.boxShadow = '0 6px 15px rgba(96, 165, 250, 0.4)';
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)';
-                e.currentTarget.style.color = '#ff75a0';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
+                e.currentTarget.style.color = '#3b82f6';
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.05)';
               }}
@@ -147,9 +147,9 @@ const Auth = ({ onLogin }) => {
           ))}
           <div></div>
           <button onClick={() => handleNumberClick('0')} style={{
-            background: 'rgba(255, 255, 255, 0.5)',
+            background: 'rgba(255, 255, 255, 0.6)',
             border: 'none',
-            color: '#ff75a0',
+            color: '#3b82f6',
             fontSize: '1.4rem',
             fontWeight: 600,
             fontFamily: 'var(--font-cute)',
@@ -160,14 +160,14 @@ const Auth = ({ onLogin }) => {
             boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
           }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background = '#ff75a0';
+              e.currentTarget.style.background = '#60a5fa';
               e.currentTarget.style.color = '#fff';
               e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 15px rgba(255, 117, 160, 0.3)';
+              e.currentTarget.style.boxShadow = '0 6px 15px rgba(96, 165, 250, 0.4)';
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)';
-              e.currentTarget.style.color = '#ff75a0';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
+              e.currentTarget.style.color = '#3b82f6';
               e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.05)';
             }}
@@ -177,7 +177,7 @@ const Auth = ({ onLogin }) => {
           <button onClick={handleDelete} style={{
             background: 'transparent',
             border: 'none',
-            color: '#ff75a0',
+            color: '#60a5fa',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -187,11 +187,11 @@ const Auth = ({ onLogin }) => {
             transition: 'all 0.2s ease'
           }}
             onMouseOver={(e) => {
-              e.currentTarget.style.color = '#ff4d85';
+              e.currentTarget.style.color = '#2563eb'; // Darker blue on hover
               e.currentTarget.style.transform = 'scale(1.1)';
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.color = '#ff75a0';
+              e.currentTarget.style.color = '#60a5fa';
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
