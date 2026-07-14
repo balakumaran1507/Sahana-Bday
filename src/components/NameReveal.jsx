@@ -11,7 +11,7 @@ const NameReveal = ({ onNext }) => {
     // Cinematic timing sequence
     const t1 = setTimeout(() => setPhase(1), 1000);  // Show "Hello There"
     const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Nabeelah Anjum"
-    const t3 = setTimeout(() => setPhase(3), 17000); // Animation finishes, show continue button
+    const t3 = setTimeout(() => setPhase(3), 14000); // Animation finishes, show continue button earlier to remove pause
 
     return () => {
       clearTimeout(t1);
@@ -59,10 +59,10 @@ const NameReveal = ({ onNext }) => {
 
         .name-reveal-text.writing {
           opacity: 1;
-          /* Slower, smoother draw over 13 seconds */
+          /* Reduced duration so the color fill kicks in right as the stroke finishes */
           animation: 
-            drawOutline 13s cubic-bezier(0.3, 0.1, 0.3, 1) forwards,
-            fillColor 2.5s ease-in forwards 12s; /* Fade in the fill color slightly before stroke finishes */
+            drawOutline 11s cubic-bezier(0.3, 0.1, 0.3, 1) forwards,
+            fillColor 2.5s ease-in forwards 8.5s; 
         }
 
         @keyframes drawOutline {
