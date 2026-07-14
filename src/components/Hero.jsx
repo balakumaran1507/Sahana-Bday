@@ -41,7 +41,7 @@ const Hero = ({ onNext }) => {
         minHeight: '100vh', 
         textAlign: 'center', 
         position: 'relative',
-        background: 'url(/bg-night.png) center/cover no-repeat',
+        background: 'url(/bg-morning.png) center/cover no-repeat', // Start with morning
         overflow: 'hidden'
       }}
     >
@@ -52,17 +52,44 @@ const Hero = ({ onNext }) => {
           66% { transform: translateY(20px) translateX(-20px); }
           100% { transform: translateY(0px) translateX(0px); }
         }
+
+        @keyframes inkDropExpand {
+          0% { transform: scale(0); opacity: 0.8; filter: blur(5px); }
+          30% { transform: scale(50); opacity: 1; filter: blur(20px); }
+          80% { transform: scale(150); opacity: 0; filter: blur(40px); }
+          100% { transform: scale(150); opacity: 0; filter: blur(40px); }
+        }
+
+        @keyframes cinematicReveal {
+          0% { opacity: 0; filter: blur(40px) brightness(2.5); transform: scale(1.3); }
+          30% { opacity: 0.3; filter: blur(20px) brightness(1.5); transform: scale(1.15); }
+          100% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1); }
+        }
       `}</style>
 
-      {/* Paint Drop Transition Overlay */}
+      {/* Cinematic Reveal Overlay (Night BG) */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'url(/bg-morning.png) center/cover no-repeat',
-        zIndex: 100, // Highest z-index to cover everything when it expands
+        background: 'url(/bg-night.png) center/cover no-repeat',
+        zIndex: 99, 
         pointerEvents: 'none',
-        clipPath: isTransitioning ? 'circle(150% at 50% 50%)' : 'circle(0% at 50% 50%)',
-        transition: 'clip-path 2.5s cubic-bezier(0.64, 0.04, 0.35, 1)'
+        opacity: 0, // Hidden initially
+        animation: isTransitioning ? 'cinematicReveal 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards' : 'none'
+      }} />
+
+      {/* Cinematic Ink Splash Drop */}
+      <div style={{
+        position: 'absolute',
+        top: '50%', left: '50%',
+        width: '50px', height: '50px',
+        marginTop: '-25px', marginLeft: '-25px',
+        borderRadius: '50%',
+        background: '#050508', // Dark ink color
+        zIndex: 100, 
+        pointerEvents: 'none',
+        transform: 'scale(0)',
+        animation: isTransitioning ? 'inkDropExpand 2s cubic-bezier(0.6, 0.05, 0.1, 1) forwards' : 'none'
       }} />
 
       {/* Parallax Decors */}
