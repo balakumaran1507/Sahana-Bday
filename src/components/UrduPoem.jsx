@@ -20,7 +20,6 @@ const UrduPoem = ({ onNext, onPrev }) => {
   const [embers, setEmbers] = useState([]);
 
   useEffect(() => {
-    // Generate random embers on mount to avoid hydration mismatch if SSR (though Vite is CSR)
     const newEmbers = Array.from({ length: 40 }).map(() => ({
       left: `${Math.random() * 100}%`,
       delay: `${Math.random() * 8}s`,
@@ -29,10 +28,10 @@ const UrduPoem = ({ onNext, onPrev }) => {
     }));
     setEmbers(newEmbers);
 
-    // Sequence timings
+    // Accelerated sequence timings
     const t1 = setTimeout(() => setPhase(1), 500); // Start Urdu
-    const t2 = setTimeout(() => setPhase(2), 7000); // Start English
-    const t3 = setTimeout(() => setPhase(3), 11000); // Show Nav Buttons
+    const t2 = setTimeout(() => setPhase(2), 2500); // Start English (starts 2s after Urdu starts)
+    const t3 = setTimeout(() => setPhase(3), 6000); // Show Nav Buttons
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
@@ -45,6 +44,17 @@ const UrduPoem = ({ onNext, onPrev }) => {
           0% { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); opacity: 0; }
           1% { opacity: 1; }
           100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); opacity: 1; }
+        }
+
+        @keyframes moveQuill {
+          0% { left: 100%; opacity: 0; transform: translate(-50%, 0) rotate(15deg); }
+          1% { opacity: 1; }
+          20% { transform: translate(-50%, -10px) rotate(10deg); }
+          40% { transform: translate(-50%, 5px) rotate(20deg); }
+          60% { transform: translate(-50%, -10px) rotate(12deg); }
+          80% { transform: translate(-50%, 5px) rotate(18deg); }
+          95% { opacity: 1; }
+          100% { left: 0%; opacity: 0; transform: translate(-50%, 0) rotate(15deg); }
         }
 
         @keyframes focusPull {
@@ -111,23 +121,39 @@ const UrduPoem = ({ onNext, onPrev }) => {
         padding: '20px'
       }}>
         
-        {/* Urdu Text Sequence */}
+        {/* Urdu Text Sequence with Animated Quill */}
         <div style={{ 
           marginBottom: '50px',
           fontFamily: "'Amiri', 'Noto Nastaliq Urdu', serif", 
-          direction: 'rtl'
+          direction: 'rtl',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px'
         }}>
           {urduLines.map((line, idx) => (
-            <div key={idx} style={{ 
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
-              lineHeight: '2.2', 
-              color: '#ffd700', // Golden text
-              textShadow: '0 0 20px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0,0,0,0.8)',
-              opacity: 0, // Hidden by default
-              animation: phase >= 1 ? `sweepRTL 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
-              animationDelay: `${idx * 1.2}s`
-            }}>
-              {line}
+            <div key={idx} style={{ position: 'relative', display: 'inline-block' }}>
+              <div style={{ 
+                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
+                lineHeight: '1.8', 
+                color: '#ffd700', // Golden text
+                textShadow: '0 0 20px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0,0,0,0.8)',
+                opacity: 0, // Hidden by default
+                animation: phase >= 1 ? `sweepRTL 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
+                animationDelay: `${idx * 1.2}s`
+              }}>
+                {line}
+              </div>
+              <img src="/Quill-Writer.png" alt="Quill" style={{
+                position: 'absolute',
+                top: '-20px',
+                width: '60px',
+                pointerEvents: 'none',
+                opacity: 0,
+                zIndex: 15,
+                animation: phase >= 1 ? `moveQuill 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
+                animationDelay: `${idx * 1.2}s`
+              }} />
             </div>
           ))}
         </div>
