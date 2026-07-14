@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Hero from './components/Hero';
+import NameReveal from './components/NameReveal';
 import PhotoGallery from './components/PhotoGallery';
 import CakeCut from './components/CakeCut';
 import Playlist from './components/Playlist';
@@ -26,6 +27,7 @@ function App() {
 
   const steps = [
     { component: Hero, audio: '/placeholder-audio.mp3' },
+    { component: NameReveal, audio: '/placeholder-audio.mp3' },
     { component: PhotoGallery, audio: '/placeholder-audio.mp3' },
     { component: CakeCut, audio: '/placeholder-audio.mp3' },
     { component: Playlist, audio: '/placeholder-audio.mp3' },
