@@ -198,18 +198,20 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           let opacity = 1;
           
           if (isSlideshow) {
-             transform = `translateX(${offset * 115}%) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
+             // translateX(-50%) perfectly centers the dynamic width card.
+             // translateX(${offset * 320}px) spaces them by a fixed physical distance, preventing any overlap regardless of card width!
+             transform = `translateX(-50%) translateX(${offset * 320}px) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
              opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.5);
           } else {
              // Stacking animation
-             transform = `translateX(0) scale(0.9) rotate(${(idx - 2) * 3}deg)`;
+             transform = `translateX(-50%) scale(0.9) rotate(${(idx - 2) * 3}deg)`;
              opacity = 1;
           }
 
           return (
             <div key={idx} style={{
               position: 'absolute', top: 0, left: '50%', height: '100%',
-              width: '340px', marginLeft: '-170px', // Fixed width, cleanly centered
+              // width is implicitly determined by the child img width
               background: '#fff', padding: '15px 15px 60px 15px', // Polaroid style padding
               borderRadius: '8px', 
               boxShadow: offset === 0 ? '0 20px 40px rgba(0,0,0,0.6)' : '0 10px 20px rgba(0,0,0,0.4)',
@@ -221,34 +223,23 @@ const PhotoGallery = ({ onNext, onPrev }) => {
               userSelect: 'none',
               display: 'flex', flexDirection: 'column'
             }}>
-              {/* Image Container with blurred background framing */}
-              <div style={{
-                position: 'relative', width: '100%', height: '100%', overflow: 'hidden',
-                borderRadius: '4px', backgroundColor: '#222',
-                boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.3)' 
-              }}>
-                {/* Blurred background image to fill empty space beautifully */}
-                <img 
-                  src={src} 
-                  style={{ 
-                    position: 'absolute', top: '-10%', left: '-10%', width: '120%', height: '120%', 
-                    objectFit: 'cover', filter: 'blur(20px) brightness(0.6)', opacity: 0.8 
-                  }} 
-                  alt="" 
-                />
-                {/* Actual sharp image, contained without cropping */}
-                <img 
-                  src={src} 
-                  style={{ 
-                    position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', 
-                    objectFit: 'contain', 
-                    userSelect: 'none', pointerEvents: 'none',
-                    filter: 'drop-shadow(0 5px 15px rgba(0,0,0,0.5))' 
-                  }} 
-                  alt={`Memory ${idx + 1}`} 
-                  draggable="false"
-                />
-              </div>
+              
+              {/* Actual sharp image, dictating the width of the frame without cropping */}
+              <img 
+                src={src} 
+                style={{ 
+                  height: '100%', 
+                  width: 'auto',
+                  objectFit: 'contain', 
+                  borderRadius: '4px',
+                  backgroundColor: '#eee',
+                  userSelect: 'none', 
+                  pointerEvents: 'none',
+                  maxWidth: '85vw' // Prevent ultra-wide panoramas from breaking mobile screens
+                }} 
+                alt={`Memory ${idx + 1}`} 
+                draggable="false"
+              />
 
               <div style={{ 
                 position: 'absolute', bottom: '18px', left: 0, width: '100%', 
