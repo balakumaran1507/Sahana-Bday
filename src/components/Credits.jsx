@@ -110,12 +110,12 @@ const Credits = ({ onNext, onPrev }) => {
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           pointerEvents: showSponsor ? 'auto' : 'none'
         }}>
-          <p style={{ fontSize: '1.2rem', color: '#888', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '30px' }}>
+          <p style={{ fontSize: '1.2rem', color: '#888', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '40px' }}>
             This website is sponsored by
           </p>
-          <img src="/DMK-logo.png" alt="DMK Logo" style={{ maxWidth: '250px', objectFit: 'contain' }} />
+          <img src="/DMK-logo.png.png" alt="DMK Logo" style={{ maxWidth: '350px', objectFit: 'contain' }} />
           
-          <div style={{ marginTop: '60px' }}>
+          <div style={{ position: 'absolute', bottom: '50px' }}>
             <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Final Message →" prevText="Back" />
           </div>
         </div>
