@@ -32,34 +32,61 @@ const NameReveal = ({ onNext }) => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
         
+        .svg-text-container {
+          width: 100%;
+          height: 300px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
         .name-reveal-text {
           font-family: 'Great Vibes', cursive;
-          font-size: clamp(2rem, 8vw, 7rem);
-          white-space: nowrap;
-          color: #ffb6c1; /* Soft pink */
-          text-shadow: 0 0 30px rgba(255, 182, 193, 0.4);
-          
-          /* The clipping mask wipe effect */
-          -webkit-mask-image: linear-gradient(to right, black 50%, transparent 50%);
-          -webkit-mask-size: 200% 100%;
-          -webkit-mask-position: 100% 0;
-          
-          mask-image: linear-gradient(to right, black 50%, transparent 50%);
-          mask-size: 200% 100%;
-          mask-position: 100% 0;
+          font-size: clamp(3rem, 10vw, 8rem);
+          fill: transparent;
+          stroke: #ffb6c1;
+          stroke-width: 2px;
+          stroke-dasharray: 2000; /* Large number to cover the text path */
+          stroke-dashoffset: 2000;
+          opacity: 0;
         }
 
         .name-reveal-text.writing {
-          -webkit-mask-position: 0% 0;
-          mask-position: 0% 0;
-          transition: -webkit-mask-position 14s cubic-bezier(0.2, 0.6, 0.8, 1), mask-position 14s cubic-bezier(0.2, 0.6, 0.8, 1);
+          opacity: 1;
+          /* Draw the outline over 12 seconds */
+          animation: 
+            drawOutline 12s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+            fillColor 2s ease-in forwards 12s; /* Fade in the fill color at the end */
+        }
+
+        @keyframes drawOutline {
+          0% {
+            stroke-dashoffset: 2000;
+            filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0));
+          }
+          100% {
+            stroke-dashoffset: 0;
+            filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.6));
+          }
+        }
+
+        @keyframes fillColor {
+          0% {
+            fill: transparent;
+            stroke-width: 2px;
+          }
+          100% {
+            fill: #ffb6c1;
+            stroke-width: 0px;
+            filter: drop-shadow(0 0 25px rgba(255, 182, 193, 0.8));
+          }
         }
       `}</style>
 
       {/* Small top text */}
       <div style={{
         position: 'absolute',
-        top: '30%',
+        top: '25%',
         fontFamily: 'var(--font-main)',
         fontSize: '1.2rem',
         letterSpacing: '10px',
@@ -72,9 +99,19 @@ const NameReveal = ({ onNext }) => {
         Hello There
       </div>
 
-      {/* Main Cursive Name */}
-      <div className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}>
-        Nabeelah Anjum
+      {/* Main Cursive Name (SVG Stroke Animation) */}
+      <div className="svg-text-container">
+        <svg width="100%" height="100%" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
+          <text 
+            x="50%" 
+            y="50%" 
+            textAnchor="middle" 
+            dominantBaseline="middle"
+            className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}
+          >
+            Nabeelah Anjum
+          </text>
+        </svg>
       </div>
 
       {/* Continue Button */}
