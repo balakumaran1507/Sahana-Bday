@@ -76,14 +76,39 @@ function App() {
     const targetAudio = step.audio;
     
     if (activeAudioSrc !== targetAudio) {
-      setActiveAudioSrc(targetAudio);
-      
-      if (isPlaying) {
-        setTimeout(() => {
-          if (audioRef.current) {
-            audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
+      if (isPlaying && audioRef.current) {
+        // Smooth fade out
+        let vol = 1;
+        const fadeOut = setInterval(() => {
+          if (vol > 0.1) {
+            vol -= 0.1;
+            audioRef.current.volume = vol;
+          } else {
+            clearInterval(fadeOut);
+            audioRef.current.volume = 0;
+            setActiveAudioSrc(targetAudio);
+            
+            // Wait for DOM to update src, then fade in
+            setTimeout(() => {
+              if (audioRef.current) {
+                audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
+                let volIn = 0;
+                audioRef.current.volume = volIn;
+                const fadeIn = setInterval(() => {
+                  if (volIn < 0.9) {
+                    volIn += 0.1;
+                    audioRef.current.volume = volIn;
+                  } else {
+                    clearInterval(fadeIn);
+                    audioRef.current.volume = 1;
+                  }
+                }, 100);
+              }
+            }, 50);
           }
-        }, 50);
+        }, 100);
+      } else {
+        setActiveAudioSrc(targetAudio);
       }
     }
   }, [currentStep, isAuthenticated, isPlaying, activeAudioSrc]);

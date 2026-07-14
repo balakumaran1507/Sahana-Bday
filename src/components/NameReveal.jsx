@@ -57,10 +57,10 @@ const NameReveal = ({ onNext }) => {
 
         .name-reveal-text.writing {
           opacity: 1;
-          /* Reduced duration so the color fill kicks in right as the stroke finishes */
+          /* Draw steadily over 9s, then immediately highlight without pause */
           animation: 
-            drawOutline 11s cubic-bezier(0.3, 0.1, 0.3, 1) forwards,
-            fillColor 2.5s ease-in forwards 8.5s; 
+            drawOutline 9s linear forwards,
+            fillColor 2.5s ease-in forwards 9s; 
         }
 
         @keyframes drawOutline {

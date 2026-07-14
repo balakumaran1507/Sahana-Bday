@@ -25,7 +25,7 @@ const Hero = ({ onNext }) => {
     // Wait for the 2.5s paint drop animation to finish before going to next screen
     setTimeout(() => {
       onNext();
-    }, 2500);
+    }, 3000);
   };
 
   // Calculate parallax offsets based on mouse position from center
@@ -53,43 +53,29 @@ const Hero = ({ onNext }) => {
           100% { transform: translateY(0px) translateX(0px); }
         }
 
-        @keyframes inkDropExpand {
-          0% { transform: scale(0); opacity: 0.8; filter: blur(2px); }
-          30% { transform: scale(50); opacity: 1; filter: blur(10px); }
-          80% { transform: scale(150); opacity: 0; filter: blur(15px); }
-          100% { transform: scale(150); opacity: 0; filter: blur(15px); }
-        }
-
-        @keyframes cinematicReveal {
-          0% { opacity: 0; filter: blur(15px) brightness(2.5); transform: scale(1.3); }
-          30% { opacity: 0.3; filter: blur(10px) brightness(1.5); transform: scale(1.15); }
-          100% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1); }
-        }
       `}</style>
 
-      {/* Cinematic Reveal Overlay (Night BG) */}
+      {/* High-Performance Noise / Film Grain Overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+        opacity: isTransitioning ? 0.15 : 0, // Fades in subtly
+        transition: 'opacity 1.5s ease-in',
+        mixBlendMode: 'overlay',
+        zIndex: 98,
+        pointerEvents: 'none'
+      }} />
+
+      {/* Smooth 3s Reveal Overlay (Night BG) */}
       <div style={{
         position: 'absolute',
         inset: 0,
         background: 'url(/bg-night.png) center/cover no-repeat',
         zIndex: 99, 
         pointerEvents: 'none',
-        opacity: 0, // Hidden initially
-        animation: isTransitioning ? 'cinematicReveal 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards' : 'none'
-      }} />
-
-      {/* Cinematic Ink Splash Drop */}
-      <div style={{
-        position: 'absolute',
-        top: '50%', left: '50%',
-        width: '50px', height: '50px',
-        marginTop: '-25px', marginLeft: '-25px',
-        borderRadius: '50%',
-        background: '#050508', // Dark ink color
-        zIndex: 100, 
-        pointerEvents: 'none',
-        transform: 'scale(0)',
-        animation: isTransitioning ? 'inkDropExpand 2s cubic-bezier(0.6, 0.05, 0.1, 1) forwards' : 'none'
+        opacity: isTransitioning ? 1 : 0, // Pure 3s fade
+        transition: 'opacity 3s ease-in-out'
       }} />
 
       {/* Parallax Decors */}
