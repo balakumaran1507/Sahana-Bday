@@ -149,6 +149,72 @@ export const MagazineCenter = (props) => (
 );
 
 export const MagazineShowcase = ({ onNext, onPrev }) => {
+  const [activeIndex, setActiveIndex] = React.useState(1);
+
+  const images = [
+    { src: "/Nabeelah Left Cover.jpg", alt: "Left Cover" },
+    { src: "/Nabeelah Centre Cover.jpg", alt: "Center Cover" },
+    { src: "/Nabeelah Right cover.jpg", alt: "Right Cover" }
+  ];
+
+  const getStyle = (index) => {
+    let position = index - activeIndex; 
+    
+    // Wrap around for continuous loop feel
+    if (position === 2) position = -1;
+    if (position === -2) position = 1;
+
+    let transform = '';
+    let zIndex = 0;
+    
+    // Base styles for the images
+    const baseStyle = {
+      position: 'absolute',
+      height: '50vh',
+      maxHeight: '500px',
+      objectFit: 'contain',
+      borderRadius: '8px',
+      transition: 'all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)',
+      cursor: 'pointer',
+      WebkitBoxReflect: 'below 5px linear-gradient(transparent, transparent, rgba(0,0,0,0.2))'
+    };
+
+    if (position === 0) {
+       // CENTER ITEM (Active)
+       transform = 'translateX(0) translateZ(50px) scale(1.1)';
+       zIndex = 20;
+       return {
+         ...baseStyle,
+         transform,
+         zIndex,
+         boxShadow: '0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(255,255,255,0.2)',
+         filter: 'brightness(1)'
+       };
+    } else if (position === -1) {
+       // LEFT ITEM
+       transform = 'translateX(-65%) rotateY(15deg) rotateZ(-5deg) scale(0.85)';
+       zIndex = 10;
+       return {
+         ...baseStyle,
+         transform,
+         zIndex,
+         boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+         filter: 'brightness(0.6)'
+       };
+    } else if (position === 1) {
+       // RIGHT ITEM
+       transform = 'translateX(65%) rotateY(-15deg) rotateZ(5deg) scale(0.85)';
+       zIndex = 10;
+       return {
+         ...baseStyle,
+         transform,
+         zIndex,
+         boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+         filter: 'brightness(0.6)'
+       };
+    }
+  };
+
   return (
     <div className="page-section fade-in" style={containerStyle}>
       <h2 style={{
@@ -157,8 +223,8 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
         color: '#fff',
         letterSpacing: '4px',
         textTransform: 'uppercase',
-        marginBottom: '60px',
-        zIndex: 10,
+        marginBottom: '40px',
+        zIndex: 30,
         textShadow: '0 5px 15px rgba(0,0,0,0.5)',
         animation: 'fadeIn 1s ease'
       }}>
@@ -166,78 +232,55 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
       </h2>
 
       <div style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '900px',
+        height: '55vh',
+        maxHeight: '550px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '20px',
-        zIndex: 10,
-        width: '100%',
-        perspective: '1000px',
-        padding: '0 20px',
-        flexWrap: 'wrap' // wrap on mobile
+        perspective: '1200px',
+        zIndex: 10
       }}>
-        
-        {/* Left */}
-        <img src="/Nabeelah Left Cover.jpg" alt="Left" style={{
-          height: '40vh',
-          maxHeight: '400px',
-          objectFit: 'contain',
-          borderRadius: '8px',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
-          transform: 'rotateY(15deg) rotateZ(-5deg) scale(0.9)',
-          transition: 'transform 0.3s ease',
-          animation: 'slideInLeft 1s ease-out'
-        }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05) rotateZ(0)'} 
-           onMouseOut={e => e.currentTarget.style.transform = 'rotateY(15deg) rotateZ(-5deg) scale(0.9)'} />
-        
-        {/* Center */}
-        <img src="/Nabeelah Centre Cover.jpg" alt="Center" style={{
-          height: '50vh',
-          maxHeight: '500px',
-          objectFit: 'contain',
-          borderRadius: '8px',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(255,255,255,0.2)',
-          transform: 'translateZ(50px) scale(1)',
-          transition: 'transform 0.3s ease',
-          animation: 'slideInCenter 1.2s ease-out',
-          zIndex: 5
-        }} onMouseOver={e => e.currentTarget.style.transform = 'translateZ(50px) scale(1.1)'} 
-           onMouseOut={e => e.currentTarget.style.transform = 'translateZ(50px) scale(1)'} />
-        
-        {/* Right */}
-        <img src="/Nabeelah Right cover.jpg" alt="Right" style={{
-          height: '40vh',
-          maxHeight: '400px',
-          objectFit: 'contain',
-          borderRadius: '8px',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
-          transform: 'rotateY(-15deg) rotateZ(5deg) scale(0.9)',
-          transition: 'transform 0.3s ease',
-          animation: 'slideInRight 1s ease-out'
-        }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05) rotateZ(0)'} 
-           onMouseOut={e => e.currentTarget.style.transform = 'rotateY(-15deg) rotateZ(5deg) scale(0.9)'} />
-           
+        {images.map((img, i) => (
+          <img 
+            key={i}
+            src={img.src}
+            alt={img.alt}
+            style={getStyle(i)}
+            onClick={() => setActiveIndex(i)}
+            onMouseOver={(e) => {
+              if (activeIndex !== i) {
+                e.currentTarget.style.filter = 'brightness(0.9)';
+              }
+            }}
+            onMouseOut={(e) => {
+              if (activeIndex !== i) {
+                e.currentTarget.style.filter = 'brightness(0.6)';
+              }
+            }}
+          />
+        ))}
       </div>
 
       <p style={{
         fontFamily: 'var(--font-cute)',
         fontSize: '1rem',
         color: '#ccc',
-        marginTop: '50px',
+        marginTop: '30px',
         zIndex: 10,
         animation: 'fadeIn 2s ease'
       }}>
-        You are truly admired. ✨
+        Click any cover for a closer look. You are truly admired. ✨
       </p>
 
-      <div style={{ position: 'absolute', bottom: '40px', zIndex: 20 }}>
+      <div style={{ position: 'absolute', bottom: '40px', zIndex: 30 }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} />
       </div>
 
       <style>{`
-        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px) rotateY(15deg) rotateZ(-15deg); } to { opacity: 1; transform: translateX(0) rotateY(15deg) rotateZ(-5deg) scale(0.9); } }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px) rotateY(-15deg) rotateZ(15deg); } to { opacity: 1; transform: translateX(0) rotateY(-15deg) rotateZ(5deg) scale(0.9); } }
-        @keyframes slideInCenter { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0) translateZ(50px) scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
     </div>
   );
