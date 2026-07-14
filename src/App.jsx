@@ -27,7 +27,7 @@ function App() {
 
   const steps = [
     { component: Hero, audio: '/placeholder-audio.mp3' },
-    { component: NameReveal, audio: '/placeholder-audio.mp3' },
+    { component: NameReveal, audio: '/Michael Jackson - Childhood (Official Video).mp3', audioStart: 55 },
     { component: PhotoGallery, audio: '/placeholder-audio.mp3' },
     { component: CakeCut, audio: '/placeholder-audio.mp3' },
     { component: Playlist, audio: '/placeholder-audio.mp3' },

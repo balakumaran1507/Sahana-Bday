@@ -5,18 +5,16 @@ const NameReveal = ({ onNext }) => {
 
   useEffect(() => {
     // Cinematic timing sequence
-    const t1 = setTimeout(() => setPhase(1), 800);  // Show "Hello There"
-    const t2 = setTimeout(() => setPhase(2), 2500); // Start writing "Nabeelah"
-    const t3 = setTimeout(() => setPhase(3), 7500); // Fade everything out to black
-    const t4 = setTimeout(() => onNext(), 9000);    // Transition to the next page
+    const t1 = setTimeout(() => setPhase(1), 1000);  // Show "Hello There"
+    const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Nabeelah Anjum"
+    const t3 = setTimeout(() => setPhase(3), 17000); // Animation finishes, show continue button
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
-      clearTimeout(t4);
     };
-  }, [onNext]);
+  }, []);
 
   return (
     <div style={{
@@ -28,8 +26,6 @@ const NameReveal = ({ onNext }) => {
       justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden',
-      opacity: phase === 3 ? 0 : 1,
-      transition: 'opacity 1.5s ease-in-out'
     }}>
       
       {/* Import beautiful cursive font */}
@@ -38,7 +34,8 @@ const NameReveal = ({ onNext }) => {
         
         .name-reveal-text {
           font-family: 'Great Vibes', cursive;
-          font-size: clamp(4rem, 15vw, 10rem);
+          font-size: clamp(2rem, 8vw, 7rem);
+          white-space: nowrap;
           color: #ffb6c1; /* Soft pink */
           text-shadow: 0 0 30px rgba(255, 182, 193, 0.4);
           
@@ -55,7 +52,7 @@ const NameReveal = ({ onNext }) => {
         .name-reveal-text.writing {
           -webkit-mask-position: 0% 0;
           mask-position: 0% 0;
-          transition: -webkit-mask-position 3.5s cubic-bezier(0.2, 0.6, 0.3, 1), mask-position 3.5s cubic-bezier(0.2, 0.6, 0.3, 1);
+          transition: -webkit-mask-position 14s cubic-bezier(0.2, 0.6, 0.8, 1), mask-position 14s cubic-bezier(0.2, 0.6, 0.8, 1);
         }
       `}</style>
 
@@ -77,7 +74,43 @@ const NameReveal = ({ onNext }) => {
 
       {/* Main Cursive Name */}
       <div className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}>
-        Nabeelah
+        Nabeelah Anjum
+      </div>
+
+      {/* Continue Button */}
+      <div style={{
+        position: 'absolute',
+        bottom: '15%',
+        opacity: phase === 3 ? 1 : 0,
+        pointerEvents: phase === 3 ? 'auto' : 'none',
+        transition: 'opacity 2s ease-in'
+      }}>
+        <button 
+          onClick={onNext}
+          style={{
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.3)',
+            color: '#fff',
+            padding: '12px 30px',
+            borderRadius: '30px',
+            fontFamily: 'var(--font-main)',
+            fontSize: '1rem',
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            transition: 'all 0.3s'
+          }}
+          onMouseOver={e => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
+          }}
+          onMouseOut={e => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+          }}
+        >
+          Continue →
+        </button>
       </div>
       
     </div>
