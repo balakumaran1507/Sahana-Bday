@@ -4,6 +4,7 @@ const Hero = ({ onNext }) => {
   const containerRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [windowCenter, setWindowCenter] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Handle Mouse Move for Parallax
   const handleMouseMove = (e) => {
@@ -18,6 +19,15 @@ const Hero = ({ onNext }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleBeginClick = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    // Wait for the 2.5s paint drop animation to finish before going to next screen
+    setTimeout(() => {
+      onNext();
+    }, 2500);
+  };
+
   // Calculate parallax offsets based on mouse position from center
   const offsetX = (mousePos.x - windowCenter.x) / windowCenter.x;
   const offsetY = (mousePos.y - windowCenter.y) / windowCenter.y;
@@ -31,16 +41,11 @@ const Hero = ({ onNext }) => {
         minHeight: '100vh', 
         textAlign: 'center', 
         position: 'relative',
-        background: 'radial-gradient(circle at center, #2a0845 0%, #000000 100%)', // Deep premium dark background
+        background: 'url(/bg-night.png) center/cover no-repeat',
         overflow: 'hidden'
       }}
     >
       <style>{`
-        @keyframes pulseGlow {
-          0% { transform: scale(1); opacity: 0.5; }
-          50% { transform: scale(1.1); opacity: 0.8; }
-          100% { transform: scale(1); opacity: 0.5; }
-        }
         @keyframes floatSlow {
           0% { transform: translateY(0px) translateX(0px); }
           33% { transform: translateY(-30px) translateX(20px); }
@@ -49,26 +54,17 @@ const Hero = ({ onNext }) => {
         }
       `}</style>
 
-      {/* Lightweight CSS Ambient Orbs (Replaces heavy WebGL canvas) */}
+      {/* Paint Drop Transition Overlay */}
       <div style={{
-        position: 'absolute', top: '20%', left: '15%', width: '300px', height: '300px',
-        background: 'radial-gradient(circle, rgba(255, 105, 180, 0.15) 0%, transparent 70%)',
-        animation: 'pulseGlow 8s infinite, floatSlow 12s infinite',
-        zIndex: 0
+        position: 'absolute',
+        inset: 0,
+        background: 'url(/bg-morning.png) center/cover no-repeat',
+        zIndex: 100, // Highest z-index to cover everything when it expands
+        pointerEvents: 'none',
+        clipPath: isTransitioning ? 'circle(150% at 50% 50%)' : 'circle(0% at 50% 50%)',
+        transition: 'clip-path 2.5s cubic-bezier(0.64, 0.04, 0.35, 1)'
       }} />
-      <div style={{
-        position: 'absolute', bottom: '10%', right: '10%', width: '400px', height: '400px',
-        background: 'radial-gradient(circle, rgba(255, 182, 193, 0.12) 0%, transparent 70%)',
-        animation: 'pulseGlow 10s infinite reverse, floatSlow 15s infinite reverse',
-        zIndex: 0
-      }} />
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px',
-        background: 'radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%)',
-        animation: 'pulseGlow 12s infinite',
-        zIndex: 0
-      }} />
-      
+
       {/* Parallax Decors */}
       <img 
         src="/pngegg.png" 
@@ -120,11 +116,13 @@ const Hero = ({ onNext }) => {
           padding: '50px 40px',
           boxShadow: '0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
           transform: `translate(${offsetX * -15}px, ${offsetY * -15}px)`, // Slight counter-parallax for the card itself
-          transition: 'transform 0.3s ease-out'
+          transition: 'transform 0.3s ease-out',
+          margin: '0 auto',
+          marginTop: '15vh'
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', color: '#ffb6c1' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '4px', textTransform: 'uppercase' }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '4px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
             Exclusive Event
           </span>
         </div>
@@ -136,7 +134,7 @@ const Hero = ({ onNext }) => {
           background: 'linear-gradient(45deg, #ff75a0, #ffb6c1, #ffd700)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          textShadow: '0 10px 20px rgba(255, 117, 160, 0.2)'
+          textShadow: '0 10px 20px rgba(0,0,0,0.8)' // Stronger shadow for readability over image bg
         }}>
           Happy Birthday,<br/>Beautiful.
         </h1>
@@ -145,14 +143,15 @@ const Hero = ({ onNext }) => {
           margin: '25px 0', 
           fontSize: '1.1rem', 
           lineHeight: '1.7', 
-          color: '#dcdcdc',
-          fontFamily: 'var(--font-main)'
+          color: '#f0f0f0',
+          fontFamily: 'var(--font-main)',
+          textShadow: '0 2px 5px rgba(0,0,0,0.8)'
         }}>
           Today is all about celebrating the most amazing person in my world. I've created something magical just for you on your special day.
         </p>
 
         <button 
-          onClick={onNext}
+          onClick={handleBeginClick}
           style={{
             marginTop: '20px',
             padding: '16px 40px',
@@ -186,8 +185,9 @@ const Hero = ({ onNext }) => {
           fontSize: '0.85rem', 
           fontFamily: 'var(--font-cute)', 
           fontWeight: 600, 
-          color: 'rgba(255,255,255,0.4)',
-          letterSpacing: '2px'
+          color: 'rgba(255,255,255,0.7)',
+          letterSpacing: '2px',
+          textShadow: '0 2px 4px rgba(0,0,0,0.8)'
         }}>
           MADE WITH ENDLESS LOVE FOR YOUR SPECIAL DAY
         </span>

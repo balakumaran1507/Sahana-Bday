@@ -23,15 +23,13 @@ const NameReveal = ({ onNext }) => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#000', // Pure cinematic black
+      background: 'url(/bg-morning.png) center/cover no-repeat',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
-      overflow: 'hidden',
-      opacity: mounted ? 1 : 0,
-      transition: 'opacity 3s ease-in-out'
+      overflow: 'hidden'
     }}>
       
       {/* Import beautiful cursive font */}
