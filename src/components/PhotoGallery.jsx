@@ -112,7 +112,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       <div style={{ 
         position: 'relative', 
         width: '320px', 
-        height: '380px', // Adjusted to make the image crop area perfectly square
+        height: '353px', // Exactly 296px height + 12px top padding + 45px bottom padding = perfect square image (296x296)
         transformStyle: 'preserve-3d',
         marginTop: '20px',
         cursor: phase === 'slideshow' ? (dragStartX !== null ? 'grabbing' : 'grab') : 'default'

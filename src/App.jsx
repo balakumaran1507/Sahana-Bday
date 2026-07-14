@@ -68,18 +68,6 @@ function App() {
     }
   };
 
-  const toggleAudio = (e) => {
-    e.stopPropagation();
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(e => console.error(e));
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
   // Audio track switching logic
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -132,30 +120,6 @@ function App() {
             src={activeAudioSrc} 
             onLoadedMetadata={handleLoadedMetadata}
           />
-          
-          <button 
-            onClick={toggleAudio}
-            style={{
-              position: 'fixed',
-              top: '20px',
-              right: '20px',
-              zIndex: 1000,
-              background: 'var(--glass-bg)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid var(--glass-border)',
-              borderRadius: '50%',
-              width: '50px',
-              height: '50px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              boxShadow: 'var(--glass-shadow)',
-              fontSize: '1.2rem'
-            }}
-          >
-            {isPlaying ? '🎵' : '🔇'}
-          </button>
           
           <div onClick={startAudio} style={{ height: '100%' }}>
             <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
