@@ -36,6 +36,10 @@ const Hero = ({ onNext }) => {
       className="page-section fade-in" 
       style={{ 
         minHeight: '100vh', 
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
         textAlign: 'center', 
         position: 'relative',
         background: 'url(/bg-morning.png) center/cover no-repeat', // Base morning sky
@@ -44,8 +48,8 @@ const Hero = ({ onNext }) => {
     >
       <style>{`
         @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.2); }
-          50% { box-shadow: 0 0 80px rgba(168, 85, 247, 0.5); }
+          0%, 100% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.4); }
+          50% { box-shadow: 0 0 80px rgba(255, 255, 255, 0.7); }
         }
       `}</style>
 
@@ -81,7 +85,7 @@ const Hero = ({ onNext }) => {
           transform: `translate(${offsetX * -40}px, ${offsetY * 40}px) rotate(${offsetX * 5}deg)`,
           transition: 'transform 0.2s ease-out',
           pointerEvents: 'none',
-          filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.5))'
+          filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.2))'
         }} 
       />
       <img 
@@ -92,31 +96,29 @@ const Hero = ({ onNext }) => {
           transform: `translate(${offsetX * 40}px, ${offsetY * -40}px) rotate(${offsetY * -15}deg)`,
           transition: 'transform 0.2s ease-out',
           pointerEvents: 'none',
-          filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.5))'
+          filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.2))'
         }} 
       />
 
-      {/* Central Dark Glass Card for Perfect Readability */}
+      {/* Central Light Glass Card for Perfect Elegance */}
       <div 
         className="fade-in" 
         style={{ 
           maxWidth: '550px', width: '90%', position: 'relative', zIndex: 10,
-          background: 'rgba(5, 5, 10, 0.65)', // Dark frosted glass
-          backdropFilter: 'blur(30px)',
-          WebkitBackdropFilter: 'blur(30px)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderRadius: '30px',
-          padding: '60px 40px',
+          background: 'rgba(255, 255, 255, 0.4)', // Beautiful light frosted glass
+          backdropFilter: 'blur(25px)',
+          WebkitBackdropFilter: 'blur(25px)',
+          border: '1px solid rgba(255, 255, 255, 0.7)',
+          borderRadius: '24px',
+          padding: '50px 40px',
           transform: `translate(${offsetX * -15}px, ${offsetY * -15}px)`, 
           transition: 'transform 0.3s ease-out',
-          margin: '0 auto',
-          marginTop: '18vh',
           animation: 'pulseGlow 8s infinite',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.7), inset 0 2px 0 rgba(255,255,255,0.1)'
+          boxShadow: '0 20px 50px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.8)'
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px', color: '#e0e0e0' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '8px', textTransform: 'uppercase' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', color: '#555' }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase' }}>
             Exclusive Event
           </span>
         </div>
@@ -127,54 +129,54 @@ const Hero = ({ onNext }) => {
           marginBottom: '15px', 
           fontFamily: 'var(--font-heading)',
           fontWeight: 700,
-          color: '#ffffff',
-          letterSpacing: '2px',
-          lineHeight: '1.2',
-          textShadow: '0 4px 15px rgba(0,0,0,0.5)'
+          color: '#2d3748', // Elegant dark slate
+          letterSpacing: '1px',
+          lineHeight: '1.2'
         }}>
           Happy Birthday,<br/>
-          <span style={{ color: '#ffb6c1', fontFamily: 'var(--font-cute)' }}>Beautiful.</span>
+          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Beautiful.</span>
         </h1>
         
-        <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, transparent, #ec4899, transparent)', margin: '20px auto 30px' }} />
+        <div style={{ width: '40px', height: '3px', background: '#d53f8c', borderRadius: '2px', margin: '20px auto 30px', opacity: 0.5 }} />
         
         <p style={{ 
           margin: '0 0 40px 0', 
           fontSize: '1.1rem', 
-          lineHeight: '1.8', 
-          color: '#dcdcdc',
+          lineHeight: '1.7', 
+          color: '#4a5568',
           fontFamily: 'var(--font-main)',
-          fontWeight: 400,
-          letterSpacing: '0.5px'
+          fontWeight: 500
         }}>
           Today is all about celebrating the most amazing person in my world. I've created something magical just for you.
         </p>
 
-        {/* Vibrant Solid Button */}
+        {/* Premium Refined Button */}
         <button 
           onClick={handleBeginClick}
           style={{
-            padding: '16px 50px',
-            fontSize: '1rem',
+            padding: '14px 45px',
+            fontSize: '0.95rem',
             fontFamily: 'var(--font-main)',
-            fontWeight: 600,
+            fontWeight: 700,
             color: '#fff',
-            background: 'linear-gradient(135deg, #a855f7, #ec4899)', // Purple to Pink gradient
+            background: '#d53f8c',
             border: 'none',
-            borderRadius: '40px',
+            borderRadius: '30px',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             textTransform: 'uppercase',
-            letterSpacing: '4px',
-            boxShadow: '0 10px 25px rgba(168, 85, 247, 0.4)'
+            letterSpacing: '3px',
+            boxShadow: '0 8px 20px rgba(213, 63, 140, 0.4)'
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.transform = 'translateY(-3px)';
-            e.currentTarget.style.boxShadow = '0 15px 35px rgba(168, 85, 247, 0.6)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 12px 25px rgba(213, 63, 140, 0.6)';
+            e.currentTarget.style.background = '#b83280';
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 10px 25px rgba(168, 85, 247, 0.4)';
+            e.currentTarget.style.boxShadow = '0 8px 20px rgba(213, 63, 140, 0.4)';
+            e.currentTarget.style.background = '#d53f8c';
           }}
         >
           Enter
