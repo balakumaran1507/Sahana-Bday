@@ -121,30 +121,37 @@ const PhotoGallery = ({ onNext, onPrev }) => {
         {/* The Album Book (Covers) */}
         <div style={{
            position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-           width: '400px', maxWidth: '90vw', height: '100%',
+           width: '380px', maxWidth: '90vw', height: '100%',
            transformStyle: 'preserve-3d',
            pointerEvents: 'none' // Don't block drag events
         }}>
           {/* Album Back Cover (Visible when stacked) */}
           <div style={{
             position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            background: 'linear-gradient(135deg, #151515, #0a0a0a)', 
+            background: 'linear-gradient(135deg, #2b1d0f, #1a1109), repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px)', 
             border: '2px solid #b8860b', 
             borderRadius: '4px 15px 15px 4px',
             opacity: phase === 'slideshow' ? 0 : 1, 
             transition: 'opacity 0.8s', 
             zIndex: -1,
-            boxShadow: '10px 10px 30px rgba(0,0,0,0.8)'
-          }} />
+            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.8), 15px 15px 35px rgba(0,0,0,0.9)'
+          }}>
+             {/* "Pages" effect on the right edge */}
+             <div style={{
+                position: 'absolute', top: '5px', bottom: '5px', right: '0', width: '15px',
+                background: 'repeating-linear-gradient(to right, #f4e8d4 0px, #e3cdad 1px, #f4e8d4 2px)',
+                borderRadius: '0 10px 10px 0',
+                boxShadow: 'inset 2px 0 5px rgba(0,0,0,0.4)'
+             }} />
+          </div>
 
           {/* Album Front Cover */}
           <div style={{
             position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            background: 'linear-gradient(135deg, #151515, #222)',
+            background: 'linear-gradient(135deg, #2b1d0f, #1a1109), repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px)',
             border: '2px solid #b8860b',
             borderRadius: '4px 15px 15px 4px',
             transformOrigin: 'left center',
-            // Start completely open (-170deg) during stacking, then close to 0deg
             transform: phase === 'closing' || phase === 'done' ? 'rotateY(0deg)' : 'rotateY(-170deg)',
             opacity: phase === 'slideshow' ? 0 : 1,
             transition: 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s',
@@ -155,20 +162,27 @@ const PhotoGallery = ({ onNext, onPrev }) => {
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             pointerEvents: 'none'
           }}>
-             {/* Book spine line styling */}
+             {/* Gold foil border accent */}
              <div style={{ 
-               position: 'absolute', left: '12px', top: 0, bottom: 0, width: '4px', 
-               background: 'rgba(0,0,0,0.8)', boxShadow: '1px 0 2px rgba(255,255,255,0.15)' 
+               position: 'absolute', inset: '15px', border: '1px solid rgba(184, 134, 11, 0.4)', 
+               borderRadius: '2px 10px 10px 2px', pointerEvents: 'none' 
+             }} />
+             
+             {/* Book spine heavy leather line styling */}
+             <div style={{ 
+               position: 'absolute', left: '15px', top: 0, bottom: 0, width: '20px', 
+               background: 'linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2), rgba(0,0,0,0.8))', 
+               boxShadow: '2px 0 5px rgba(0,0,0,0.5), -1px 0 2px rgba(255,255,255,0.1)' 
              }} />
              
              {/* Cover Text */}
              <div style={{ 
                fontFamily: "'Great Vibes', cursive", 
-               fontSize: '3.5rem', 
-               color: '#b8860b', 
-               textShadow: '0 2px 10px rgba(0,0,0,0.8)',
+               fontSize: '4.5rem', 
+               color: '#d4af37', 
+               textShadow: '0 2px 5px rgba(0,0,0,0.9), 0 0 15px rgba(212,175,55,0.4)',
                opacity: phase === 'closing' || phase === 'done' ? 1 : 0,
-               transition: 'opacity 0.8s ease-in 0.6s' // Delayed fade in as it closes
+               transition: 'opacity 0.8s ease-in 0.6s' 
              }}>
                Memories
              </div>
@@ -184,17 +198,18 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           let opacity = 1;
           
           if (isSlideshow) {
-             transform = `translateX(-50%) translateX(${offset * 110}%) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
+             transform = `translateX(${offset * 115}%) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
              opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.5);
           } else {
              // Stacking animation
-             transform = `translateX(-50%) scale(0.9) rotate(${(idx - 2) * 2}deg)`;
+             transform = `translateX(0) scale(0.9) rotate(${(idx - 2) * 3}deg)`;
              opacity = 1;
           }
 
           return (
             <div key={idx} style={{
               position: 'absolute', top: 0, left: '50%', height: '100%',
+              width: '340px', marginLeft: '-170px', // Fixed width, cleanly centered
               background: '#fff', padding: '15px 15px 60px 15px', // Polaroid style padding
               borderRadius: '8px', 
               boxShadow: offset === 0 ? '0 20px 40px rgba(0,0,0,0.6)' : '0 10px 20px rgba(0,0,0,0.4)',
@@ -203,27 +218,42 @@ const PhotoGallery = ({ onNext, onPrev }) => {
               transition: dragStartX !== null ? 'none' : 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)', 
               zIndex: isSlideshow ? 10 - Math.abs(offset) : idx,
               pointerEvents: 'none', 
-              userSelect: 'none'
+              userSelect: 'none',
+              display: 'flex', flexDirection: 'column'
             }}>
-              <img 
-                src={src} 
-                style={{ 
-                  height: '100%', 
-                  width: 'auto',
-                  objectFit: 'contain', // Guarantee no cropping
-                  borderRadius: '4px',
-                  backgroundColor: '#eee',
-                  userSelect: 'none',
-                  pointerEvents: 'none',
-                  maxWidth: '85vw' // Prevent it from being wider than the screen
-                }} 
-                alt={`Memory ${idx + 1}`} 
-                draggable="false"
-              />
+              {/* Image Container with blurred background framing */}
+              <div style={{
+                position: 'relative', width: '100%', height: '100%', overflow: 'hidden',
+                borderRadius: '4px', backgroundColor: '#222',
+                boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.3)' 
+              }}>
+                {/* Blurred background image to fill empty space beautifully */}
+                <img 
+                  src={src} 
+                  style={{ 
+                    position: 'absolute', top: '-10%', left: '-10%', width: '120%', height: '120%', 
+                    objectFit: 'cover', filter: 'blur(20px) brightness(0.6)', opacity: 0.8 
+                  }} 
+                  alt="" 
+                />
+                {/* Actual sharp image, contained without cropping */}
+                <img 
+                  src={src} 
+                  style={{ 
+                    position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', 
+                    objectFit: 'contain', 
+                    userSelect: 'none', pointerEvents: 'none',
+                    filter: 'drop-shadow(0 5px 15px rgba(0,0,0,0.5))' 
+                  }} 
+                  alt={`Memory ${idx + 1}`} 
+                  draggable="false"
+                />
+              </div>
+
               <div style={{ 
                 position: 'absolute', bottom: '18px', left: 0, width: '100%', 
                 textAlign: 'center', fontFamily: 'var(--font-cute)', color: '#444',
-                fontSize: '1.3rem', fontWeight: 'bold'
+                fontSize: '1.4rem', fontWeight: 'bold'
               }}>
                 Memory #{idx + 1}
               </div>
