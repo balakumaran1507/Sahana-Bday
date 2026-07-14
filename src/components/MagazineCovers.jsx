@@ -38,11 +38,11 @@ export const MagazineIntro = ({ onNext, onPrev }) => {
           letterSpacing: '1px',
           animation: 'slideUp 1.2s ease-out'
         }}>
-          (just within ourselves lol)
+          (Just between us... I think you're going to absolutely love these!)
         </p>
         <p style={{
           fontFamily: 'var(--font-main)',
-          fontSize: '1rem',
+          fontSize: '1.1rem',
           color: '#888',
           marginTop: '40px',
           lineHeight: '1.6',
@@ -51,7 +51,7 @@ export const MagazineIntro = ({ onNext, onPrev }) => {
           You might see yourself one way, but this is how the world sees you. 
           A masterpiece. A cover star. 
           <br/><br/>
-          Get ready...
+          Or, you might just hate me entirely for making this... but honestly, it's a gamble I'm more than willing to take! 😉
         </p>
       </div>
       
