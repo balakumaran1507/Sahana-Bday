@@ -11,6 +11,7 @@ import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabe
 import HubblePhoto from './components/HubblePhoto';
 import BalaPass from './components/BalaPass';
 import Outro from './components/Outro';
+import Credits from './components/Credits';
 import Auth from './components/Auth';
 import FlowerTransition from './components/FlowerTransition';
 import './index.css';
@@ -100,7 +101,8 @@ function App() {
     { component: IntroNabi3, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: HubblePhoto, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: BalaPass, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: Outro, audio: '/Unakkul Naane - Pritt.mp3' }
+    { component: Outro, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: Credits, audio: '/La petite fille de la mer (Remastered).mp3' }
   ];
 
   const handleNext = () => {
