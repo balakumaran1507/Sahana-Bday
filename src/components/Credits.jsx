@@ -113,7 +113,7 @@ const Credits = ({ onNext, onPrev }) => {
           <p style={{ fontSize: '1.2rem', color: '#888', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '30px' }}>
             This website is sponsored by
           </p>
-          <img src="/DMK-logo.png.png" alt="DMK Logo" style={{ maxWidth: '250px', objectFit: 'contain' }} />
+          <img src="/DMK-logo.png" alt="DMK Logo" style={{ maxWidth: '250px', objectFit: 'contain' }} />
           
           <div style={{ marginTop: '60px' }}>
             <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Final Message →" prevText="Back" />

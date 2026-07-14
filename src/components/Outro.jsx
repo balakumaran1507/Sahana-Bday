@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationButtons from './NavigationButtons';
 
-const Outro = ({ onPrev }) => {
+const Outro = ({ onNext, onPrev }) => {
   return (
     <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
@@ -42,7 +42,7 @@ const Outro = ({ onPrev }) => {
           - by goldie
         </p>
 
-        <NavigationButtons onNext={null} onPrev={onPrev} showNext={false} />
+        <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="End Credits →" />
       </div>
     </div>
   );
