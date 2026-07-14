@@ -1,66 +1,169 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigationButtons from './NavigationButtons';
 
+const urduLines = [
+  "تمہاری آمد سے روشن ہوئی ہے دنیا ہماری،",
+  "مسکراہٹ میں تمہاری چھپی ہے جان ہماری۔",
+  "خدا کا بے حد شکر ہے جس نے تمہیں بنایا،",
+  "تمہارے بنا یہ کائنات تھی سونی اور خالی۔"
+];
+
+const englishLines = [
+  "Your arrival has illuminated our world,",
+  "Our life resides in your beautiful smile.",
+  "Endless thanks to God who created you,",
+  "Without you, this universe was lonely and empty."
+];
+
 const UrduPoem = ({ onNext, onPrev }) => {
+  const [phase, setPhase] = useState(0);
+  const [embers, setEmbers] = useState([]);
+
+  useEffect(() => {
+    // Generate random embers on mount to avoid hydration mismatch if SSR (though Vite is CSR)
+    const newEmbers = Array.from({ length: 40 }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 8}s`,
+      duration: `${8 + Math.random() * 10}s`,
+      scale: 0.5 + Math.random() * 1
+    }));
+    setEmbers(newEmbers);
+
+    // Sequence timings
+    const t1 = setTimeout(() => setPhase(1), 500); // Start Urdu
+    const t2 = setTimeout(() => setPhase(2), 7000); // Start English
+    const t3 = setTimeout(() => setPhase(3), 11000); // Show Nav Buttons
+
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
   return (
-    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
+    <div className="page-section" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
-      {/* Soft decor for the poem page */}
+      <style>{`
+        @keyframes sweepRTL {
+          0% { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); opacity: 0; }
+          1% { opacity: 1; }
+          100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); opacity: 1; }
+        }
+
+        @keyframes focusPull {
+          0% { opacity: 0; filter: blur(15px); transform: scale(1.05) translateY(10px); }
+          100% { opacity: 1; filter: blur(0px); transform: scale(1) translateY(0); }
+        }
+
+        @keyframes floatUp {
+          0% { transform: translateY(100vh) translateX(0px) scale(var(--scale)); opacity: 0; }
+          20% { opacity: 0.6; }
+          50% { transform: translateY(50vh) translateX(20px) scale(var(--scale)); }
+          80% { opacity: 0.6; }
+          100% { transform: translateY(-10vh) translateX(-20px) scale(var(--scale)); opacity: 0; }
+        }
+
+        @keyframes gentleSway {
+          0% { transform: rotate(-5deg) translateY(0); }
+          50% { transform: rotate(5deg) translateY(-10px); }
+          100% { transform: rotate(-5deg) translateY(0); }
+        }
+      `}</style>
+
+      {/* Cinematic Vignette */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)',
-        zIndex: 0
-      }}></div>
+        background: 'radial-gradient(circle at center, transparent 0%, rgba(5,5,10,0.85) 100%)',
+        zIndex: 1, pointerEvents: 'none',
+        opacity: 0, animation: 'fadeIn 2s ease forwards'
+      }} />
 
-      <img src="/flower1.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '10%', width: '80px', opacity: 0.7 }} />
-      <img src="/flower2.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', right: '10%', width: '100px', animationDelay: '1s', opacity: 0.7 }} />
+      {/* Background Decor */}
+      <img src="/flower1.png" alt="decor" style={{ position: 'absolute', top: '5%', left: '5%', width: '120px', opacity: 0.3, zIndex: 0, animation: 'gentleSway 8s ease-in-out infinite' }} />
+      <img src="/flower2.png" alt="decor" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '150px', opacity: 0.3, zIndex: 0, animation: 'gentleSway 10s ease-in-out infinite reverse' }} />
 
-      <div className="glass-card" style={{ 
-        maxWidth: '600px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10,
-        background: 'rgba(255, 255, 255, 0.85)'
+      {/* Floating Embers */}
+      {embers.map((ember, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          bottom: 0,
+          left: ember.left,
+          width: '3px', height: '3px',
+          background: '#ffcf70',
+          borderRadius: '50%',
+          boxShadow: '0 0 10px 2px rgba(255, 207, 112, 0.8)',
+          '--scale': ember.scale,
+          animation: `floatUp ${ember.duration} linear infinite`,
+          animationDelay: ember.delay,
+          zIndex: 2,
+          opacity: 0
+        }} />
+      ))}
+
+      {/* Poem Container */}
+      <div style={{ 
+        maxWidth: '800px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10,
+        padding: '20px'
       }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '25px', color: '#ff4d85', fontFamily: 'var(--font-heading)' }}>
-          A Little Poetry For You ✨
-        </h2>
         
-        {/* Urdu text */}
+        {/* Urdu Text Sequence */}
         <div style={{ 
-          fontSize: '1.6rem', 
-          lineHeight: '2', 
-          color: '#4a4a4a', 
-          marginBottom: '30px',
-          fontFamily: "'Amiri', 'Noto Nastaliq Urdu', serif", // Fallback for beautiful Urdu rendering
+          marginBottom: '50px',
+          fontFamily: "'Amiri', 'Noto Nastaliq Urdu', serif", 
           direction: 'rtl'
         }}>
-          تمہاری آمد سے روشن ہوئی ہے دنیا ہماری،<br/>
-          مسکراہٹ میں تمہاری چھپی ہے جان ہماری۔<br/>
-          خدا کا بے حد شکر ہے جس نے تمہیں بنایا،<br/>
-          تمہارے بنا یہ کائنات تھی سونی اور خالی۔
+          {urduLines.map((line, idx) => (
+            <div key={idx} style={{ 
+              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
+              lineHeight: '2.2', 
+              color: '#ffd700', // Golden text
+              textShadow: '0 0 20px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0,0,0,0.8)',
+              opacity: 0, // Hidden by default
+              animation: phase >= 1 ? `sweepRTL 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
+              animationDelay: `${idx * 1.2}s`
+            }}>
+              {line}
+            </div>
+          ))}
         </div>
 
+        {/* Separator */}
         <div style={{ 
-          width: '50px', 
-          height: '2px', 
-          background: '#ffb6c1', 
-          margin: '0 auto 30px' 
-        }}></div>
+          width: '80px', height: '2px', 
+          background: 'linear-gradient(90deg, transparent, #ffb6c1, transparent)', 
+          margin: '0 auto 40px',
+          opacity: phase >= 2 ? 1 : 0,
+          transition: 'opacity 2s ease'
+        }} />
 
-        {/* English Translation */}
+        {/* English Translation Sequence */}
         <div style={{ 
-          fontSize: '1.1rem', 
-          lineHeight: '1.8', 
-          color: '#666', 
-          fontFamily: 'var(--font-cute)',
+          fontFamily: 'var(--font-main)',
           fontStyle: 'italic',
-          marginBottom: '20px'
+          fontWeight: 300,
+          color: '#e0e0e0',
+          textShadow: '0 2px 4px rgba(0,0,0,0.8)'
         }}>
-          "Your arrival has illuminated our world,<br/>
-          Our life resides in your beautiful smile.<br/>
-          Endless thanks to God who created you,<br/>
-          Without you, this universe was lonely and empty."
+          {englishLines.map((line, idx) => (
+            <div key={idx} style={{ 
+              fontSize: 'clamp(1rem, 2vw, 1.2rem)', 
+              lineHeight: '2', 
+              opacity: 0,
+              animation: phase >= 2 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
+              animationDelay: `${idx * 0.8}s`
+            }}>
+              {line}
+            </div>
+          ))}
         </div>
 
-        <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next" prevText="Back" />
+        {/* Navigation */}
+        <div style={{
+          marginTop: '60px',
+          opacity: phase >= 3 ? 1 : 0,
+          pointerEvents: phase >= 3 ? 'auto' : 'none',
+          transition: 'opacity 2s ease'
+        }}>
+          <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next Chapter →" prevText="Back" />
+        </div>
+
       </div>
     </div>
   );
