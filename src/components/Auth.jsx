@@ -45,50 +45,64 @@ const Auth = ({ onLogin }) => {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#0a0a0a',
+      background: 'url(/bg-morning.png) center/cover no-repeat', // Soft cute morning bg
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      color: 'white',
-      fontFamily: 'var(--font-main)',
+      color: '#4a4a4a',
+      fontFamily: 'var(--font-cute)',
       userSelect: 'none'
     }}>
-      <div style={{ maxWidth: '400px', width: '100%', padding: '20px', textAlign: 'center' }}>
+      
+      <div style={{ 
+        maxWidth: '350px', 
+        width: '90%', 
+        padding: '40px 20px', 
+        textAlign: 'center',
+        background: 'rgba(255, 255, 255, 0.7)',
+        backdropFilter: 'blur(15px)',
+        WebkitBackdropFilter: 'blur(15px)',
+        borderRadius: '30px',
+        boxShadow: '0 10px 30px rgba(255, 182, 193, 0.3), inset 0 2px 0 rgba(255,255,255,0.8)',
+        border: '1px solid rgba(255,255,255,0.5)'
+      }}>
+
+        <div style={{ fontSize: '3rem', marginBottom: '10px' }}>
+          🌸
+        </div>
 
         <h1 style={{ 
-          fontSize: '1.4rem', 
-          marginBottom: '15px', 
-          fontFamily: 'var(--font-main)',
-          fontWeight: 400,
-          letterSpacing: '4px',
-          textTransform: 'uppercase',
-          color: '#e0e0e0'
+          fontSize: '1.6rem', 
+          marginBottom: '10px', 
+          fontFamily: 'var(--font-heading)',
+          color: '#ff75a0',
+          letterSpacing: '1px'
         }}>
-          Authentication
+          A Surprise Awaits!
         </h1>
 
         <p style={{ 
-          fontSize: '0.8rem', 
-          letterSpacing: '3px', 
-          color: '#666', 
-          marginBottom: '50px',
-          textTransform: 'uppercase'
+          fontSize: '0.9rem', 
+          color: '#888', 
+          marginBottom: '30px',
+          fontWeight: 600
         }}>
-          Enter the date (0101)
+          Guess the date we never forget (0101) 💖
         </p>
 
         {/* PIN Indicators */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '60px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginBottom: '40px' }}>
           {[0, 1, 2, 3].map((index) => (
             <div key={index} style={{
-              width: '8px',
-              height: '8px',
+              width: '14px',
+              height: '14px',
               borderRadius: '50%',
-              backgroundColor: pin.length > index ? (error ? '#ff4444' : '#fff') : 'transparent',
-              border: `1px solid ${error ? '#ff4444' : (pin.length > index ? '#fff' : '#444')}`,
+              backgroundColor: pin.length > index ? (error ? '#ff4444' : '#ff75a0') : 'transparent',
+              border: `2px solid ${error ? '#ff4444' : '#ff75a0'}`,
               transition: 'all 0.2s',
-              animation: error ? 'shake 0.4s' : 'none'
+              animation: error ? 'shake 0.4s' : 'none',
+              boxShadow: pin.length > index ? '0 0 10px rgba(255, 117, 160, 0.5)' : 'none'
             }} />
           ))}
         </div>
@@ -98,28 +112,34 @@ const Auth = ({ onLogin }) => {
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '15px',
-          maxWidth: '280px',
+          maxWidth: '240px',
           margin: '0 auto'
         }}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
             <button key={num} onClick={() => handleNumberClick(num.toString())} style={{
-              background: 'transparent',
-              border: '1px solid transparent',
-              color: '#fff',
-              fontSize: '1.2rem',
-              fontWeight: 300,
-              padding: '25px 0',
+              background: 'rgba(255, 255, 255, 0.5)',
+              border: 'none',
+              color: '#ff75a0',
+              fontSize: '1.4rem',
+              fontWeight: 600,
+              fontFamily: 'var(--font-cute)',
+              padding: '15px 0',
               cursor: 'pointer',
-              borderRadius: '50%',
-              transition: 'all 0.3s ease'
+              borderRadius: '20px',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
             }}
               onMouseOver={(e) => {
-                e.currentTarget.style.border = '1px solid rgba(255,255,255,0.2)';
-                e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                e.currentTarget.style.background = '#ff75a0';
+                e.currentTarget.style.color = '#fff';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 15px rgba(255, 117, 160, 0.3)';
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.border = '1px solid transparent';
-                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)';
+                e.currentTarget.style.color = '#ff75a0';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.05)';
               }}
             >
               {num}
@@ -127,23 +147,29 @@ const Auth = ({ onLogin }) => {
           ))}
           <div></div>
           <button onClick={() => handleNumberClick('0')} style={{
-            background: 'transparent',
-            border: '1px solid transparent',
-            color: '#fff',
-            fontSize: '1.2rem',
-            fontWeight: 300,
-            padding: '25px 0',
+            background: 'rgba(255, 255, 255, 0.5)',
+            border: 'none',
+            color: '#ff75a0',
+            fontSize: '1.4rem',
+            fontWeight: 600,
+            fontFamily: 'var(--font-cute)',
+            padding: '15px 0',
             cursor: 'pointer',
-            borderRadius: '50%',
-            transition: 'all 0.3s ease'
+            borderRadius: '20px',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
           }}
             onMouseOver={(e) => {
-              e.currentTarget.style.border = '1px solid rgba(255,255,255,0.2)';
-              e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+              e.currentTarget.style.background = '#ff75a0';
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 15px rgba(255, 117, 160, 0.3)';
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.border = '1px solid transparent';
-              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)';
+              e.currentTarget.style.color = '#ff75a0';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.05)';
             }}
           >
             0
@@ -151,19 +177,25 @@ const Auth = ({ onLogin }) => {
           <button onClick={handleDelete} style={{
             background: 'transparent',
             border: 'none',
-            color: '#666',
+            color: '#ff75a0',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
             cursor: 'pointer',
-            borderRadius: '50%',
-            transition: 'color 0.3s ease'
+            borderRadius: '20px',
+            transition: 'all 0.2s ease'
           }}
-            onMouseOver={(e) => e.currentTarget.style.color = '#fff'}
-            onMouseOut={(e) => e.currentTarget.style.color = '#666'}
+            onMouseOver={(e) => {
+              e.currentTarget.style.color = '#ff4d85';
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.color = '#ff75a0';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
-            <Delete size={22} strokeWidth={1.5} />
+            <Delete size={26} strokeWidth={2} />
           </button>
         </div>
       </div>
