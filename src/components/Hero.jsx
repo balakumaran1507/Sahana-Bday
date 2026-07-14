@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const Hero = ({ onNext }) => {
-  const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [windowCenter, setWindowCenter] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
 
-  // Handle Mouse Move for Parallax and Canvas Interaction
+  // Handle Mouse Move for Parallax
   const handleMouseMove = (e) => {
     setMousePos({ x: e.clientX, y: e.clientY });
   };
@@ -19,112 +18,6 @@ const Hero = ({ onNext }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Canvas Particle Engine
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    
-    // Set canvas size
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Particles array
-    const particles = [];
-    const numParticles = 80;
-    const colors = ['rgba(255, 182, 193, 0.6)', 'rgba(255, 105, 180, 0.4)', 'rgba(255, 215, 0, 0.5)'];
-
-    for (let i = 0; i < numParticles; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
-        radius: Math.random() * 4 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        baseX: Math.random() * canvas.width,
-        baseY: Math.random() * canvas.height,
-      });
-    }
-
-    const drawParticles = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Global composite for glowing effect
-      ctx.globalCompositeOperation = 'screen';
-
-      particles.forEach((p) => {
-        // Basic movement
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap around edges
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        // Mouse interaction (repel)
-        if (containerRef.current) {
-          const dx = mousePos.x - p.x;
-          const dy = mousePos.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const maxDist = 150;
-          
-          if (dist < maxDist) {
-            const force = (maxDist - dist) / maxDist;
-            p.x -= (dx / dist) * force * 5;
-            p.y -= (dy / dist) * force * 5;
-          }
-        }
-
-        // Draw particle with glow
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        
-        // Add subtle glow
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = p.color;
-        
-        ctx.fill();
-        ctx.shadowBlur = 0; // reset
-      });
-
-      // Draw connecting lines if close enough
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 182, 193, ${0.2 - dist/500})`;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(drawParticles);
-    };
-
-    drawParticles();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [mousePos]); // Re-bind when mousePos updates to use latest ref
-
   // Calculate parallax offsets based on mouse position from center
   const offsetX = (mousePos.x - windowCenter.x) / windowCenter.x;
   const offsetY = (mousePos.y - windowCenter.y) / windowCenter.y;
@@ -133,7 +26,7 @@ const Hero = ({ onNext }) => {
     <div 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="page-section" 
+      className="page-section fade-in" 
       style={{ 
         minHeight: '100vh', 
         textAlign: 'center', 
@@ -142,11 +35,39 @@ const Hero = ({ onNext }) => {
         overflow: 'hidden'
       }}
     >
-      {/* Interactive WebGL-style Canvas */}
-      <canvas 
-        ref={canvasRef} 
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
-      />
+      <style>{`
+        @keyframes pulseGlow {
+          0% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 0.5; }
+        }
+        @keyframes floatSlow {
+          0% { transform: translateY(0px) translateX(0px); }
+          33% { transform: translateY(-30px) translateX(20px); }
+          66% { transform: translateY(20px) translateX(-20px); }
+          100% { transform: translateY(0px) translateX(0px); }
+        }
+      `}</style>
+
+      {/* Lightweight CSS Ambient Orbs (Replaces heavy WebGL canvas) */}
+      <div style={{
+        position: 'absolute', top: '20%', left: '15%', width: '300px', height: '300px',
+        background: 'radial-gradient(circle, rgba(255, 105, 180, 0.15) 0%, transparent 70%)',
+        animation: 'pulseGlow 8s infinite, floatSlow 12s infinite',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '10%', right: '10%', width: '400px', height: '400px',
+        background: 'radial-gradient(circle, rgba(255, 182, 193, 0.12) 0%, transparent 70%)',
+        animation: 'pulseGlow 10s infinite reverse, floatSlow 15s infinite reverse',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px',
+        background: 'radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%)',
+        animation: 'pulseGlow 12s infinite',
+        zIndex: 0
+      }} />
       
       {/* Parallax Decors */}
       <img 
