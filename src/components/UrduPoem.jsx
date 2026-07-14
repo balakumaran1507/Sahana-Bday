@@ -12,8 +12,8 @@ const UrduPoem = ({ onNext, onPrev }) => {
         zIndex: 0
       }}></div>
 
-      <img src="/pngegg (3).png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '10%', width: '80px', opacity: 0.7 }} />
-      <img src="/pngegg.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', right: '10%', width: '100px', animationDelay: '1s', opacity: 0.7 }} />
+      <img src="/flower1.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '10%', width: '80px', opacity: 0.7 }} />
+      <img src="/flower2.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', right: '10%', width: '100px', animationDelay: '1s', opacity: 0.7 }} />
 
       <div className="glass-card" style={{ 
         maxWidth: '600px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10,

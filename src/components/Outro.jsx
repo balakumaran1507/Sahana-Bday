@@ -6,10 +6,10 @@ const Outro = ({ onPrev }) => {
     <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* New Decor */}
-      <img src="/pngwing.com (12).png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '15%', width: '90px', opacity: 0.9 }} />
-      <img src="/pngwing.com (13).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '30%', left: '5%', width: '110px', animationDelay: '0.7s', opacity: 0.9 }} />
-      <img src="/pngwing.com (14).png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', right: '15%', width: '80px', animationDelay: '1.2s', opacity: 0.9 }} />
-      <img src="/pngwing.com (15).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '10%', right: '20%', width: '100px', animationDelay: '0.3s', opacity: 0.9 }} />
+      <img src="/flower5.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '15%', width: '90px', opacity: 0.9 }} />
+      <img src="/flower6.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '30%', left: '5%', width: '110px', animationDelay: '0.7s', opacity: 0.9 }} />
+      <img src="/flower7.png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', right: '15%', width: '80px', animationDelay: '1.2s', opacity: 0.9 }} />
+      <img src="/flower8.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '10%', right: '20%', width: '100px', animationDelay: '0.3s', opacity: 0.9 }} />
 
       {/* Generated goldfish swimming around */}
       <img src="/goldfish_party.png" alt="Goldfish" className="floating" style={{ 

@@ -62,9 +62,9 @@ const Letter = ({ onNext, onPrev }) => {
     }}>
       
       {/* Hello Kitty Decor Placeholders */}
-      <img src="/pngegg.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '5%', width: '100px', opacity: 0.8 }} />
-      <img src="/pngegg (1).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '120px', animationDelay: '1s', opacity: 0.8 }} />
-      <img src="/pngegg (2).png" alt="decor" className="floating" style={{ position: 'absolute', top: '20%', right: '10%', width: '80px', animationDelay: '0.5s', opacity: 0.8 }} />
+      <img src="/flower3.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '5%', width: '100px', opacity: 0.8 }} />
+      <img src="/flower4.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '120px', animationDelay: '1s', opacity: 0.8 }} />
+      <img src="/flower5.png" alt="decor" className="floating" style={{ position: 'absolute', top: '20%', right: '10%', width: '80px', animationDelay: '0.5s', opacity: 0.8 }} />
 
       {/* Main Scene Container */}
       <div style={{ position: 'relative', width: `${envWidth}px`, height: `${envHeight}px`, perspective: '1500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -118,7 +118,7 @@ const Letter = ({ onNext, onPrev }) => {
             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff4d85', boxShadow: '0 2px 5px rgba(255,77,133,0.5)' }} />
             To My Birthday Princess
           </div>
-          <img src="/pngegg (3).png" alt="cute" style={{ 
+          <img src="/flower6.png" alt="cute" style={{ 
             position: 'absolute', top: '-20px', right: '-20px', width: '90px', transform: 'rotate(15deg)',
             opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
           }} />

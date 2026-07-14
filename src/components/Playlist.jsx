@@ -6,10 +6,10 @@ const Playlist = ({ onNext, onPrev }) => {
     <div className="page-section" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* New Decor */}
-      <img src="/pngwing.com (8).png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', left: '8%', width: '100px', opacity: 0.8 }} />
-      <img src="/pngwing.com (9).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '20%', left: '12%', width: '120px', animationDelay: '0.9s', opacity: 0.8 }} />
-      <img src="/pngwing.com (10).png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', right: '10%', width: '90px', animationDelay: '0.4s', opacity: 0.8 }} />
-      <img src="/pngwing.com (11).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', right: '5%', width: '110px', animationDelay: '1.1s', opacity: 0.8 }} />
+      <img src="/flower1.png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', left: '8%', width: '100px', opacity: 0.8 }} />
+      <img src="/flower2.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '20%', left: '12%', width: '120px', animationDelay: '0.9s', opacity: 0.8 }} />
+      <img src="/flower3.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', right: '10%', width: '90px', animationDelay: '0.4s', opacity: 0.8 }} />
+      <img src="/flower4.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', right: '5%', width: '110px', animationDelay: '1.1s', opacity: 0.8 }} />
 
       <div className="glass-card fade-in" style={{ maxWidth: '600px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10 }}>
         <h2 style={{ fontSize: '2.5rem', marginBottom: '10px', color: '#fff' }}>Vibes ✨</h2>

@@ -17,10 +17,10 @@ const CakeCut = ({ onNext, onPrev }) => {
     <div className="page-section" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* New Decor */}
-      <img src="/pngwing.com (4).png" alt="decor" className="floating" style={{ position: 'absolute', top: '5%', left: '10%', width: '90px', opacity: 0.9 }} />
-      <img src="/pngwing.com (5).png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', right: '10%', width: '110px', animationDelay: '0.7s', opacity: 0.9 }} />
-      <img src="/pngwing.com (6).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', left: '5%', width: '80px', animationDelay: '1.2s', opacity: 0.9 }} />
-      <img src="/pngwing.com (7).png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '5%', right: '15%', width: '100px', animationDelay: '0.3s', opacity: 0.9 }} />
+      <img src="/flower9.png" alt="decor" className="floating" style={{ position: 'absolute', top: '5%', left: '10%', width: '90px', opacity: 0.9 }} />
+      <img src="/flower10.png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', right: '10%', width: '110px', animationDelay: '0.7s', opacity: 0.9 }} />
+      <img src="/flower1.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '15%', left: '5%', width: '80px', animationDelay: '1.2s', opacity: 0.9 }} />
+      <img src="/flower2.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '5%', right: '15%', width: '100px', animationDelay: '0.3s', opacity: 0.9 }} />
 
       <div className="glass-card fade-in" style={{ maxWidth: '500px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10 }}>
         <h2 style={{ color: '#ff4d85', marginBottom: '10px' }}>It's Cake Time! 🎂</h2>

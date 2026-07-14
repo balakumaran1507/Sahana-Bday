@@ -80,7 +80,7 @@ const Hero = ({ onNext }) => {
 
       {/* Parallax Decors */}
       <img 
-        src="/pngegg.png" 
+        src="/flower7.png" 
         alt="decor" 
         style={{ 
           position: 'absolute', top: '10%', left: '15%', width: '120px', opacity: 0.8, zIndex: 1,
@@ -89,7 +89,7 @@ const Hero = ({ onNext }) => {
         }} 
       />
       <img 
-        src="/pngegg (2).png" 
+        src="/flower8.png" 
         alt="decor" 
         style={{ 
           position: 'absolute', top: '20%', right: '10%', width: '150px', opacity: 0.7, zIndex: 1,
@@ -98,7 +98,7 @@ const Hero = ({ onNext }) => {
         }} 
       />
       <img 
-        src="/pngegg (3).png" 
+        src="/flower9.png" 
         alt="decor" 
         style={{ 
           position: 'absolute', bottom: '15%', left: '10%', width: '110px', opacity: 0.9, zIndex: 1,
