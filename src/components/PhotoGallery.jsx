@@ -111,8 +111,8 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       {/* 3D Album & Cards Container */}
       <div style={{ 
         position: 'relative', 
-        width: '320px', 
-        height: '353px', // Exactly 296px height + 12px top padding + 45px bottom padding = perfect square image (296x296)
+        width: '400px', 
+        height: '550px', // Larger, portrait aspect ratio to fit the photos naturally
         transformStyle: 'preserve-3d',
         marginTop: '20px',
         cursor: phase === 'slideshow' ? (dragStartX !== null ? 'grabbing' : 'grab') : 'default'
@@ -139,8 +139,8 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           let opacity = 1;
           
           if (isSlideshow) {
-             transform = `translateX(${offset * 125}%) scale(${offset === 0 ? 1 : 0.8}) rotateY(${offset * -15}deg)`;
-             opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.4);
+             transform = `translateX(${offset * 125}%) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
+             opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.5);
           } else {
              // Stacking animation
              transform = `translateX(0) scale(0.9) rotate(${(idx - 2) * 2}deg)`;
@@ -150,12 +150,12 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           return (
             <div key={idx} style={{
               position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-              background: '#fff', padding: '12px 12px 45px 12px', // Polaroid style padding
+              background: '#fff', padding: '15px 15px 60px 15px', // Polaroid style padding scaled up
               borderRadius: '8px', 
-              boxShadow: '0 10px 20px rgba(0,0,0,0.4)',
+              boxShadow: offset === 0 ? '0 20px 40px rgba(0,0,0,0.6)' : '0 10px 20px rgba(0,0,0,0.4)',
               transform, 
               opacity,
-              transition: dragStartX !== null ? 'none' : 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)', // Remove transition while dragging if we wanted live drag, but for swipe this just keeps it crisp
+              transition: dragStartX !== null ? 'none' : 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)', // Smoother transition
               zIndex: isSlideshow ? 10 - Math.abs(offset) : idx,
               pointerEvents: 'none', // Let the container handle drag events
               userSelect: 'none'
@@ -165,7 +165,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                 style={{ 
                   width: '100%', 
                   height: '100%', 
-                  objectFit: idx === 0 ? 'fill' : 'cover', 
+                  objectFit: 'cover', // Always cover, never stretch
                   borderRadius: '4px',
                   backgroundColor: '#eee',
                   userSelect: 'none',
@@ -175,9 +175,9 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                 draggable="false"
               />
               <div style={{ 
-                position: 'absolute', bottom: '12px', left: 0, width: '100%', 
+                position: 'absolute', bottom: '18px', left: 0, width: '100%', 
                 textAlign: 'center', fontFamily: 'var(--font-cute)', color: '#444',
-                fontSize: '1.1rem', fontWeight: 'bold'
+                fontSize: '1.3rem', fontWeight: 'bold'
               }}>
                 Memory #{idx + 1}
               </div>
