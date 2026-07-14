@@ -30,8 +30,8 @@ const UrduPoem = ({ onNext, onPrev }) => {
 
     // Accelerated sequence timings
     const t1 = setTimeout(() => setPhase(1), 500); // Start Urdu
-    const t2 = setTimeout(() => setPhase(2), 2500); // Start English (starts 2s after Urdu starts)
-    const t3 = setTimeout(() => setPhase(3), 6000); // Show Nav Buttons
+    const t2 = setTimeout(() => setPhase(2), 2000); // Start English just 2s later
+    const t3 = setTimeout(() => setPhase(3), 12000); // Show Nav Buttons after everything
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
@@ -47,14 +47,14 @@ const UrduPoem = ({ onNext, onPrev }) => {
         }
 
         @keyframes moveQuill {
-          0% { left: 100%; opacity: 0; transform: translate(-50%, 0) rotate(15deg); }
+          0% { left: 100%; opacity: 0; transform: translate(0, 0) rotate(15deg); }
           1% { opacity: 1; }
-          20% { transform: translate(-50%, -10px) rotate(10deg); }
-          40% { transform: translate(-50%, 5px) rotate(20deg); }
-          60% { transform: translate(-50%, -10px) rotate(12deg); }
-          80% { transform: translate(-50%, 5px) rotate(18deg); }
-          95% { opacity: 1; }
-          100% { left: 0%; opacity: 0; transform: translate(-50%, 0) rotate(15deg); }
+          20% { transform: translate(0, -10px) rotate(10deg); }
+          40% { transform: translate(0, 5px) rotate(20deg); }
+          60% { transform: translate(0, -10px) rotate(12deg); }
+          80% { transform: translate(0, 5px) rotate(18deg); }
+          98% { opacity: 1; }
+          100% { left: 0%; opacity: 0; transform: translate(0, 0) rotate(15deg); }
         }
 
         @keyframes focusPull {
@@ -139,20 +139,21 @@ const UrduPoem = ({ onNext, onPrev }) => {
                 color: '#ffd700', // Golden text
                 textShadow: '0 0 20px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0,0,0,0.8)',
                 opacity: 0, // Hidden by default
-                animation: phase >= 1 ? `sweepRTL 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
-                animationDelay: `${idx * 1.2}s`
+                animation: phase >= 1 ? `sweepRTL 3.5s linear forwards` : 'none',
+                animationDelay: `${idx * 3.5}s`
               }}>
                 {line}
               </div>
               <img src="/Quill-Writer.png" alt="Quill" style={{
                 position: 'absolute',
-                top: '-20px',
+                top: '-15px',
                 width: '60px',
                 pointerEvents: 'none',
                 opacity: 0,
                 zIndex: 15,
-                animation: phase >= 1 ? `moveQuill 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
-                animationDelay: `${idx * 1.2}s`
+                filter: 'invert(1) brightness(0.2) drop-shadow(0 0 5px rgba(0,0,0,0.5))', // Dark to match BG
+                animation: phase >= 1 ? `moveQuill 3.5s linear forwards` : 'none',
+                animationDelay: `${idx * 3.5}s`
               }} />
             </div>
           ))}
