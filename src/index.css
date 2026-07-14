@@ -147,3 +147,10 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: #ff75a0;
 }
+
+/* Hide default cursor on desktop since we have a custom quill cursor */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
