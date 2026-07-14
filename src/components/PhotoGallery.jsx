@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const images = [
@@ -12,11 +12,11 @@ const images = [
 const PhotoGallery = ({ onNext, onPrev }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [phase, setPhase] = useState('slideshow'); // 'slideshow', 'stacking', 'closing', 'done'
+  const [dragStartX, setDragStartX] = useState(null);
 
   const handleNextSlide = () => {
     if (currentSlide === images.length - 1) {
       setPhase('stacking');
-      // Sequence the closing animation
       setTimeout(() => setPhase('closing'), 1200);
       setTimeout(() => setPhase('done'), 3000);
     } else {
@@ -28,18 +28,48 @@ const PhotoGallery = ({ onNext, onPrev }) => {
     setCurrentSlide(s => Math.max(0, s - 1));
   };
 
+  // Touch & Drag Handling for Swipe
+  const handlePointerDown = (e) => {
+    if (phase !== 'slideshow') return;
+    setDragStartX(e.clientX || (e.touches && e.touches[0].clientX));
+  };
+
+  const handlePointerUp = (e) => {
+    if (phase !== 'slideshow' || dragStartX === null) return;
+    const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
+    if (clientX === undefined) return;
+    
+    const diff = dragStartX - clientX;
+    
+    // Swipe threshold of 50px
+    if (diff > 50) {
+      handleNextSlide();
+    } else if (diff < -50) {
+      handlePrevSlide();
+    }
+    setDragStartX(null);
+  };
+
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      background: '#0a0a0a', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      perspective: '1500px', 
-      overflow: 'hidden',
-      position: 'relative'
-    }}>
+    <div 
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerUp}
+      onTouchStart={handlePointerDown}
+      onTouchEnd={handlePointerUp}
+      style={{ 
+        minHeight: '100vh', 
+        background: '#0a0a0a', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        perspective: '1500px', 
+        overflow: 'hidden',
+        position: 'relative',
+        touchAction: 'none' // Prevent default scroll when swiping
+      }}
+    >
       
       {/* Required for the cursive font on the album cover */}
       <style>{`
@@ -60,7 +90,8 @@ const PhotoGallery = ({ onNext, onPrev }) => {
         top: '10%', 
         opacity: phase === 'slideshow' ? 1 : 0, 
         transition: 'opacity 0.5s',
-        textAlign: 'center'
+        textAlign: 'center',
+        pointerEvents: 'none'
       }}>
         <h2 style={{ 
           fontFamily: 'var(--font-heading)', 
@@ -73,7 +104,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           A Trip Down Memory Lane
         </h2>
         <p style={{ color: '#888', fontFamily: 'var(--font-main)', marginTop: '10px' }}>
-          Swipe through our favorite moments.
+          Swipe to view our favorite moments.
         </p>
       </div>
 
@@ -81,9 +112,10 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       <div style={{ 
         position: 'relative', 
         width: '320px', 
-        height: '420px', 
+        height: '380px', // Adjusted to make the image crop area perfectly square
         transformStyle: 'preserve-3d',
-        marginTop: '20px'
+        marginTop: '20px',
+        cursor: phase === 'slideshow' ? (dragStartX !== null ? 'grabbing' : 'grab') : 'default'
       }}>
         
         {/* Album Back Cover (Visible when stacked) */}
@@ -123,9 +155,10 @@ const PhotoGallery = ({ onNext, onPrev }) => {
               boxShadow: '0 10px 20px rgba(0,0,0,0.4)',
               transform, 
               opacity,
-              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: dragStartX !== null ? 'none' : 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)', // Remove transition while dragging if we wanted live drag, but for swipe this just keeps it crisp
               zIndex: isSlideshow ? 10 - Math.abs(offset) : idx,
-              pointerEvents: offset === 0 && isSlideshow ? 'auto' : 'none'
+              pointerEvents: 'none', // Let the container handle drag events
+              userSelect: 'none'
             }}>
               <img 
                 src={src} 
@@ -134,9 +167,12 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                   height: '100%', 
                   objectFit: 'cover', 
                   borderRadius: '4px',
-                  backgroundColor: '#eee' // Placeholder color while loading
+                  backgroundColor: '#eee',
+                  userSelect: 'none',
+                  pointerEvents: 'none'
                 }} 
                 alt={`Memory ${idx + 1}`} 
+                draggable="false"
               />
               <div style={{ 
                 position: 'absolute', bottom: '12px', left: 0, width: '100%', 
@@ -164,7 +200,8 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           boxShadow: phase === 'closing' || phase === 'done' 
             ? 'inset 5px 0 15px rgba(0,0,0,0.9), 25px 25px 40px rgba(0,0,0,0.8)' 
             : 'inset 5px 0 15px rgba(0,0,0,0.9), -15px 15px 30px rgba(0,0,0,0.5)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          pointerEvents: 'none'
         }}>
            {/* Book spine line styling */}
            <div style={{ 
@@ -187,7 +224,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
 
       </div>
 
-      {/* Slideshow Controls */}
+      {/* Hidden Slideshow Controls (For users without touch/mouse drag) */}
       <div style={{ 
         position: 'absolute', 
         bottom: '12%', 
@@ -197,33 +234,21 @@ const PhotoGallery = ({ onNext, onPrev }) => {
         pointerEvents: phase === 'slideshow' ? 'auto' : 'none',
         transition: 'opacity 0.5s'
       }}>
-        <button 
-          onClick={handlePrevSlide}
-          disabled={currentSlide === 0}
-          style={{ 
-            padding: '12px 30px', borderRadius: '30px', background: 'transparent', 
-            border: '1px solid rgba(255,255,255,0.3)', color: '#fff', 
-            opacity: currentSlide === 0 ? 0.3 : 1, cursor: currentSlide === 0 ? 'default' : 'pointer',
-            fontFamily: 'var(--font-main)', textTransform: 'uppercase', letterSpacing: '2px', transition: 'all 0.3s'
-          }}
-          onMouseOver={e => { if(currentSlide !== 0) e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
-          onMouseOut={e => e.currentTarget.style.background = 'transparent'}
-        >
-          Prev
-        </button>
-        
-        <button 
-          onClick={handleNextSlide}
-          style={{ 
-            padding: '12px 30px', borderRadius: '30px', background: 'rgba(255,182,193,0.1)', 
-            border: '1px solid rgba(255,182,193,0.5)', color: '#ffb6c1', cursor: 'pointer',
-            fontFamily: 'var(--font-main)', textTransform: 'uppercase', letterSpacing: '2px', transition: 'all 0.3s'
-          }}
-          onMouseOver={e => e.currentTarget.style.background = 'rgba(255,182,193,0.2)'}
-          onMouseOut={e => e.currentTarget.style.background = 'rgba(255,182,193,0.1)'}
-        >
-          {currentSlide === images.length - 1 ? 'Finish' : 'Next'}
-        </button>
+        {/* We keep the finish button just in case they don't know they can swipe the last one, or to explicitly finish */}
+        {currentSlide === images.length - 1 && (
+          <button 
+            onClick={handleNextSlide}
+            style={{ 
+              padding: '12px 30px', borderRadius: '30px', background: 'rgba(255,182,193,0.1)', 
+              border: '1px solid rgba(255,182,193,0.5)', color: '#ffb6c1', cursor: 'pointer',
+              fontFamily: 'var(--font-main)', textTransform: 'uppercase', letterSpacing: '2px', transition: 'all 0.3s'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = 'rgba(255,182,193,0.2)'}
+            onMouseOut={e => e.currentTarget.style.background = 'rgba(255,182,193,0.1)'}
+          >
+            Close Album
+          </button>
+        )}
       </div>
 
       {/* Final Global Navigation (Visible only when album is fully closed) */}
