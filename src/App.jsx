@@ -78,8 +78,12 @@ function App() {
     if (activeAudioSrc !== targetAudio) {
       setActiveAudioSrc(targetAudio);
       
-      if (audioRef.current && isPlaying) {
-        audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
+      if (isPlaying) {
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
+          }
+        }, 50);
       }
     }
   }, [currentStep, isAuthenticated, isPlaying, activeAudioSrc]);

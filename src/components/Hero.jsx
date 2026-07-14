@@ -54,15 +54,15 @@ const Hero = ({ onNext }) => {
         }
 
         @keyframes inkDropExpand {
-          0% { transform: scale(0); opacity: 0.8; filter: blur(5px); }
-          30% { transform: scale(50); opacity: 1; filter: blur(20px); }
-          80% { transform: scale(150); opacity: 0; filter: blur(40px); }
-          100% { transform: scale(150); opacity: 0; filter: blur(40px); }
+          0% { transform: scale(0); opacity: 0.8; filter: blur(2px); }
+          30% { transform: scale(50); opacity: 1; filter: blur(10px); }
+          80% { transform: scale(150); opacity: 0; filter: blur(15px); }
+          100% { transform: scale(150); opacity: 0; filter: blur(15px); }
         }
 
         @keyframes cinematicReveal {
-          0% { opacity: 0; filter: blur(40px) brightness(2.5); transform: scale(1.3); }
-          30% { opacity: 0.3; filter: blur(20px) brightness(1.5); transform: scale(1.15); }
+          0% { opacity: 0; filter: blur(15px) brightness(2.5); transform: scale(1.3); }
+          30% { opacity: 0.3; filter: blur(10px) brightness(1.5); transform: scale(1.15); }
           100% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1); }
         }
       `}</style>
