@@ -28,12 +28,11 @@ const UrduPoem = ({ onNext, onPrev }) => {
     }));
     setEmbers(newEmbers);
 
-    // Accelerated sequence timings
-    const t1 = setTimeout(() => setPhase(1), 500); // Start Urdu
-    const t2 = setTimeout(() => setPhase(2), 2000); // Start English just 2s later
-    const t3 = setTimeout(() => setPhase(3), 12000); // Show Nav Buttons after everything
+    // Sequence timings
+    const t1 = setTimeout(() => setPhase(1), 500); // Start Urdu and English sequences
+    const t2 = setTimeout(() => setPhase(3), 16000); // Show Nav Buttons after everything finishes
 
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   return (
@@ -164,7 +163,7 @@ const UrduPoem = ({ onNext, onPrev }) => {
           width: '80px', height: '2px', 
           background: 'linear-gradient(90deg, transparent, #ffb6c1, transparent)', 
           margin: '0 auto 40px',
-          opacity: phase >= 2 ? 1 : 0,
+          opacity: phase >= 1 ? 1 : 0,
           transition: 'opacity 2s ease'
         }} />
 
@@ -182,8 +181,8 @@ const UrduPoem = ({ onNext, onPrev }) => {
               fontSize: 'clamp(1rem, 2vw, 1.2rem)', 
               lineHeight: '2.2', 
               opacity: 0,
-              animation: phase >= 2 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
-              animationDelay: `${idx * 0.8}s`
+              animation: phase >= 1 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
+              animationDelay: `${idx * 3.5 + 2}s`
             }}>
               {line}
             </div>

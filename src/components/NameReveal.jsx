@@ -23,7 +23,7 @@ const NameReveal = ({ onNext }) => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'url(/bg-night.png) center/cover no-repeat',
+      background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/bg-night.png) center/cover no-repeat',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
