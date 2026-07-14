@@ -18,21 +18,26 @@ const PhotoGallery = ({ onNext, onPrev }) => {
   const handlePrint = () => {
     if (printingState !== 'idle' || printedCount >= images.length) return;
     
-    setPrintingState('sliding'); // Card slides out
+    setPrintingState('sliding'); // Card slides out of camera slot
     
     setTimeout(() => {
-      setPrintingState('developing'); // Photo fades in
-    }, 1000);
+      setPrintingState('zoomed'); // Card pops to front and zooms in
+    }, 600);
     
     setTimeout(() => {
-      setPrintingState('flying'); // Card flies to corner
-    }, 4000);
+      setPrintingState('flying'); // Card flies to the album in the corner
+    }, 2600);
     
     setTimeout(() => {
       setPrintedCount(c => c + 1);
       setPrintingState('idle'); // Reset for next
-    }, 5000);
+    }, 3400);
   };
+
+  const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 768;
+  const isMobile = screenWidth < 768;
+  const zoomScale = isMobile ? 1.2 : 1.7;
+  const zoomY = isMobile ? '-40px' : '-100px';
 
   return (
     <div className="page-section fade-in" style={{ 
@@ -91,18 +96,18 @@ const PhotoGallery = ({ onNext, onPrev }) => {
             height: '280px',
             background: '#fff',
             padding: '10px 10px 40px 10px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+            boxShadow: '0 15px 40px rgba(0,0,0,0.4)',
             borderRadius: '4px',
-            zIndex: 5, 
-            transform: printingState === 'sliding' ? 'translateY(190px) scale(1) rotate(0deg)'
-                     : printingState === 'developing' ? 'translateY(190px) scale(1.1) rotate(0deg)'
-                     : printingState === 'flying' ? 'translate(35vw, 40vh) scale(0.1) rotate(360deg)'
+            zIndex: printingState === 'zoomed' || printingState === 'flying' ? 25 : 5, 
+            transform: printingState === 'sliding' ? 'translateY(180px) scale(1) rotate(0deg)'
+                     : printingState === 'zoomed' ? `translateY(${zoomY}) scale(${zoomScale}) rotate(2deg)`
+                     : printingState === 'flying' ? (isMobile ? 'translate(20vw, 40vh) scale(0.02) rotate(360deg)' : 'translate(30vw, 40vh) scale(0.05) rotate(360deg)')
                      : 'translateY(0) scale(0)',
             opacity: printingState === 'flying' ? 0 : 1,
-            transition: printingState === 'sliding' ? 'transform 1s cubic-bezier(0.2, 0.8, 0.2, 1)' 
-                      : printingState === 'developing' ? 'transform 3s ease-out'
-                      : printingState === 'flying' ? 'transform 1s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.8s ease-in 0.2s'
-                      : 'none',
+            transition: printingState === 'sliding' ? 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' 
+                       : printingState === 'zoomed' ? 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                       : printingState === 'flying' ? 'transform 0.8s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.6s ease-in'
+                       : 'none',
           }}>
              <div style={{ width: '100%', height: '100%', background: '#222', overflow: 'hidden' }}>
                 <img 
@@ -110,7 +115,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                   style={{
                     width: '100%', height: '100%', objectFit: 'cover',
                     opacity: printingState === 'sliding' ? 0 : 1,
-                    transition: 'opacity 2s ease-in'
+                    transition: 'opacity 1.2s ease-in 0.2s'
                   }} 
                   alt={`Printing memory ${printedCount + 1}`}
                 />
@@ -123,7 +128,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
 
         {/* The Camera (Foreground) - Now using true transparent PNG! */}
         <img 
-          src="/polaroid_camera_transparent.png" 
+          src="/vintage-poloraid.png" 
           alt="Vintage Polaroid Camera" 
           style={{
             width: '450px',
@@ -156,15 +161,39 @@ const PhotoGallery = ({ onNext, onPrev }) => {
         onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
       >
         <div style={{
-          width: '70px', height: '90px',
-          background: 'linear-gradient(135deg, #d53f8c, #a855f7)',
-          borderRadius: '4px 12px 12px 4px',
-          boxShadow: '0 10px 20px rgba(0,0,0,0.4), inset -5px 0 15px rgba(0,0,0,0.2)',
+          width: '85px', height: '115px',
+          background: 'linear-gradient(135deg, #311042 0%, #12031c 100%)',
+          borderRadius: '6px 16px 16px 6px',
+          boxShadow: '0 15px 35px rgba(0,0,0,0.5), inset -6px 0 15px rgba(0,0,0,0.4), 0 0 10px rgba(255, 215, 0, 0.15)',
           position: 'relative',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          border: '1.5px solid #d4af37',
+          padding: '5px'
         }}>
-          <div style={{ position: 'absolute', left: '8px', width: '2px', height: '100%', background: 'rgba(0,0,0,0.3)' }} />
-          <span style={{ fontFamily: 'var(--font-heading)', color: '#fff', fontSize: '1.2rem', transform: 'rotate(-90deg)', letterSpacing: '2px' }}>
+          {/* Book Spine Ridge */}
+          <div style={{ position: 'absolute', left: '10px', top: 0, bottom: 0, width: '3px', background: 'rgba(0,0,0,0.4)', boxShadow: '1px 0 0 rgba(255,255,255,0.1)' }} />
+          <div style={{ position: 'absolute', left: '12px', top: 0, bottom: 0, width: '1px', background: 'rgba(255,215,0,0.4)' }} />
+          
+          {/* Gold Filigree corners */}
+          <div style={{ position: 'absolute', top: '4px', right: '4px', width: '6px', height: '6px', borderTop: '1px solid #d4af37', borderRight: '1px solid #d4af37' }} />
+          <div style={{ position: 'absolute', bottom: '4px', right: '4px', width: '6px', height: '6px', borderBottom: '1px solid #d4af37', borderRight: '1px solid #d4af37' }} />
+          
+          {/* Mini Polaroid Cover Art */}
+          <div style={{
+            width: '45px', height: '52px', background: '#fff', padding: '3px 3px 10px 3px', 
+            borderRadius: '2px', boxShadow: '0 4px 8px rgba(0,0,0,0.4)', transform: 'rotate(-5deg)',
+            marginBottom: '6px', marginTop: '5px'
+          }}>
+            <div style={{ width: '100%', height: '100%', background: '#ff75a0', overflow: 'hidden' }}>
+              <img src="/flower5.png" alt="cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          </div>
+          
+          <span style={{ 
+            fontFamily: 'var(--font-heading)', color: '#d4af37', fontSize: '0.65rem', 
+            letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 'bold',
+            textAlign: 'center', textShadow: '0 1px 2px rgba(0,0,0,0.5)', marginLeft: '8px'
+          }}>
             Album
           </span>
         </div>
@@ -247,21 +276,50 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           style={{
             position: 'absolute', inset: 0, zIndex: 110,
             background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(15px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             animation: 'fadeIn 0.2s ease-out', cursor: 'zoom-out'
           }}
         >
-           <img 
-             src={selectedPhoto} 
-             style={{ 
-               maxWidth: '90vw', maxHeight: '90vh', 
-               objectFit: 'contain', borderRadius: '8px',
-               boxShadow: '0 20px 50px rgba(0,0,0,0.8)',
-               animation: 'zoomIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
-             }} 
-             alt="Fullscreen Memory" 
-           />
-           <div style={{ position: 'absolute', bottom: '40px', color: '#aaa', fontFamily: 'var(--font-main)' }}>
+           {/* Polaroid Frame */}
+           <div 
+             style={{
+               width: '380px',
+               maxWidth: '85vw',
+               background: '#fff',
+               padding: '16px 16px 64px 16px',
+               borderRadius: '8px',
+               boxShadow: '0 25px 60px rgba(0,0,0,0.8)',
+               transform: 'rotate(-1deg)',
+               animation: 'zoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+               position: 'relative',
+               display: 'flex',
+               flexDirection: 'column'
+             }}
+           >
+             <div style={{ width: '100%', aspectRatio: '1/1', background: '#222', overflow: 'hidden', borderRadius: '2px' }}>
+                <img 
+                  src={selectedPhoto} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  alt="Fullscreen Memory" 
+                />
+             </div>
+             <div style={{ 
+               position: 'absolute', 
+               bottom: '15px', 
+               width: '100%', 
+               textAlign: 'center', 
+               fontFamily: 'var(--font-cute)', 
+               color: '#333', 
+               fontSize: '1.8rem', 
+               left: 0, 
+               fontWeight: 'bold',
+               letterSpacing: '1px'
+             }}>
+                Memory #{images.indexOf(selectedPhoto) + 1}
+             </div>
+           </div>
+           
+           <div style={{ marginTop: '30px', color: '#888', fontFamily: 'var(--font-main)', fontSize: '0.9rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
                Click anywhere to close
            </div>
         </div>

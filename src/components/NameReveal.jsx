@@ -3,17 +3,24 @@ import React, { useEffect, useState } from 'react';
 const NameReveal = ({ onNext }) => {
   const [phase, setPhase] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [isFadingIn, setIsFadingIn] = useState(true);
 
   useEffect(() => {
     // Fade in the black screen itself smoothly
     setMounted(true);
 
-    // Cinematic timing sequence
-    const t1 = setTimeout(() => setPhase(1), 1000);  // Show "Hello There"
-    const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Nabeelah Anjum"
-    const t3 = setTimeout(() => setPhase(3), 14000); // Animation finishes, show continue button earlier to remove pause
+    // Start fading out the black overlay
+    const fadeTimer = setTimeout(() => {
+      setIsFadingIn(false);
+    }, 50);
+
+    // Cinematic timing sequence (adjusted to start after bg fade)
+    const t1 = setTimeout(() => setPhase(1), 1500);  // Show "Hello There"
+    const t2 = setTimeout(() => setPhase(2), 3500); // Start writing "Nabeelah Anjum"
+    const t3 = setTimeout(() => setPhase(3), 14500); // Animation finishes, show continue button
 
     return () => {
+      clearTimeout(fadeTimer);
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
@@ -120,11 +127,11 @@ const NameReveal = ({ onNext }) => {
 
       {/* Continue Button */}
       <div style={{
-        position: 'absolute',
-        bottom: '15%',
         opacity: phase === 3 ? 1 : 0,
         pointerEvents: phase === 3 ? 'auto' : 'none',
-        transition: 'opacity 2s ease-in'
+        transition: 'opacity 2s ease-in',
+        marginTop: '40px',
+        zIndex: 10
       }}>
         <button 
           onClick={onNext}
@@ -153,6 +160,17 @@ const NameReveal = ({ onNext }) => {
           Continue →
         </button>
       </div>
+
+      {/* Cinematic Fade-in from Black */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: '#000',
+        zIndex: 99,
+        pointerEvents: 'none',
+        opacity: isFadingIn ? 1 : 0,
+        transition: 'opacity 1.5s ease-out'
+      }} />
       
     </div>
   );

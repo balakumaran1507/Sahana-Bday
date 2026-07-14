@@ -15,7 +15,7 @@
 }
 
 /* ============================================
-   GLOBAL SECURITY — Prevent casual content theft
+   GLOBAL SECURITY - Prevent casual content theft
    ============================================ */
 
 /* Disable text selection globally */
@@ -40,7 +40,9 @@ img {
 }
 
 /* Allow pointer events back for buttons/links inside components */
-button, a, input {
+button,
+a,
+input {
   pointer-events: auto;
 }
 
@@ -53,7 +55,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--text-primary);
 }
@@ -89,13 +96,13 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   font-family: var(--font-heading);
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(255, 77, 133, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 77, 133, 0.4);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:active {
@@ -115,9 +122,17 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Animations */
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .floating {
@@ -125,8 +140,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
@@ -137,13 +159,16 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #ffb6c1;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #ff75a0;
 }
@@ -152,5 +177,13 @@ h1, h2, h3, h4, h5, h6 {
 @media (pointer: fine) {
   * {
     cursor: none !important;
+  }
+}
+
+/* Responsive adjustments for decorative background elements */
+@media (max-width: 768px) {
+  .floating-decor {
+    max-width: 55px !important;
+    opacity: 0.3 !important;
   }
 }

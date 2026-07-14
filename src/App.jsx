@@ -1,17 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Hero from './components/Hero';
 import NameReveal from './components/NameReveal';
+import BdayBanner from './components/BdayBanner';
 import PhotoGallery from './components/PhotoGallery';
 import CakeCut from './components/CakeCut';
 import Playlist from './components/Playlist';
 import Letter from './components/Letter';
 import UrduPoem from './components/UrduPoem';
-import { MagazineIntro, MagazineLeft, MagazineRight, MagazineCenter, MagazineShowcase } from './components/MagazineCovers';
+import { MagazineIntro, MagazineLeft, MagazineRight, MagazineCenter, MagazineExtra, MagazineShowcase } from './components/MagazineCovers';
 import { IntroNabi1, IntroNabi2, IntroNabi3 } from './components/IntroducingNabeelah';
 import HubblePhoto from './components/HubblePhoto';
 import BalaPass from './components/BalaPass';
 import Outro from './components/Outro';
 import Credits from './components/Credits';
+import BdayNight from './components/BdayNight';
+import TheEnd from './components/TheEnd';
+import FinalMessage from './components/FinalMessage';
 import Auth from './components/Auth';
 import FlowerTransition from './components/FlowerTransition';
 import './index.css';
@@ -83,26 +87,31 @@ function App() {
   const steps = [
     { component: Hero, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: NameReveal, audio: '/Michael Jackson - Childhood (Official Video).mp3', audioStart: 55 },
-    { component: PhotoGallery, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: CakeCut, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: BdayBanner, audio: '/Arabu Naade.mp3' },
+    { component: PhotoGallery, audio: '/Arabu Naade.mp3' },
+    { component: CakeCut, audio: '/Arabu Naade.mp3' },
     { component: Playlist, audio: null }, // Pause background music so Spotify can play
-    { component: Letter, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: UrduPoem, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: Letter, audio: '/anthaathi.mp3' },
+    { component: UrduPoem, audio: '/anthaathi.mp3' },
     
     // Magazine Section with custom audio
     { component: MagazineIntro, audio: '/Iraade.mp3', audioStart: 40 },
     { component: MagazineLeft, audio: '/Iraade.mp3' }, 
     { component: MagazineRight, audio: '/Iraade.mp3' },
     { component: MagazineCenter, audio: '/Iraade.mp3' },
+    { component: MagazineExtra, audio: '/Iraade.mp3' },
     { component: MagazineShowcase, audio: '/Iraade.mp3' },
     
-    { component: IntroNabi1, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: IntroNabi2, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: IntroNabi3, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: HubblePhoto, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: BalaPass, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: Outro, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: Credits, audio: '/La petite fille de la mer (Remastered).mp3' }
+    { component: IntroNabi1, audio: '/anthaathi.mp3' },
+    { component: IntroNabi2, audio: '/anthaathi.mp3' },
+    { component: IntroNabi3, audio: '/anthaathi.mp3' },
+    { component: HubblePhoto, audio: '/anthaathi.mp3' },
+    { component: BalaPass, audio: '/anthaathi.mp3' },
+    { component: Outro, audio: '/anthaathi.mp3' },
+    { component: Credits, audio: '/La petite fille de la mer (Remastered).mp3' }, // Note: We keep this playing the ending track as requested
+    { component: BdayNight, audio: '/La petite fille de la mer (Remastered).mp3' },
+    { component: TheEnd, audio: '/La petite fille de la mer (Remastered).mp3' },
+    { component: FinalMessage, audio: '/La petite fille de la mer (Remastered).mp3' }
   ];
 
   const handleNext = () => {
@@ -180,14 +189,46 @@ function App() {
     }
   }, [currentStep, isAuthenticated, isPlaying, activeAudioSrc]);
 
+  // Spacebar Page Skip Shortcut (Silent Dev Tool)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        // Ignore space if user is currently typing in an input/textarea
+        if (document.activeElement && 
+           (document.activeElement.tagName === 'INPUT' || 
+            document.activeElement.tagName === 'TEXTAREA' ||
+            document.activeElement.isContentEditable)) {
+          return;
+        }
+        
+        e.preventDefault(); // Prevent page scroll
+        
+        setCurrentStep((prev) => {
+          if (prev < steps.length - 1) {
+            return prev + 1;
+          }
+          return prev;
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [steps.length]);
+
   const handleLoadedMetadata = (e) => {
     const step = steps[currentStep];
     if (step.audioStart && activeAudioSrc === step.audio) {
       e.target.currentTime = step.audioStart;
-    } else if (activeAudioSrc !== '/Unakkul Naane - Pritt.mp3') {
+    } else if (
+      activeAudioSrc !== '/Unakkul Naane - Pritt.mp3' && 
+      activeAudioSrc !== '/Arabu Naade.mp3' && 
+      activeAudioSrc !== '/La petite fille de la mer (Remastered).mp3' &&
+      activeAudioSrc !== '/anthaathi.mp3'
+    ) {
       e.target.currentTime = 0;
     }
-    // Note: We don't reset currentTime for Unakkul Naane if it's already playing from a previous screen to allow continuous playback!
+    // Note: We don't reset currentTime for Unakkul Naane, Arabu Naade, La petite fille, and Anthaathi if they are already playing from a previous screen to allow continuous playback!
   };
 
   const CurrentComponent = steps[currentStep].component;
@@ -216,7 +257,11 @@ function App() {
         <Auth onLogin={() => setIsTransitioning(true)} />
       ) : (
         <div style={{ height: '100%' }}>
-          <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
+          {currentStep === steps.length - 1 ? (
+            <CurrentComponent onNext={() => setCurrentStep(0)} onPrev={handlePrev} />
+          ) : (
+            <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
+          )}
         </div>
       )}
     </div>

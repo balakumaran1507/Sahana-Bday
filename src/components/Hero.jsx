@@ -23,7 +23,7 @@ const Hero = ({ onNext }) => {
     setIsTransitioning(true);
     setTimeout(() => {
       onNext();
-    }, 3000);
+    }, 1500);
   };
 
   const offsetX = (mousePos.x - windowCenter.x) / windowCenter.x;
@@ -65,15 +65,15 @@ const Hero = ({ onNext }) => {
         pointerEvents: 'none'
       }} />
 
-      {/* Transition Overlay (Night BG) */}
+      {/* Transition Overlay (Solid Black) */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'url(/bg-night.png) center/cover no-repeat',
+        background: '#000',
         zIndex: 99, 
         pointerEvents: 'none',
         opacity: isTransitioning ? 1 : 0,
-        transition: 'opacity 3s ease-in-out'
+        transition: 'opacity 1.5s ease-in-out'
       }} />
 
       {/* The BIG Purple Flower Decors */}
@@ -81,9 +81,14 @@ const Hero = ({ onNext }) => {
         src="/Purple-Flower.png" 
         alt="Big Purple Flower Left" 
         style={{ 
-          position: 'absolute', bottom: '-15%', left: '-10%', width: '600px', opacity: 0.9, zIndex: 1,
+          position: 'absolute', 
+          bottom: windowCenter.x * 2 < 768 ? '5%' : '-15%', 
+          left: windowCenter.x * 2 < 768 ? '-5%' : '-10%', 
+          width: windowCenter.x * 2 < 768 ? '300px' : '600px', 
+          opacity: windowCenter.x * 2 < 768 ? 0.35 : 0.9, 
+          zIndex: 1,
           transform: `translate(${offsetX * -40}px, ${offsetY * 40}px) rotate(${offsetX * 5}deg)`,
-          transition: 'transform 0.2s ease-out',
+          transition: 'transform 0.2s ease-out, width 0.3s, opacity 0.3s',
           pointerEvents: 'none',
           filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.2))'
         }} 
@@ -92,9 +97,14 @@ const Hero = ({ onNext }) => {
         src="/Purple-Flower.png" 
         alt="Big Purple Flower Right" 
         style={{ 
-          position: 'absolute', top: '-15%', right: '-10%', width: '500px', opacity: 0.8, zIndex: 1,
+          position: 'absolute', 
+          top: windowCenter.x * 2 < 768 ? '5%' : '-15%', 
+          right: windowCenter.x * 2 < 768 ? '-5%' : '-10%', 
+          width: windowCenter.x * 2 < 768 ? '250px' : '500px', 
+          opacity: windowCenter.x * 2 < 768 ? 0.35 : 0.8, 
+          zIndex: 1,
           transform: `translate(${offsetX * 40}px, ${offsetY * -40}px) rotate(${offsetY * -15}deg)`,
-          transition: 'transform 0.2s ease-out',
+          transition: 'transform 0.2s ease-out, width 0.3s, opacity 0.3s',
           pointerEvents: 'none',
           filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.2))'
         }} 
@@ -110,9 +120,9 @@ const Hero = ({ onNext }) => {
           WebkitBackdropFilter: 'blur(25px)',
           border: '1px solid rgba(255, 255, 255, 0.7)',
           borderRadius: '24px',
-          padding: '50px 40px',
+          padding: windowCenter.x * 2 < 768 ? '30px 20px' : '50px 40px',
           transform: `translate(${offsetX * -15}px, ${offsetY * -15}px)`, 
-          transition: 'transform 0.3s ease-out',
+          transition: 'transform 0.3s ease-out, padding 0.3s',
           animation: 'pulseGlow 8s infinite',
           boxShadow: '0 20px 50px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.8)'
         }}
@@ -147,7 +157,7 @@ const Hero = ({ onNext }) => {
           fontFamily: 'var(--font-main)',
           fontWeight: 500
         }}>
-          Today is all about celebrating the most amazing person in my world. I've created something magical just for you.
+          Today is all about celebrating Nabeelah, she deserves to be put on a pedestal, at least today! I've created something magical just for you.
         </p>
 
         {/* Premium Refined Button */}

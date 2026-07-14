@@ -65,10 +65,10 @@ const TicketCard = ({ innerRef, claimed, stamped, handleClaim, isClone }) => (
         color: '#2a2a2a',
         margin: '0 0 20px',
       }}>
-        This pass gives you, and only you, the right to come to me —{' '}
+        This pass gives you, and only you, the right to come to me -{' '}
         <strong>Bala Sir</strong>, the Greatest Creator, the Coolest Guy you know,
         and probably the Coolest in the whole world, and also your{' '}
-        <strong>Best Hacker</strong> — and ask me to build or hack{' '}
+        <strong>Best Hacker</strong> - and ask me to build or hack{' '}
         <strong>ONE thing</strong> for you. No questions asked.
       </p>
 
@@ -79,7 +79,7 @@ const TicketCard = ({ innerRef, claimed, stamped, handleClaim, isClone }) => (
         fontStyle: 'italic',
         margin: '0 0 20px',
       }}>
-        (has to be reasonable though — I'm good but I'm not hacking the World Bank for you lol... I mean I could 👀 but still)
+        (has to be reasonable though - I'm good but I'm not hacking the World Bank for you lol... I mean I could but still)
       </p>
 
       <div style={{ borderTop: '1px dashed #e0c060', margin: '0 0 20px' }} />
@@ -95,7 +95,7 @@ const TicketCard = ({ innerRef, claimed, stamped, handleClaim, isClone }) => (
             margin: 0,
             fontStyle: 'italic',
           }}>
-            Bala Sir ⚡
+            Bala Sir
           </p>
           <p style={{ fontSize: '0.7rem', color: '#888', margin: '2px 0 0' }}>The Coolest Guy She Knows™</p>
         </div>
@@ -120,14 +120,13 @@ const TicketCard = ({ innerRef, claimed, stamped, handleClaim, isClone }) => (
           {claimed ? (
             <div style={{ textAlign: 'center' }}>
               <p style={{ fontSize: '0.55rem', fontWeight: 800, letterSpacing: '1px', color: '#cc0000', margin: 0, textTransform: 'uppercase' }}>CLAIMED</p>
-              <p style={{ fontSize: '1.6rem', margin: 0 }}>✅</p>
+              <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#cc0000', display: 'block', margin: '2px 0' }}>✔</span>
               <p style={{ fontSize: '0.5rem', color: '#cc0000', margin: 0 }}>ONE TIME</p>
             </div>
           ) : (
             <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: '0.55rem', color: '#aaa', margin: 0, fontFamily: 'var(--font-cute)' }}>tap to</p>
-              <p style={{ fontSize: '0.65rem', fontWeight: 700, color: '#aaa', margin: 0 }}>CLAIM</p>
-              <p style={{ fontSize: '1.4rem', margin: 0 }}>🔖</p>
+              <p style={{ fontSize: '0.55rem', color: '#aaa', margin: 0, fontFamily: 'var(--font-cute)', textTransform: 'uppercase', letterSpacing: '1px' }}>tap to</p>
+              <p style={{ fontSize: '0.85rem', fontWeight: 800, color: '#aaa', margin: 0, textTransform: 'uppercase', letterSpacing: '1.5px', marginTop: '2px' }}>STAMP</p>
             </div>
           )}
         </div>
@@ -140,7 +139,7 @@ const TicketCard = ({ innerRef, claimed, stamped, handleClaim, isClone }) => (
       textAlign: 'center',
     }}>
       <p style={{ fontFamily: 'var(--font-cute)', fontSize: '0.7rem', color: '#1a1a1a', margin: 0, letterSpacing: '1px' }}>
-        🌟 Use it wisely. This offer expires never — but the gesture is priceless. 🌟
+        Use it wisely. This offer expires never - but the gesture is priceless.
       </p>
     </div>
   </div>
@@ -161,7 +160,7 @@ const PrinterMachine = ({ phase }) => {
       <div style={{ position: 'absolute', top: '-15px', left: '50px', width: '20px', height: '30px', background: '#ccc', borderRadius: '5px 0 0 0', border: '2px solid #999', borderBottom: 'none', zIndex: 1 }} />
       {/* Paper guide right */}
       <div style={{ position: 'absolute', top: '-15px', right: '50px', width: '20px', height: '30px', background: '#ccc', borderRadius: '0 5px 0 0', border: '2px solid #999', borderBottom: 'none', zIndex: 1 }} />
-      
+
       {/* Main Body */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, bottom: '25px',
@@ -176,7 +175,7 @@ const PrinterMachine = ({ phase }) => {
       }}>
         {/* Top Feed Slot */}
         <div style={{ width: '320px', height: '12px', background: '#222', borderRadius: '6px', marginTop: '10px', border: '2px solid #111', boxShadow: 'inset 0 5px 10px rgba(0,0,0,0.8)' }} />
-        
+
         {/* Control Panel */}
         <div style={{
           width: '200px', height: '45px', background: '#222', marginTop: '15px',
@@ -193,7 +192,7 @@ const PrinterMachine = ({ phase }) => {
           }}>
             {phase === 'idle' || phase === 'capturing' ? 'READY' : phase === 'feeding' ? 'LOAD' : phase === 'processing' ? 'PRINTING' : phase === 'ejecting' ? 'EJECT' : 'DONE'}
           </div>
-          
+
           {/* LED Lights */}
           <div style={{ display: 'flex', gap: '8px' }}>
             <div style={{
@@ -228,7 +227,7 @@ const PrinterMachine = ({ phase }) => {
         zIndex: 2,
         boxShadow: '0 20px 30px rgba(0,0,0,0.6)'
       }} />
-      
+
       {/* Bottom Output Slot (where paper comes out) */}
       <div style={{
         position: 'absolute', bottom: '18px', left: '45px', right: '45px', height: '12px',
@@ -242,7 +241,7 @@ const PrinterMachine = ({ phase }) => {
 
 const BalaPass = ({ onNext, onPrev }) => {
   const ticketRef = useRef(null);
-  
+
   // states: 'idle', 'capturing', 'feeding', 'processing', 'ejecting', 'done'
   const [printPhase, setPrintPhase] = useState(() => sessionStorage.getItem('balaPassPrinted') ? 'done' : 'idle');
   const [claimed, setClaimed] = useState(() => !!sessionStorage.getItem('balaPassPrinted'));
@@ -259,10 +258,10 @@ const BalaPass = ({ onNext, onPrev }) => {
 
     try {
       const element = ticketRef.current;
-      
+
       const canvas = await html2canvas(element, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
-      
+
       // Generate PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -271,13 +270,13 @@ const BalaPass = ({ onNext, onPrev }) => {
 
       // Start the machine animation sequence
       setPrintPhase('feeding'); // ticket gets sucked into the machine
-      
+
       setTimeout(() => {
         setPrintPhase('processing'); // machine shakes and hums
-        
+
         setTimeout(() => {
           setPrintPhase('ejecting'); // clone ticket slides out bottom
-          
+
           setTimeout(() => {
             setPrintPhase('done'); // ready
             sessionStorage.setItem('balaPassPrinted', 'true');
@@ -285,17 +284,20 @@ const BalaPass = ({ onNext, onPrev }) => {
           }, 3000); // 3 seconds ejecting
         }, 4000); // 4 seconds processing
       }, 1500); // 1.5 seconds feeding
-      
+
     } catch (error) {
       console.error("Failed to generate PDF", error);
       setPrintPhase('idle');
     }
   };
 
+  const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
+  const scaleFactor = screenWidth < 500 ? (screenWidth - 20) / 480 : 1;
+
   return (
     <div className="page-section fade-in" style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+      background: '#08080a', // Premium pure dark background
       position: 'relative',
       overflow: 'hidden',
       display: 'flex',
@@ -303,55 +305,47 @@ const BalaPass = ({ onNext, onPrev }) => {
       alignItems: 'center',
       padding: '40px 20px',
     }}>
-      {/* Subtle starry backdrop */}
-      {Array.from({ length: 40 }).map((_, i) => (
-        <div key={i} style={{
-          position: 'absolute',
-          width: `${2 + (i * 13 % 3)}px`,
-          height: `${2 + (i * 13 % 3)}px`,
-          borderRadius: '50%',
-          background: 'white',
-          top: `${(i * 7.3 + 3) % 95}%`,
-          left: `${(i * 11.7 + 5) % 95}%`,
-          opacity: 0.1 + (i % 5) * 0.08,
-          animation: `twinkle ${2 + (i % 3)}s ease-in-out infinite alternate`,
-          animationDelay: `${(i * 0.2) % 2}s`,
-        }} />
-      ))}
-
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '600px', margin: '0 auto' }}>
         <h2 style={{
           textAlign: 'center', color: '#ffd700', fontFamily: 'var(--font-heading)',
           fontSize: '1.2rem', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '24px', opacity: 0.9
         }}>
-          ⭐ Official Document ⭐
+          Official Document
         </h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          transform: scaleFactor < 1 ? `scale(${scaleFactor})` : 'none',
+          transformOrigin: 'top center',
+          width: '100%',
+          marginBottom: scaleFactor < 1 ? `${-680 * (1 - scaleFactor)}px` : '0px'
+        }}>
+
           {/* TOP TICKET WRAPPER (FEEDS IN) */}
           {(printPhase === 'idle' || printPhase === 'capturing' || printPhase === 'feeding' || printPhase === 'processing') && (
-             <div style={{
-               width: '100%',
-               height: printPhase === 'idle' ? 'auto' : '650px',
-               overflow: printPhase === 'idle' ? 'visible' : 'hidden',
-               display: 'flex',
-               justifyContent: 'center',
-               position: 'relative',
-               zIndex: 10,
-               transition: 'height 0.3s ease',
-               marginBottom: printPhase === 'idle' ? '40px' : '-20px'
-             }}>
-               <div style={{
-                 width: '100%',
-                 display: 'flex',
-                 justifyContent: 'center',
-                 transform: printPhase === 'feeding' || printPhase === 'processing' ? 'translateY(700px)' : 'translateY(0)',
-                 transition: 'transform 1.5s cubic-bezier(0.5, 0, 1, 1)'
-               }}>
-                  <TicketCard innerRef={ticketRef} claimed={claimed} stamped={stamped} handleClaim={handleClaim} isClone={false} />
-               </div>
-             </div>
+            <div style={{
+              width: '100%',
+              height: printPhase === 'idle' ? 'auto' : '650px',
+              overflow: printPhase === 'idle' ? 'visible' : 'hidden',
+              display: 'flex',
+              justifyContent: 'center',
+              position: 'relative',
+              zIndex: 10,
+              transition: 'height 0.3s ease',
+              marginBottom: printPhase === 'idle' ? '40px' : '-20px'
+            }}>
+              <div style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                transform: printPhase === 'feeding' || printPhase === 'processing' ? 'translateY(700px)' : 'translateY(0)',
+                transition: 'transform 1.5s cubic-bezier(0.5, 0, 1, 1)'
+              }}>
+                <TicketCard innerRef={ticketRef} claimed={claimed} stamped={stamped} handleClaim={handleClaim} isClone={false} />
+              </div>
+            </div>
           )}
 
           {/* THE PRINTER MACHINE */}
@@ -378,15 +372,15 @@ const BalaPass = ({ onNext, onPrev }) => {
               zIndex: 5,
               marginTop: '-40px' // overlaps with printer output tray
             }}>
-               <div style={{
-                 width: '100%',
-                 display: 'flex',
-                 justifyContent: 'center',
-                 transform: printPhase === 'ejecting' || printPhase === 'done' ? 'translateY(30px)' : 'translateY(-700px)',
-                 transition: 'transform 2.5s cubic-bezier(0, 0.2, 0.4, 1)' // smooth ease out
-               }}>
-                  <TicketCard claimed={claimed} stamped={stamped} isClone={true} />
-               </div>
+              <div style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                transform: printPhase === 'ejecting' || printPhase === 'done' ? 'translateY(30px)' : 'translateY(-700px)',
+                transition: 'transform 2.5s cubic-bezier(0, 0.2, 0.4, 1)' // smooth ease out
+              }}>
+                <TicketCard claimed={claimed} stamped={stamped} isClone={true} />
+              </div>
             </div>
           )}
 
@@ -394,7 +388,7 @@ const BalaPass = ({ onNext, onPrev }) => {
 
         {/* ACTION BUTTONS */}
         <div style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-          
+
           {!claimed && (
             <p style={{ color: '#aaa', fontSize: '0.9rem', fontFamily: 'var(--font-cute)', animation: 'pulse 2s infinite' }}>
               Tap the stamp on the ticket to validate it first!
@@ -402,56 +396,67 @@ const BalaPass = ({ onNext, onPrev }) => {
           )}
 
           {claimed && printPhase === 'idle' && (
-            <button 
+            <button
               onClick={handlePrint}
               style={{
-                padding: '16px 32px',
+                padding: '16px 35px',
                 borderRadius: '30px',
                 border: 'none',
-                background: 'linear-gradient(90deg, #00ffcc, #00b3ff)',
-                color: '#1a1a2e',
+                background: 'linear-gradient(135deg, #ffd700, #b8860b)',
+                color: '#111',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 800,
-                fontSize: '1.1rem',
-                letterSpacing: '1px',
+                fontSize: '1.05rem',
+                letterSpacing: '2px',
                 cursor: 'pointer',
-                boxShadow: '0 10px 20px rgba(0, 255, 204, 0.3)',
+                boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
                 transition: 'all 0.3s',
               }}
               onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
               onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-              🖨️ PRINT OFFICIAL TICKET
+              PRINT OFFICIAL TICKET
             </button>
           )}
 
           {printPhase === 'done' && (
-            <div className="fade-in" style={{ width: '100%', textAlign: 'center' }}>
-              <p style={{ color: '#00ffcc', fontWeight: 'bold', marginBottom: '20px', fontFamily: 'var(--font-cute)' }}>
-                ✅ PDF Saved to your PC! Keep it safe.
+            <div className="fade-in" style={{ width: '100%', textAlign: 'center', maxWidth: '450px' }}>
+              <p style={{ 
+                color: '#ffd700', 
+                fontWeight: 'bold', 
+                marginBottom: '20px', 
+                fontFamily: 'var(--font-main)',
+                fontSize: '1.05rem',
+                lineHeight: '1.6',
+                background: 'rgba(255, 215, 0, 0.05)',
+                padding: '15px 20px',
+                borderRadius: '12px',
+                border: '1px dashed rgba(255, 215, 0, 0.3)'
+              }}>
+                Official pass printed successfully! Don't lose it, Nabi, you can redeem this to make me build or hack one thing for you anytime. Keep it safe!
               </p>
               <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Final Page →" />
             </div>
           )}
 
           {printPhase !== 'done' && (
-             <div style={{ position: 'absolute', bottom: '40px', left: '20px', zIndex: 100 }}>
-               <button 
-                 onClick={onPrev}
-                 style={{
-                   background: 'rgba(255, 255, 255, 0.1)',
-                   border: '1px solid rgba(255, 255, 255, 0.2)',
-                   color: '#fff',
-                   padding: '10px 20px',
-                   borderRadius: '20px',
-                   fontFamily: 'var(--font-cute)',
-                   cursor: 'pointer',
-                   backdropFilter: 'blur(5px)'
-                 }}
-               >
-                 ← Back
-               </button>
-             </div>
+            <div style={{ position: 'absolute', bottom: '40px', left: '20px', zIndex: 100 }}>
+              <button
+                onClick={onPrev}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#fff',
+                  padding: '10px 20px',
+                  borderRadius: '20px',
+                  fontFamily: 'var(--font-cute)',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(5px)'
+                }}
+              >
+                ← Back
+              </button>
+            </div>
           )}
         </div>
       </div>

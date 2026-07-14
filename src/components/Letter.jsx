@@ -2,15 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Heart } from 'lucide-react';
 import NavigationButtons from './NavigationButtons';
 
-const fullText = `My dearest Nabeelah,
+const fullText = `Dear Nabeelah,
 
-Happy Birthday! 🎉
+First of all Happy Birthday!
 
-Today is all about you, and I just wanted to take a moment to remind you how truly special you are. You bring so much light and joy into the lives of everyone around you. Your smile is contagious, your heart is pure gold, and your spirit is absolutely unmatched.
-
-I hope this year brings you everything you've ever wished for, because you deserve nothing less than the absolute best. Keep shining, keep being your amazing, beautiful self, and never forget how deeply you are loved.
-
-Have the most magical birthday ever!
+Lol that had to be said its been what 2 years now that we know each, tbh idk really how long it has been but it feels sooo long after all it has been a roller costers of events, now and here we are at last years of our college if anything u might be the biggest smartest and dumbed girl i have ever meet, god have mercy on you yet u pull through but you put me in a havoc to always wander around but ngl handling nabeelah is tuff but it aint impossible with all regards once again happy brithday nabeelah go rock ur life nabi.
 
 ~Big B`;
 
@@ -50,25 +46,44 @@ const Letter = ({ onNext, onPrev }) => {
   const isExtracted = phase === 'extracted';
   const isGone = phase === 'gone' || phase === 'typing';
 
+  const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 768;
+  const scaleFactor = screenWidth < 450 ? (screenWidth - 30) / 400 : 1;
+
   return (
-    <div className="page-section fade-in" style={{ 
-      minHeight: '100vh', 
-      background: 'transparent', 
-      position: 'relative', 
+    <div className="page-section fade-in" style={{
+      minHeight: '100vh',
+      background: 'url(/bg-morning.png) center/cover no-repeat',
+      position: 'relative',
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      
+
+      {/* Soft light glass overlay for readability */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'rgba(255, 255, 255, 0.35)', backdropFilter: 'blur(3px)', zIndex: 0
+      }} />
+
       {/* Hello Kitty Decor Placeholders */}
-      <img src="/flower3.png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '5%', width: '100px', opacity: 0.8 }} />
-      <img src="/flower4.png" alt="decor" className="floating" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '120px', animationDelay: '1s', opacity: 0.8 }} />
-      <img src="/flower5.png" alt="decor" className="floating" style={{ position: 'absolute', top: '20%', right: '10%', width: '80px', animationDelay: '0.5s', opacity: 0.8 }} />
+      <img src="/flower3.png" alt="decor" className="floating floating-decor" style={{ position: 'absolute', top: '10%', left: '5%', width: '100px', opacity: 0.8 }} />
+      <img src="/flower4.png" alt="decor" className="floating floating-decor" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '120px', animationDelay: '1s', opacity: 0.8 }} />
+      <img src="/flower5.png" alt="decor" className="floating floating-decor" style={{ position: 'absolute', top: '20%', right: '10%', width: '80px', animationDelay: '0.5s', opacity: 0.8 }} />
 
       {/* Main Scene Container */}
-      <div style={{ position: 'relative', width: `${envWidth}px`, height: `${envHeight}px`, perspective: '1500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        
+      <div style={{
+        position: 'relative',
+        width: `${envWidth}px`,
+        height: isGone ? 'auto' : `${envHeight}px`,
+        perspective: '1500px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: isGone ? 'none' : `scale(${scaleFactor})`,
+        transition: 'transform 0.5s'
+      }}>
+
         {/* Envelope Back */}
         <div style={{
           position: 'absolute', inset: 0, background: '#ff75a0', borderRadius: '10px', zIndex: 1,
@@ -82,9 +97,9 @@ const Letter = ({ onNext, onPrev }) => {
         <div style={{
           position: 'absolute', top: 0, left: 0, zIndex: isClosed ? 4 : 1, // Drops behind letter once open
           width: 0, height: 0,
-          borderLeft: `${envWidth/2}px solid transparent`,
-          borderRight: `${envWidth/2}px solid transparent`,
-          borderTop: `${envHeight/2 + 20}px solid #ff8ea7`,
+          borderLeft: `${envWidth / 2}px solid transparent`,
+          borderRight: `${envWidth / 2}px solid transparent`,
+          borderTop: `${envHeight / 2 + 20}px solid #ff8ea7`,
           transformOrigin: 'top',
           transform: isGone ? 'translateY(100vh) rotateX(180deg) rotateZ(15deg)' : (isClosed ? 'rotateX(0deg)' : 'rotateX(180deg)'),
           transition: 'transform 0.6s ease-in-out, z-index 0s 0.2s, opacity 1s',
@@ -93,21 +108,22 @@ const Letter = ({ onNext, onPrev }) => {
 
         {/* The Letter */}
         <div style={{
-          position: 'absolute',
+          position: isGone ? 'relative' : 'absolute',
           zIndex: 2,
           width: isGone ? '90vw' : '360px',
           maxWidth: isGone ? '600px' : '360px',
-          height: isGone ? '650px' : '220px',
+          height: isGone ? 'auto' : '220px',
+          minHeight: isGone ? '480px' : '220px',
           background: '#fffef0',
           borderRadius: '16px',
           boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
           transition: 'all 1s cubic-bezier(0.4, 0, 0.2, 1)',
           transform: isGone ? 'translateY(-20px)' : (isExtracted ? 'translateY(-180px)' : 'translateY(0)'),
-          padding: isGone ? '60px 40px 40px 40px' : '20px',
+          padding: isGone ? '60px 30px 45px 30px' : '20px',
           display: 'flex', flexDirection: 'column',
-          overflow: 'hidden'
+          overflow: isGone ? 'visible' : 'hidden'
         }}>
-          
+
           {/* Decorative pin - only visible when fully expanded */}
           <div style={{
             position: 'absolute', top: '25px', left: '25px',
@@ -116,9 +132,9 @@ const Letter = ({ onNext, onPrev }) => {
             opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
           }}>
             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff4d85', boxShadow: '0 2px 5px rgba(255,77,133,0.5)' }} />
-            To My Birthday Princess
+            To My Birthday Nigge
           </div>
-          <img src="/flower6.png" alt="cute" style={{ 
+          <img src="/flower6.png" alt="cute" style={{
             position: 'absolute', top: '-20px', right: '-20px', width: '90px', transform: 'rotate(15deg)',
             opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
           }} />
@@ -142,10 +158,10 @@ const Letter = ({ onNext, onPrev }) => {
         <div style={{
           position: 'absolute', top: 0, left: 0, zIndex: 3,
           width: 0, height: 0,
-          borderLeft: `${envWidth/2}px solid #ff9db4`,
-          borderRight: `${envWidth/2}px solid #ff9db4`,
-          borderBottom: `${envHeight/2 + 30}px solid #ffb6c1`,
-          borderTop: `${envHeight/2 - 30}px solid transparent`,
+          borderLeft: `${envWidth / 2}px solid #ff9db4`,
+          borderRight: `${envWidth / 2}px solid #ff9db4`,
+          borderBottom: `${envHeight / 2 + 30}px solid #ffb6c1`,
+          borderTop: `${envHeight / 2 - 30}px solid transparent`,
           borderRadius: '10px',
           transform: isGone ? 'translateY(100vh) rotateZ(15deg)' : 'translateY(0)',
           transition: 'transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s',
@@ -154,10 +170,14 @@ const Letter = ({ onNext, onPrev }) => {
 
       </div>
 
-      <div style={{ 
-        position: 'absolute', bottom: '40px', zIndex: 20,
+      <div style={{
+        zIndex: 20,
         opacity: showNav ? 1 : 0, pointerEvents: showNav ? 'auto' : 'none',
-        transition: 'opacity 1s'
+        transition: 'opacity 1s',
+        marginTop: '30px',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center'
       }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} />
       </div>
