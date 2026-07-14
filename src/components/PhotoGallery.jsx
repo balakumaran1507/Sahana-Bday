@@ -118,18 +118,62 @@ const PhotoGallery = ({ onNext, onPrev }) => {
         cursor: phase === 'slideshow' ? (dragStartX !== null ? 'grabbing' : 'grab') : 'default'
       }}>
         
-        {/* Album Back Cover (Visible when stacked) */}
+        {/* The Album Book (Covers) */}
         <div style={{
-          position: 'absolute', top: 0, left: '50%', width: '400px', maxWidth: '90vw', height: '100%',
-          transform: 'translateX(-50%)',
-          background: 'linear-gradient(135deg, #151515, #0a0a0a)', 
-          border: '2px solid #b8860b', 
-          borderRadius: '4px 15px 15px 4px',
-          opacity: phase === 'slideshow' ? 0 : 1, 
-          transition: 'opacity 0.8s', 
-          zIndex: -1,
-          boxShadow: '10px 10px 30px rgba(0,0,0,0.8)'
-        }} />
+           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+           width: '400px', maxWidth: '90vw', height: '100%',
+           transformStyle: 'preserve-3d',
+           pointerEvents: 'none' // Don't block drag events
+        }}>
+          {/* Album Back Cover (Visible when stacked) */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            background: 'linear-gradient(135deg, #151515, #0a0a0a)', 
+            border: '2px solid #b8860b', 
+            borderRadius: '4px 15px 15px 4px',
+            opacity: phase === 'slideshow' ? 0 : 1, 
+            transition: 'opacity 0.8s', 
+            zIndex: -1,
+            boxShadow: '10px 10px 30px rgba(0,0,0,0.8)'
+          }} />
+
+          {/* Album Front Cover */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            background: 'linear-gradient(135deg, #151515, #222)',
+            border: '2px solid #b8860b',
+            borderRadius: '4px 15px 15px 4px',
+            transformOrigin: 'left center',
+            // Start completely open (-170deg) during stacking, then close to 0deg
+            transform: phase === 'closing' || phase === 'done' ? 'rotateY(0deg)' : 'rotateY(-170deg)',
+            opacity: phase === 'slideshow' ? 0 : 1,
+            transition: 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s',
+            zIndex: 20,
+            boxShadow: phase === 'closing' || phase === 'done' 
+              ? 'inset 5px 0 15px rgba(0,0,0,0.9), 25px 25px 40px rgba(0,0,0,0.8)' 
+              : 'inset 5px 0 15px rgba(0,0,0,0.9), -15px 15px 30px rgba(0,0,0,0.5)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            pointerEvents: 'none'
+          }}>
+             {/* Book spine line styling */}
+             <div style={{ 
+               position: 'absolute', left: '12px', top: 0, bottom: 0, width: '4px', 
+               background: 'rgba(0,0,0,0.8)', boxShadow: '1px 0 2px rgba(255,255,255,0.15)' 
+             }} />
+             
+             {/* Cover Text */}
+             <div style={{ 
+               fontFamily: "'Great Vibes', cursive", 
+               fontSize: '3.5rem', 
+               color: '#b8860b', 
+               textShadow: '0 2px 10px rgba(0,0,0,0.8)',
+               opacity: phase === 'closing' || phase === 'done' ? 1 : 0,
+               transition: 'opacity 0.8s ease-in 0.6s' // Delayed fade in as it closes
+             }}>
+               Memories
+             </div>
+          </div>
+        </div>
 
         {/* The Photos */}
         {images.map((src, idx) => {
@@ -186,43 +230,6 @@ const PhotoGallery = ({ onNext, onPrev }) => {
             </div>
           )
         })}
-
-        {/* Album Front Cover */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'linear-gradient(135deg, #151515, #222)',
-          border: '2px solid #b8860b',
-          borderRadius: '4px 15px 15px 4px',
-          transformOrigin: 'left center',
-          // Start completely open (-170deg) during stacking, then close to 0deg
-          transform: phase === 'closing' || phase === 'done' ? 'rotateY(0deg)' : 'rotateY(-170deg)',
-          opacity: phase === 'slideshow' ? 0 : 1,
-          transition: 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s',
-          zIndex: 20,
-          boxShadow: phase === 'closing' || phase === 'done' 
-            ? 'inset 5px 0 15px rgba(0,0,0,0.9), 25px 25px 40px rgba(0,0,0,0.8)' 
-            : 'inset 5px 0 15px rgba(0,0,0,0.9), -15px 15px 30px rgba(0,0,0,0.5)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          pointerEvents: 'none'
-        }}>
-           {/* Book spine line styling */}
-           <div style={{ 
-             position: 'absolute', left: '12px', top: 0, bottom: 0, width: '4px', 
-             background: 'rgba(0,0,0,0.8)', boxShadow: '1px 0 2px rgba(255,255,255,0.15)' 
-           }} />
-           
-           {/* Cover Text */}
-           <div style={{ 
-             fontFamily: "'Great Vibes', cursive", 
-             fontSize: '3.5rem', 
-             color: '#b8860b', 
-             textShadow: '0 2px 10px rgba(0,0,0,0.8)',
-             opacity: phase === 'closing' || phase === 'done' ? 1 : 0,
-             transition: 'opacity 0.8s ease-in 0.6s' // Delayed fade in as it closes
-           }}>
-             Memories
-           </div>
-        </div>
 
       </div>
 
