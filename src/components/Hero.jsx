@@ -78,87 +78,67 @@ const Hero = ({ onNext }) => {
         transition: 'opacity 3s ease-in-out'
       }} />
 
-      {/* Parallax Decors */}
+      {/* Elegant Parallax Decors using newly renamed assets */}
       <img 
-        src="/flower7.png" 
+        src="/First-page-big flower.png" 
         alt="decor" 
         style={{ 
-          position: 'absolute', top: '10%', left: '15%', width: '120px', opacity: 0.8, zIndex: 1,
-          transform: `translate(${offsetX * -40}px, ${offsetY * -40}px) rotate(${offsetX * 10}deg)`,
+          position: 'absolute', top: '10%', right: '5%', width: '350px', opacity: 0.85, zIndex: 1,
+          transform: `translate(${offsetX * 30}px, ${offsetY * 30}px) rotate(${offsetY * -10}deg)`,
           transition: 'transform 0.2s ease-out'
         }} 
       />
       <img 
-        src="/flower8.png" 
+        src="/First-page-Corner-Flower.png" 
         alt="decor" 
         style={{ 
-          position: 'absolute', top: '20%', right: '10%', width: '150px', opacity: 0.7, zIndex: 1,
-          transform: `translate(${offsetX * 50}px, ${offsetY * 50}px) rotate(${offsetY * -15}deg)`,
-          transition: 'transform 0.2s ease-out'
-        }} 
-      />
-      <img 
-        src="/flower9.png" 
-        alt="decor" 
-        style={{ 
-          position: 'absolute', bottom: '15%', left: '10%', width: '110px', opacity: 0.9, zIndex: 1,
-          transform: `translate(${offsetX * -30}px, ${offsetY * 30}px) scale(${1 + Math.abs(offsetX * 0.1)})`,
-          transition: 'transform 0.2s ease-out'
-        }} 
-      />
-      <img 
-        src="/flower1.png" 
-        alt="decor" 
-        style={{ 
-          position: 'absolute', bottom: '25%', right: '15%', width: '130px', opacity: 0.6, zIndex: 1,
-          transform: `translate(${offsetX * 60}px, ${offsetY * -60}px) rotate(${offsetX * 20}deg)`,
+          position: 'absolute', bottom: '5%', left: '5%', width: '280px', opacity: 0.9, zIndex: 1,
+          transform: `translate(${offsetX * -30}px, ${offsetY * 30}px) rotate(${offsetX * 10}deg)`,
           transition: 'transform 0.2s ease-out'
         }} 
       />
 
-      {/* Central Premium Card */}
+      {/* Central Minimalist Card */}
       <div 
         className="fade-in" 
         style={{ 
           maxWidth: '500px', width: '90%', position: 'relative', zIndex: 10,
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '30px',
-          padding: '50px 40px',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-          transform: `translate(${offsetX * -15}px, ${offsetY * -15}px)`, // Slight counter-parallax for the card itself
+          background: 'rgba(255, 255, 255, 0.03)',
+          backdropFilter: 'blur(25px)',
+          WebkitBackdropFilter: 'blur(25px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '20px',
+          padding: '60px 40px',
+          transform: `translate(${offsetX * -10}px, ${offsetY * -10}px)`, 
           transition: 'transform 0.3s ease-out',
           margin: '0 auto',
           marginTop: '15vh'
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', color: '#ffb6c1' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '4px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', color: '#ccc' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 400, letterSpacing: '6px', textTransform: 'uppercase' }}>
             Exclusive Event
           </span>
         </div>
         
         <h1 style={{ 
-          fontSize: '2.8rem', 
-          marginBottom: '15px', 
-          fontFamily: 'var(--font-heading)',
-          background: 'linear-gradient(45deg, #ff75a0, #ffb6c1, #ffd700)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          textShadow: '0 10px 20px rgba(0,0,0,0.8)' // Stronger shadow for readability over image bg
+          fontSize: '2.5rem', 
+          marginBottom: '20px', 
+          fontFamily: 'var(--font-main)',
+          fontWeight: 300,
+          color: '#ffffff',
+          letterSpacing: '1px'
         }}>
           Happy Birthday,<br/>Beautiful.
         </h1>
         
         <p style={{ 
-          margin: '25px 0', 
-          fontSize: '1.1rem', 
-          lineHeight: '1.7', 
-          color: '#f0f0f0',
+          margin: '30px 0', 
+          fontSize: '1rem', 
+          lineHeight: '1.8', 
+          color: '#a0a0a0',
           fontFamily: 'var(--font-main)',
-          textShadow: '0 2px 5px rgba(0,0,0,0.8)'
+          fontWeight: 300
         }}>
           Today is all about celebrating the most amazing person in my world. I've created something magical just for you on your special day.
         </p>
@@ -166,27 +146,27 @@ const Hero = ({ onNext }) => {
         <button 
           onClick={handleBeginClick}
           style={{
-            marginTop: '20px',
-            padding: '16px 40px',
-            fontSize: '1.2rem',
-            fontFamily: 'var(--font-heading)',
+            marginTop: '30px',
+            padding: '14px 45px',
+            fontSize: '0.9rem',
+            fontFamily: 'var(--font-main)',
+            fontWeight: 400,
             color: '#fff',
-            background: 'linear-gradient(90deg, #ff75a0, #ffb6c1)',
-            border: 'none',
-            borderRadius: '50px',
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
             cursor: 'pointer',
-            boxShadow: '0 10px 20px rgba(255, 117, 160, 0.4)',
             transition: 'all 0.3s ease',
             textTransform: 'uppercase',
-            letterSpacing: '2px'
+            letterSpacing: '3px'
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 15px 25px rgba(255, 117, 160, 0.6)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.transform = 'translateY(0) scale(1)';
-            e.currentTarget.style.boxShadow = '0 10px 20px rgba(255, 117, 160, 0.4)';
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
           }}
         >
           Begin
