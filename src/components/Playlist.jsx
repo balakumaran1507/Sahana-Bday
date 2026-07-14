@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const TRACKS = [
-  { id: '5SixeLvPsYpk7qq9lo5xYg', text: "ur vibes nabeelah is always goated" },
+  { id: '6EivvaEepVTjmDde43eGiB', text: "ur vibes nabeelah is always goated" }, // Ve Kamleya
   { id: '4wLU3zIFfECTdDxOzKseI5', text: "The #2 track just for you..." },
   { id: '6qBLachpHaVUmpHKWyesmq', text: "Coming in at #3..." },
   { id: '1UUgngRGzFWfgpyN0WAN1r', text: "Solid #4, absolute classic!" },
@@ -63,7 +63,7 @@ const Playlist = ({ onNext, onPrev }) => {
           font-weight: 900;
           text-transform: uppercase;
           line-height: 1.2;
-          background: linear-gradient(90deg, #1DB954, #191414, #1DB954); /* Spotify colors */
+          background: linear-gradient(90deg, #ff4d85, #a855f7, #ff4d85); /* Soft pink/purple */
           background-size: 200% auto;
           color: #fff;
           -webkit-background-clip: text;
@@ -125,7 +125,7 @@ const Playlist = ({ onNext, onPrev }) => {
           <div style={{ width: '100px', height: '100px', borderRadius: '50%', border: '1px solid #333' }}>
             <div style={{ width: '80px', height: '80px', borderRadius: '50%', border: '1px solid #333', margin: '9px auto' }}>
               {/* Center Label */}
-              <div style={{ width: '50px', height: '50px', background: 'linear-gradient(45deg, #1DB954, #121212)', borderRadius: '50%', margin: '14px auto', border: '2px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '50px', height: '50px', background: 'linear-gradient(45deg, #ff4d85, #121212)', borderRadius: '50%', margin: '14px auto', border: '2px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ width: '12px', height: '12px', background: '#000', borderRadius: '50%' }} />
               </div>
             </div>
@@ -155,7 +155,7 @@ const Playlist = ({ onNext, onPrev }) => {
               className="next-btn"
               onClick={handleNextTrack}
               style={{
-                background: '#1DB954', /* Spotify Green */
+                background: 'linear-gradient(45deg, #ff4d85, #a855f7)', /* Soft pink/purple gradient */
                 border: 'none',
                 color: 'white',
                 padding: '12px 24px',
@@ -163,7 +163,7 @@ const Playlist = ({ onNext, onPrev }) => {
                 fontWeight: 'bold',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-main)',
-                boxShadow: '0 4px 15px rgba(29, 185, 84, 0.4)',
+                boxShadow: '0 4px 15px rgba(255, 77, 133, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -173,7 +173,7 @@ const Playlist = ({ onNext, onPrev }) => {
               Next Track ⏭
             </button>
           ) : (
-            <div style={{ color: '#1DB954', fontWeight: 'bold', fontFamily: 'monospace', letterSpacing: '2px' }}>END OF TAPE 📼</div>
+            <div style={{ color: '#ff4d85', fontWeight: 'bold', fontFamily: 'monospace', letterSpacing: '2px' }}>END OF TAPE 📼</div>
           )}
         </div>
       </div>

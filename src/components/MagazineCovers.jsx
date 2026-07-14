@@ -16,53 +16,82 @@ const containerStyle = {
 
 export const MagazineIntro = ({ onNext, onPrev }) => {
   return (
-    <div className="page-section fade-in" style={containerStyle}>
-      <div style={{ maxWidth: '600px', textAlign: 'center', zIndex: 10 }}>
+    <div className="page-section fade-in" style={{
+      ...containerStyle,
+      background: '#050505', // High fashion pure black
+    }}>
+      <div style={{ maxWidth: '800px', textAlign: 'center', zIndex: 10 }}>
         <h2 style={{
           fontFamily: 'var(--font-heading)',
-          fontSize: '2.5rem',
+          fontSize: 'clamp(2.5rem, 5vw, 4rem)',
           color: '#fff',
-          letterSpacing: '5px',
+          letterSpacing: '10px',
           textTransform: 'uppercase',
-          marginBottom: '30px',
-          textShadow: '0 0 20px rgba(255,255,255,0.3)',
-          animation: 'slideUp 1s ease-out'
+          marginBottom: '40px',
+          textShadow: '0 0 30px rgba(255,255,255,0.2)',
+          animation: 'fashionReveal 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          opacity: 0,
+          transform: 'translateY(50px) scale(0.95)'
         }}>
           How I See Nabeelah
         </h2>
+        
+        <div style={{
+           width: '1px', height: '0px', background: 'linear-gradient(to bottom, rgba(255,255,255,0.8), transparent)',
+           margin: '0 auto 40px auto',
+           animation: 'fadeInLine 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 1s',
+           opacity: 0
+        }} />
+
         <p style={{
           fontFamily: 'var(--font-cute)',
-          fontSize: '1.2rem',
-          color: '#aaa',
+          fontSize: '1.4rem',
+          color: '#ccc',
           fontStyle: 'italic',
-          letterSpacing: '1px',
-          animation: 'slideUp 1.2s ease-out'
+          letterSpacing: '3px',
+          animation: 'fashionReveal 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.5s',
+          opacity: 0,
+          transform: 'translateY(30px)'
         }}>
           (Just between us... I think you're going to absolutely love these!)
         </p>
+        
         <p style={{
           fontFamily: 'var(--font-main)',
-          fontSize: '1.1rem',
+          fontSize: '1.2rem',
           color: '#888',
-          marginTop: '40px',
-          lineHeight: '1.6',
-          animation: 'slideUp 1.4s ease-out'
+          marginTop: '60px',
+          lineHeight: '2',
+          animation: 'fashionReveal 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 2.5s',
+          opacity: 0,
+          transform: 'translateY(30px)',
+          fontWeight: 300,
+          letterSpacing: '1px'
         }}>
-          You might see yourself one way, but this is exactly how I see you. 
-          A breathtaking masterpiece. The true star of my world. 
-          <br/><br/>
-          Or, you might just hate me entirely for making this... but honestly, it's a gamble I'm more than willing to take! 😉
+          You might see yourself one way, but this is exactly how I see you. <br/><br/>
+          <span style={{ color: '#fff', fontWeight: 600, fontSize: '1.4rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+            A breathtaking masterpiece. The true star of my world.
+          </span>
+          <br/><br/><br/>
+          <span style={{ fontSize: '0.9rem', color: '#555', fontStyle: 'italic' }}>
+            Or, you might just hate me entirely for making this... but honestly, it's a gamble I'm more than willing to take! 😉
+          </span>
         </p>
       </div>
       
-      <div style={{ position: 'absolute', bottom: '40px', zIndex: 20 }}>
+      <div style={{ position: 'absolute', bottom: '50px', zIndex: 20, animation: 'fadeInNav 2s ease forwards 4s', opacity: 0 }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} />
       </div>
 
       <style>{`
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes fashionReveal {
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes fadeInLine {
+          to { opacity: 1; height: 80px; }
+        }
+        @keyframes fadeInNav {
+          to { opacity: 1; }
         }
       `}</style>
     </div>

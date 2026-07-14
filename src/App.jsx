@@ -85,7 +85,7 @@ function App() {
     { component: NameReveal, audio: '/Michael Jackson - Childhood (Official Video).mp3', audioStart: 55 },
     { component: PhotoGallery, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: CakeCut, audio: '/Unakkul Naane - Pritt.mp3' },
-    { component: Playlist, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: Playlist, audio: null }, // Pause background music so Spotify can play
     { component: Letter, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: UrduPoem, audio: '/Unakkul Naane - Pritt.mp3' },
     
@@ -144,27 +144,38 @@ function App() {
             audioRef.current.volume = 0;
             setActiveAudioSrc(targetAudio);
             
-            // Wait for DOM to update src, then fade in
-            setTimeout(() => {
-              if (audioRef.current) {
-                audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
-                let volIn = 0;
-                audioRef.current.volume = volIn;
-                const fadeIn = setInterval(() => {
-                  if (volIn < 0.9) {
-                    volIn += 0.1;
-                    audioRef.current.volume = volIn;
-                  } else {
-                    clearInterval(fadeIn);
-                    audioRef.current.volume = 1;
-                  }
-                }, 100);
-              }
-            }, 50);
+            if (targetAudio) {
+              // Wait for DOM to update src, then fade in
+              setTimeout(() => {
+                if (audioRef.current) {
+                  audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
+                  let volIn = 0;
+                  audioRef.current.volume = volIn;
+                  const fadeIn = setInterval(() => {
+                    if (volIn < 0.9) {
+                      volIn += 0.1;
+                      audioRef.current.volume = volIn;
+                    } else {
+                      clearInterval(fadeIn);
+                      audioRef.current.volume = 1;
+                    }
+                  }, 100);
+                }
+              }, 50);
+            } else {
+              audioRef.current.pause();
+              setIsPlaying(false);
+            }
           }
         }, 100);
       } else {
         setActiveAudioSrc(targetAudio);
+        if (targetAudio && audioRef.current) {
+           setTimeout(() => {
+             audioRef.current.volume = 1;
+             audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.error("Audio resume failed:", e));
+           }, 50);
+        }
       }
     }
   }, [currentStep, isAuthenticated, isPlaying, activeAudioSrc]);
