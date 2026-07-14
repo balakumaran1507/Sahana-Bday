@@ -241,9 +241,6 @@ const PrinterMachine = ({ phase }) => {
 
 
 const BalaPass = ({ onNext, onPrev }) => {
-  const [claimed, setClaimed] = useState(false);
-  const [stamped, setStamped] = useState(false);
-  const [printPhase, setPrintPhase] = useState('idle'); // 'idle' | 'capturing' | 'feeding' | 'processing' | 'ejecting' | 'done'
   const ticketRef = useRef(null);
   
   // states: 'idle', 'capturing', 'feeding', 'processing', 'ejecting', 'done'
