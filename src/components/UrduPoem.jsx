@@ -138,8 +138,7 @@ const UrduPoem = ({ onNext, onPrev }) => {
                 color: '#ffd700', // Golden text
                 textShadow: '0 0 20px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0,0,0,0.8)',
                 opacity: 0, // Hidden by default
-                animation: phase >= 1 ? `sweepRTL 3.5s linear forwards` : 'none',
-                animationDelay: `${idx * 3.5}s`
+                animation: phase >= 1 ? `sweepRTL 3.5s linear ${idx * 3.5}s forwards` : 'none'
               }}>
                 {line}
               </div>
@@ -151,8 +150,7 @@ const UrduPoem = ({ onNext, onPrev }) => {
                 opacity: 0,
                 zIndex: 15,
                 filter: 'invert(1) brightness(0.2) drop-shadow(0 0 5px rgba(0,0,0,0.5))', // Dark to match BG
-                animation: phase >= 1 ? `moveQuill 3.5s linear forwards` : 'none',
-                animationDelay: `${idx * 3.5}s`
+                animation: phase >= 1 ? `moveQuill 3.5s linear ${idx * 3.5}s forwards` : 'none'
               }} />
             </div>
           ))}
@@ -181,8 +179,7 @@ const UrduPoem = ({ onNext, onPrev }) => {
               fontSize: 'clamp(1rem, 2vw, 1.2rem)', 
               lineHeight: '2.2', 
               opacity: 0,
-              animation: phase >= 1 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
-              animationDelay: `${idx * 3.5 + 2}s`
+              animation: phase >= 1 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) ${idx * 3.5 + 2}s forwards` : 'none'
             }}>
               {line}
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const images = [
@@ -10,144 +10,170 @@ const images = [
 ];
 
 const PhotoGallery = ({ onNext, onPrev }) => {
-  const [loaded, setLoaded] = useState(false);
+  const [printedCount, setPrintedCount] = useState(0);
+  const [printingState, setPrintingState] = useState('idle'); // idle, sliding, developing, flying
 
-  useEffect(() => {
-    // Trigger animations right after mount
-    const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+  const handlePrint = () => {
+    if (printingState !== 'idle' || printedCount >= images.length) return;
+    
+    setPrintingState('sliding'); // Card slides out
+    
+    setTimeout(() => {
+      setPrintingState('developing'); // Photo fades in
+    }, 1000);
+    
+    setTimeout(() => {
+      setPrintingState('flying'); // Card flies to corner
+    }, 4000);
+    
+    setTimeout(() => {
+      setPrintedCount(c => c + 1);
+      setPrintingState('idle'); // Reset for next
+    }, 5000);
+  };
 
   return (
-    <div 
-      className="page-section fade-in"
-      style={{ 
-        minHeight: '100vh', 
-        background: 'url(/Memories-bg.avif) center/cover no-repeat',
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        position: 'relative',
-        overflow: 'hidden',
-        padding: '20px'
-      }}
-    >
-      {/* Soft, Cute Pink Overlay for the background */}
+    <div className="page-section fade-in" style={{ 
+      minHeight: '100vh', 
+      background: 'url(/Memories-bg.avif) center/cover no-repeat',
+      position: 'relative',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      {/* Overlay */}
       <div style={{
         position: 'absolute', inset: 0, 
-        background: 'rgba(255, 182, 193, 0.45)',
-        mixBlendMode: 'soft-light',
-        zIndex: 0
+        background: 'rgba(255, 182, 193, 0.45)', mixBlendMode: 'soft-light', zIndex: 0
       }} />
       <div style={{
         position: 'absolute', inset: 0, 
-        background: 'rgba(255, 255, 255, 0.3)', 
-        backdropFilter: 'blur(8px)',
-        zIndex: 0
+        background: 'rgba(255, 255, 255, 0.3)', backdropFilter: 'blur(5px)', zIndex: 0
       }} />
 
-      <style>{`
-        @keyframes popIn {
-          0% { transform: scale(0.8) translateY(30px); opacity: 0; }
-          100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-        
-        .collage-img {
-          transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
-          cursor: pointer;
-        }
-        .collage-img:hover {
-          transform: scale(1.03) translateY(-5px);
-          box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-          z-index: 20;
-        }
-      `}</style>
-
-      {/* Header */}
-      <div style={{ 
-        position: 'relative', 
-        textAlign: 'center',
-        zIndex: 10,
-        marginBottom: '40px',
-        animation: loaded ? 'popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards' : 'none',
-        opacity: 0
-      }}>
-        <h2 style={{ 
-          fontFamily: 'var(--font-heading)', 
-          color: '#fff', 
-          fontSize: '3rem',
-          letterSpacing: '2px',
-          textShadow: '0 4px 15px rgba(255, 105, 180, 0.5)',
-          margin: 0
-        }}>
-          Our Album
+      {/* Header text */}
+      <div style={{ position: 'absolute', top: '10%', textAlign: 'center', zIndex: 10 }}>
+        <h2 style={{ fontFamily: 'var(--font-heading)', color: '#fff', fontSize: 'clamp(2.5rem, 5vw, 4rem)', margin: 0, textShadow: '0 4px 15px rgba(255, 105, 180, 0.5)' }}>
+          Print Our Memories
         </h2>
-        <p style={{ color: '#fff', fontFamily: 'var(--font-main)', marginTop: '10px', fontWeight: 500, fontSize: '1.1rem', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
-          Every moment with you is magic ✨
+        <p style={{ color: '#fff', fontFamily: 'var(--font-main)', fontSize: '1.2rem', textShadow: '0 2px 4px rgba(0,0,0,0.2)', fontWeight: 600 }}>
+          {printedCount < images.length ? "Click the camera to print a photo!" : "All memories printed! ❤️"}
         </p>
       </div>
 
-      {/* Grid Collage Album */}
-      <div style={{ 
-        position: 'relative', 
-        zIndex: 10,
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gridTemplateRows: 'repeat(2, 1fr)',
-        gap: '15px',
-        maxWidth: '900px',
-        width: '100%',
-        padding: '20px',
-        background: 'rgba(255, 255, 255, 0.5)',
-        backdropFilter: 'blur(20px)',
-        borderRadius: '24px',
-        boxShadow: '0 20px 50px rgba(255, 105, 180, 0.15), inset 0 2px 0 rgba(255,255,255,0.7)',
-        border: '1px solid rgba(255,255,255,0.6)'
-      }}>
+      {/* Camera & Polaroid Area */}
+      <div 
+        style={{ position: 'relative', zIndex: 10, cursor: printedCount < images.length ? 'pointer' : 'default', marginTop: '20px' }} 
+        onClick={handlePrint}
+      >
         
-        {images.map((src, idx) => {
-          const isHero = idx === 0;
-          
-          return (
-            <div 
-              key={idx} 
-              className="collage-img"
-              style={{
-                gridColumn: isHero ? 'span 2' : 'span 1',
-                gridRow: isHero ? 'span 2' : 'span 1',
-                aspectRatio: isHero ? 'auto' : '1 / 1',
-                height: isHero ? '100%' : 'auto',
-                minHeight: isHero ? '350px' : 'auto',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                background: '#eee',
-                boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
-                opacity: 0,
-                animation: loaded ? `popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${idx * 0.15 + 0.3}s` : 'none'
-              }}
-            >
-              <img 
-                src={src} 
-                style={{ 
-                  width: '100%', 
-                  height: '100%',
-                  objectFit: 'cover',
-                  userSelect: 'none', 
-                  pointerEvents: 'none',
-                  display: 'block'
-                }} 
-                alt={`Memory ${idx + 1}`} 
-                draggable="false"
-              />
-            </div>
-          )
-        })}
+        {/* Animated Polaroid Card (only renders if we are printing) */}
+        {printingState !== 'idle' && (
+          <div style={{
+            position: 'absolute',
+            bottom: '30px', // start hidden behind the camera body
+            left: '50%',
+            marginLeft: '-110px',
+            width: '220px',
+            height: '280px',
+            background: '#fff',
+            padding: '10px 10px 40px 10px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+            borderRadius: '4px',
+            zIndex: 5, // Behind camera
+            // State-based transforms
+            transform: printingState === 'sliding' ? 'translateY(190px) scale(1) rotate(0deg)'
+                     : printingState === 'developing' ? 'translateY(190px) scale(1.1) rotate(0deg)'
+                     : printingState === 'flying' ? 'translate(35vw, 40vh) scale(0.1) rotate(360deg)'
+                     : 'translateY(0) scale(0)',
+            opacity: printingState === 'flying' ? 0 : 1,
+            transition: printingState === 'sliding' ? 'transform 1s cubic-bezier(0.2, 0.8, 0.2, 1)' 
+                      : printingState === 'developing' ? 'transform 3s ease-out'
+                      : printingState === 'flying' ? 'transform 1s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.8s ease-in 0.2s'
+                      : 'none',
+          }}>
+             <div style={{ width: '100%', height: '100%', background: '#222', overflow: 'hidden' }}>
+                <img 
+                  src={images[printedCount]} 
+                  style={{
+                    width: '100%', height: '100%', objectFit: 'cover',
+                    opacity: printingState === 'sliding' ? 0 : 1,
+                    transition: 'opacity 2s ease-in'
+                  }} 
+                  alt={`Printing memory ${printedCount + 1}`}
+                />
+             </div>
+             <div style={{ position: 'absolute', bottom: '10px', width: '100%', textAlign: 'center', fontFamily: 'var(--font-cute)', color: '#444', fontSize: '1.2rem', left: 0, fontWeight: 'bold' }}>
+               Memory #{printedCount + 1}
+             </div>
+          </div>
+        )}
 
+        {/* The Camera (Foreground) */}
+        <img 
+          src="/polaroid_camera.png" 
+          alt="Vintage Polaroid Camera" 
+          style={{
+            width: '450px',
+            maxWidth: '90vw',
+            position: 'relative',
+            zIndex: 10,
+            mixBlendMode: 'multiply', // Blends white bg to pure transparent
+            filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.15))',
+            transition: 'transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)',
+            transform: printingState === 'sliding' ? 'scale(0.97) translateY(5px)' : 'scale(1)' // Physical click bump
+          }}
+        />
       </div>
 
-      {/* Global Navigation */}
-      <div style={{ position: 'relative', marginTop: '50px', zIndex: 20 }}>
+      {/* Album in Bottom Right */}
+      <div style={{
+        position: 'absolute',
+        bottom: '30px',
+        right: '5%',
+        zIndex: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        animation: printingState === 'flying' ? 'pulseAlbum 1s ease 0.8s' : 'none'
+      }}>
+        <style>{`
+          @keyframes pulseAlbum {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8)); }
+          }
+        `}</style>
+        <div style={{
+          width: '70px', height: '90px',
+          background: 'linear-gradient(135deg, #d53f8c, #a855f7)',
+          borderRadius: '4px 12px 12px 4px',
+          boxShadow: '0 10px 20px rgba(0,0,0,0.4), inset -5px 0 15px rgba(0,0,0,0.2)',
+          position: 'relative',
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{ position: 'absolute', left: '8px', width: '2px', height: '100%', background: 'rgba(0,0,0,0.3)' }} />
+          <span style={{ fontFamily: 'var(--font-heading)', color: '#fff', fontSize: '1.2rem', transform: 'rotate(-90deg)', letterSpacing: '2px' }}>
+            Album
+          </span>
+        </div>
+        <div style={{ 
+          marginTop: '10px', fontFamily: 'var(--font-main)', color: '#fff', fontWeight: 700, 
+          background: 'rgba(0,0,0,0.5)', padding: '4px 15px', borderRadius: '20px',
+          backdropFilter: 'blur(5px)'
+        }}>
+          {printedCount} / {images.length}
+        </div>
+      </div>
+
+      {/* Global Navigation (Visible when all printed) */}
+      <div style={{ 
+        position: 'absolute', bottom: '50px', left: '50%', transform: 'translateX(-50%)', zIndex: 20,
+        opacity: printedCount >= images.length ? 1 : 0,
+        pointerEvents: printedCount >= images.length ? 'auto' : 'none',
+        transition: 'opacity 1.5s ease 0.5s'
+      }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next Chapter →" />
       </div>
 
