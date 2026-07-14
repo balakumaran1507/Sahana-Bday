@@ -165,7 +165,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                 style={{ 
                   width: '100%', 
                   height: '100%', 
-                  objectFit: 'cover', 
+                  objectFit: idx === 0 ? 'fill' : 'cover', 
                   borderRadius: '4px',
                   backgroundColor: '#eee',
                   userSelect: 'none',
