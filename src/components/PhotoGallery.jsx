@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const images = [
@@ -11,37 +11,31 @@ const images = [
 
 const PhotoGallery = ({ onNext, onPrev }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [phase, setPhase] = useState('slideshow'); // 'slideshow', 'stacking', 'closing', 'done'
   const [dragStartX, setDragStartX] = useState(null);
 
   const handleNextSlide = () => {
-    if (currentSlide === images.length - 1) {
-      setPhase('stacking');
-      setTimeout(() => setPhase('closing'), 1200);
-      setTimeout(() => setPhase('done'), 3000);
-    } else {
-      setCurrentSlide(s => Math.min(images.length - 1, s + 1));
+    if (currentSlide < images.length - 1) {
+      setCurrentSlide(s => s + 1);
     }
   };
 
   const handlePrevSlide = () => {
-    setCurrentSlide(s => Math.max(0, s - 1));
+    if (currentSlide > 0) {
+      setCurrentSlide(s => s - 1);
+    }
   };
 
-  // Touch & Drag Handling for Swipe
   const handlePointerDown = (e) => {
-    if (phase !== 'slideshow') return;
     setDragStartX(e.clientX || (e.touches && e.touches[0].clientX));
   };
 
   const handlePointerUp = (e) => {
-    if (phase !== 'slideshow' || dragStartX === null) return;
+    if (dragStartX === null) return;
     const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
     if (clientX === undefined) return;
     
     const diff = dragStartX - clientX;
     
-    // Swipe threshold of 50px
     if (diff > 50) {
       handleNextSlide();
     } else if (diff < -50) {
@@ -59,192 +53,127 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       onTouchEnd={handlePointerUp}
       style={{ 
         minHeight: '100vh', 
-        background: 'transparent', 
+        background: 'url(/bg-morning.png) center/cover no-repeat',
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', 
         justifyContent: 'center', 
-        perspective: '1500px', 
         overflow: 'hidden',
         position: 'relative',
-        touchAction: 'none' // Prevent default scroll when swiping
+        touchAction: 'none'
       }}
     >
-      
-      {/* Required for the cursive font on the album cover */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-        
-        .fade-in-slow {
-          animation: slowFade 1s ease-in forwards;
-        }
-        @keyframes slowFade {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+      {/* Soft overlay to make polaroids pop */}
+      <div style={{
+        position: 'absolute', inset: 0, 
+        background: 'rgba(255, 255, 255, 0.5)', 
+        backdropFilter: 'blur(15px)', zIndex: 0
+      }} />
 
-      {/* Title (Only during slideshow) */}
+      {/* Title */}
       <div style={{ 
         position: 'absolute', 
         top: '10%', 
-        opacity: phase === 'slideshow' ? 1 : 0, 
-        transition: 'opacity 0.5s',
         textAlign: 'center',
+        zIndex: 10,
         pointerEvents: 'none'
       }}>
         <h2 style={{ 
           fontFamily: 'var(--font-heading)', 
-          color: '#ffb6c1', 
-          fontSize: '2rem',
-          letterSpacing: '3px',
-          textTransform: 'uppercase',
+          color: '#ff75a0', 
+          fontSize: '2.5rem',
+          letterSpacing: '2px',
+          textShadow: '0 2px 10px rgba(255,255,255,0.8)',
           margin: 0
         }}>
-          A Trip Down Memory Lane
+          Memory Lane
         </h2>
-        <p style={{ color: '#888', fontFamily: 'var(--font-main)', marginTop: '10px' }}>
-          Swipe to view our favorite moments.
+        <p style={{ color: '#666', fontFamily: 'var(--font-main)', marginTop: '10px', fontWeight: 600 }}>
+          Swipe left to view 💖
         </p>
       </div>
 
-      {/* 3D Album & Cards Container */}
+      {/* Floating Polaroid Stack */}
       <div style={{ 
         position: 'relative', 
-        width: '100%', 
-        height: '450px', // Fixed height, width will be dynamic
-        transformStyle: 'preserve-3d',
+        width: '300px', 
+        height: '420px',
         marginTop: '20px',
-        cursor: phase === 'slideshow' ? (dragStartX !== null ? 'grabbing' : 'grab') : 'default'
+        zIndex: 10,
+        cursor: dragStartX !== null ? 'grabbing' : 'grab'
       }}>
         
-        {/* The Album Book (Covers) */}
-        <div style={{
-           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-           width: '380px', maxWidth: '90vw', height: '100%',
-           transformStyle: 'preserve-3d',
-           pointerEvents: 'none' // Don't block drag events
-        }}>
-          {/* Album Back Cover (Visible when stacked) */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            background: 'linear-gradient(135deg, #2b1d0f, #1a1109), repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px)', 
-            border: '2px solid #b8860b', 
-            borderRadius: '4px 15px 15px 4px',
-            opacity: phase === 'slideshow' ? 0 : 1, 
-            transition: 'opacity 0.8s', 
-            zIndex: -1,
-            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.8), 15px 15px 35px rgba(0,0,0,0.9)'
-          }}>
-             {/* "Pages" effect on the right edge */}
-             <div style={{
-                position: 'absolute', top: '5px', bottom: '5px', right: '0', width: '15px',
-                background: 'repeating-linear-gradient(to right, #f4e8d4 0px, #e3cdad 1px, #f4e8d4 2px)',
-                borderRadius: '0 10px 10px 0',
-                boxShadow: 'inset 2px 0 5px rgba(0,0,0,0.4)'
-             }} />
-          </div>
-
-          {/* Album Front Cover */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            background: 'linear-gradient(135deg, #2b1d0f, #1a1109), repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px)',
-            border: '2px solid #b8860b',
-            borderRadius: '4px 15px 15px 4px',
-            transformOrigin: 'left center',
-            transform: phase === 'closing' || phase === 'done' ? 'rotateY(0deg)' : 'rotateY(-170deg)',
-            opacity: phase === 'slideshow' ? 0 : 1,
-            transition: 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s',
-            zIndex: 20,
-            boxShadow: phase === 'closing' || phase === 'done' 
-              ? 'inset 5px 0 15px rgba(0,0,0,0.9), 25px 25px 40px rgba(0,0,0,0.8)' 
-              : 'inset 5px 0 15px rgba(0,0,0,0.9), -15px 15px 30px rgba(0,0,0,0.5)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            pointerEvents: 'none'
-          }}>
-             {/* Gold foil border accent */}
-             <div style={{ 
-               position: 'absolute', inset: '15px', border: '1px solid rgba(184, 134, 11, 0.4)', 
-               borderRadius: '2px 10px 10px 2px', pointerEvents: 'none' 
-             }} />
-             
-             {/* Book spine heavy leather line styling */}
-             <div style={{ 
-               position: 'absolute', left: '15px', top: 0, bottom: 0, width: '20px', 
-               background: 'linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2), rgba(0,0,0,0.8))', 
-               boxShadow: '2px 0 5px rgba(0,0,0,0.5), -1px 0 2px rgba(255,255,255,0.1)' 
-             }} />
-             
-             {/* Cover Text */}
-             <div style={{ 
-               fontFamily: "'Great Vibes', cursive", 
-               fontSize: '4.5rem', 
-               color: '#d4af37', 
-               textShadow: '0 2px 5px rgba(0,0,0,0.9), 0 0 15px rgba(212,175,55,0.4)',
-               opacity: phase === 'closing' || phase === 'done' ? 1 : 0,
-               transition: 'opacity 0.8s ease-in 0.6s' 
-             }}>
-               Memories
-             </div>
-          </div>
-        </div>
-
-        {/* The Photos */}
         {images.map((src, idx) => {
-          const isSlideshow = phase === 'slideshow';
-          const offset = idx - currentSlide;
+          const isPast = idx < currentSlide;
+          const isCurrent = idx === currentSlide;
+          
+          // Random rotation for the stacked look, seeded by index
+          const baseRotation = (idx % 2 === 0 ? 1 : -1) * (idx * 4 + 2);
           
           let transform = '';
           let opacity = 1;
           
-          if (isSlideshow) {
-             // translateX(-50%) perfectly centers the dynamic width card.
-             // translateX(${offset * 320}px) spaces them by a fixed physical distance, preventing any overlap regardless of card width!
-             transform = `translateX(-50%) translateX(${offset * 320}px) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
-             opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.5);
+          if (isPast) {
+             // Swiped away to the left
+             transform = `translateX(-150vw) rotate(-45deg)`;
+             opacity = 0;
+          } else if (isCurrent) {
+             // Active card, perfectly straight
+             transform = `translateX(0px) rotate(0deg) scale(1.05)`;
           } else {
-             // Stacking animation
-             transform = `translateX(-50%) scale(0.9) rotate(${(idx - 2) * 3}deg)`;
-             opacity = 1;
+             // Stacked beneath
+             transform = `translateX(${ (idx - currentSlide) * 8 }px) translateY(${ (idx - currentSlide) * 8 }px) rotate(${baseRotation}deg)`;
           }
 
           return (
             <div key={idx} style={{
-              position: 'absolute', top: 0, left: '50%', height: '100%',
-              // width is implicitly determined by the child img width
-              background: '#fff', padding: '15px 15px 60px 15px', // Polaroid style padding
-              borderRadius: '8px', 
-              boxShadow: offset === 0 ? '0 20px 40px rgba(0,0,0,0.6)' : '0 10px 20px rgba(0,0,0,0.4)',
+              position: 'absolute', top: 0, left: 0, 
+              width: '100%', height: '100%',
+              background: '#fff', 
+              padding: '15px 15px 70px 15px',
+              borderRadius: '4px', 
+              boxShadow: isCurrent ? '0 25px 50px rgba(0,0,0,0.3)' : '0 10px 20px rgba(0,0,0,0.15)',
               transform, 
               opacity,
-              transition: dragStartX !== null ? 'none' : 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)', 
-              zIndex: isSlideshow ? 10 - Math.abs(offset) : idx,
+              transition: dragStartX !== null ? 'none' : 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)', 
+              zIndex: 100 - idx,
               pointerEvents: 'none', 
               userSelect: 'none',
               display: 'flex', flexDirection: 'column'
             }}>
               
-              {/* Actual sharp image, dictating the width of the frame without cropping */}
-              <img 
-                src={src} 
-                style={{ 
-                  height: '100%', 
-                  width: 'auto',
-                  objectFit: 'contain', 
-                  borderRadius: '4px',
-                  backgroundColor: '#eee',
-                  userSelect: 'none', 
-                  pointerEvents: 'none',
-                  maxWidth: '85vw' // Prevent ultra-wide panoramas from breaking mobile screens
-                }} 
-                alt={`Memory ${idx + 1}`} 
-                draggable="false"
-              />
+              {/* Tape Detail for that physical aesthetic */}
+              <div style={{
+                position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%) rotate(-3deg)',
+                width: '120px', height: '35px', background: 'rgba(255, 255, 255, 0.45)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)', backdropFilter: 'blur(3px)', zIndex: 10
+              }} />
+
+              {/* PERFECTLY SIZED IMAGE CONTAINER */}
+              <div style={{
+                width: '100%',
+                flex: 1,
+                overflow: 'hidden',
+                backgroundColor: '#eee'
+              }}>
+                <img 
+                  src={src} 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%',
+                    objectFit: 'cover', // This prevents ANY layout breaking!
+                    userSelect: 'none', 
+                    pointerEvents: 'none',
+                  }} 
+                  alt={`Memory ${idx + 1}`} 
+                  draggable="false"
+                />
+              </div>
 
               <div style={{ 
-                position: 'absolute', bottom: '18px', left: 0, width: '100%', 
+                position: 'absolute', bottom: '22px', left: 0, width: '100%', 
                 textAlign: 'center', fontFamily: 'var(--font-cute)', color: '#444',
-                fontSize: '1.4rem', fontWeight: 'bold'
+                fontSize: '1.6rem', fontWeight: 'bold'
               }}>
                 Memory #{idx + 1}
               </div>
@@ -254,39 +183,15 @@ const PhotoGallery = ({ onNext, onPrev }) => {
 
       </div>
 
-      {/* Hidden Slideshow Controls (For users without touch/mouse drag) */}
+      {/* Global Navigation (Visible when on the last slide) */}
       <div style={{ 
-        position: 'absolute', 
-        bottom: '12%', 
-        display: 'flex', 
-        gap: '20px',
-        opacity: phase === 'slideshow' ? 1 : 0,
-        pointerEvents: phase === 'slideshow' ? 'auto' : 'none',
-        transition: 'opacity 0.5s'
+        position: 'absolute', bottom: '8%', zIndex: 20,
+        opacity: currentSlide === images.length - 1 ? 1 : 0,
+        pointerEvents: currentSlide === images.length - 1 ? 'auto' : 'none',
+        transition: 'opacity 0.8s ease 0.5s'
       }}>
-        {/* We keep the finish button just in case they don't know they can swipe the last one, or to explicitly finish */}
-        {currentSlide === images.length - 1 && (
-          <button 
-            onClick={handleNextSlide}
-            style={{ 
-              padding: '12px 30px', borderRadius: '30px', background: 'rgba(255,182,193,0.1)', 
-              border: '1px solid rgba(255,182,193,0.5)', color: '#ffb6c1', cursor: 'pointer',
-              fontFamily: 'var(--font-main)', textTransform: 'uppercase', letterSpacing: '2px', transition: 'all 0.3s'
-            }}
-            onMouseOver={e => e.currentTarget.style.background = 'rgba(255,182,193,0.2)'}
-            onMouseOut={e => e.currentTarget.style.background = 'rgba(255,182,193,0.1)'}
-          >
-            Close Album
-          </button>
-        )}
+        <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next Chapter →" />
       </div>
-
-      {/* Final Global Navigation (Visible only when album is fully closed) */}
-      {phase === 'done' && (
-        <div className="fade-in-slow" style={{ position: 'absolute', bottom: '10%' }}>
-          <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next Chapter →" />
-        </div>
-      )}
 
     </div>
   );
