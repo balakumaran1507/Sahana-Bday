@@ -111,8 +111,8 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       {/* 3D Album & Cards Container */}
       <div style={{ 
         position: 'relative', 
-        width: '400px', 
-        height: '550px', // Larger, portrait aspect ratio to fit the photos naturally
+        width: '100%', 
+        height: '450px', // Fixed height, width will be dynamic
         transformStyle: 'preserve-3d',
         marginTop: '20px',
         cursor: phase === 'slideshow' ? (dragStartX !== null ? 'grabbing' : 'grab') : 'default'
@@ -120,7 +120,8 @@ const PhotoGallery = ({ onNext, onPrev }) => {
         
         {/* Album Back Cover (Visible when stacked) */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+          position: 'absolute', top: 0, left: '50%', width: '400px', maxWidth: '90vw', height: '100%',
+          transform: 'translateX(-50%)',
           background: 'linear-gradient(135deg, #151515, #0a0a0a)', 
           border: '2px solid #b8860b', 
           borderRadius: '4px 15px 15px 4px',
@@ -139,37 +140,38 @@ const PhotoGallery = ({ onNext, onPrev }) => {
           let opacity = 1;
           
           if (isSlideshow) {
-             transform = `translateX(${offset * 125}%) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
+             transform = `translateX(-50%) translateX(${offset * 110}%) scale(${offset === 0 ? 1 : 0.85}) rotateY(${offset * -15}deg)`;
              opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.5);
           } else {
              // Stacking animation
-             transform = `translateX(0) scale(0.9) rotate(${(idx - 2) * 2}deg)`;
+             transform = `translateX(-50%) scale(0.9) rotate(${(idx - 2) * 2}deg)`;
              opacity = 1;
           }
 
           return (
             <div key={idx} style={{
-              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-              background: '#fff', padding: '15px 15px 60px 15px', // Polaroid style padding scaled up
+              position: 'absolute', top: 0, left: '50%', height: '100%',
+              background: '#fff', padding: '15px 15px 60px 15px', // Polaroid style padding
               borderRadius: '8px', 
               boxShadow: offset === 0 ? '0 20px 40px rgba(0,0,0,0.6)' : '0 10px 20px rgba(0,0,0,0.4)',
               transform, 
               opacity,
-              transition: dragStartX !== null ? 'none' : 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)', // Smoother transition
+              transition: dragStartX !== null ? 'none' : 'all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)', 
               zIndex: isSlideshow ? 10 - Math.abs(offset) : idx,
-              pointerEvents: 'none', // Let the container handle drag events
+              pointerEvents: 'none', 
               userSelect: 'none'
             }}>
               <img 
                 src={src} 
                 style={{ 
-                  width: '100%', 
                   height: '100%', 
-                  objectFit: 'cover', // Always cover, never stretch
+                  width: 'auto',
+                  objectFit: 'contain', // Guarantee no cropping
                   borderRadius: '4px',
                   backgroundColor: '#eee',
                   userSelect: 'none',
-                  pointerEvents: 'none'
+                  pointerEvents: 'none',
+                  maxWidth: '85vw' // Prevent it from being wider than the screen
                 }} 
                 alt={`Memory ${idx + 1}`} 
                 draggable="false"
