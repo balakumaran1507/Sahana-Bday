@@ -244,8 +244,12 @@ const BalaPass = ({ onNext, onPrev }) => {
   const [claimed, setClaimed] = useState(false);
   const [stamped, setStamped] = useState(false);
   const [printPhase, setPrintPhase] = useState('idle'); // 'idle' | 'capturing' | 'feeding' | 'processing' | 'ejecting' | 'done'
-  
   const ticketRef = useRef(null);
+  
+  // states: 'idle', 'capturing', 'feeding', 'processing', 'ejecting', 'done'
+  const [printPhase, setPrintPhase] = useState(() => sessionStorage.getItem('balaPassPrinted') ? 'done' : 'idle');
+  const [claimed, setClaimed] = useState(() => !!sessionStorage.getItem('balaPassPrinted'));
+  const [stamped, setStamped] = useState(() => !!sessionStorage.getItem('balaPassPrinted'));
 
   const handleClaim = () => {
     setStamped(true);
@@ -255,44 +259,38 @@ const BalaPass = ({ onNext, onPrev }) => {
   const handlePrint = async () => {
     if (!claimed || printPhase !== 'idle') return;
     setPrintPhase('capturing');
-    
-    try {
-      // 1. Capture the DOM element invisibly first
-      const canvas = await html2canvas(ticketRef.current, {
-        scale: 2, 
-        useCORS: true,
-        backgroundColor: '#1a1a2e',
-      });
-      
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: [canvas.width / 2, canvas.height / 2]
-      });
-      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
-      
-      // 2. Feed the ticket into the printer
-      setPrintPhase('feeding');
-      
-      // 3. Printer processing / shaking
-      setTimeout(() => {
-        setPrintPhase('processing');
-      }, 1500);
 
-      // 4. Eject the clone out the bottom
-      setTimeout(() => {
-        setPrintPhase('ejecting');
-      }, 3500);
+    try {
+      const element = ticketRef.current;
       
-      // 5. Finished - Prompt PDF Save
+      const canvas = await html2canvas(element, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+      
+      // Generate PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      // Start the machine animation sequence
+      setPrintPhase('feeding'); // ticket gets sucked into the machine
+      
       setTimeout(() => {
-        pdf.save('Bala_Sir_Premium_Pass.pdf');
-        setPrintPhase('done');
-      }, 6000);
+        setPrintPhase('processing'); // machine shakes and hums
+        
+        setTimeout(() => {
+          setPrintPhase('ejecting'); // clone ticket slides out bottom
+          
+          setTimeout(() => {
+            setPrintPhase('done'); // ready
+            sessionStorage.setItem('balaPassPrinted', 'true');
+            pdf.save("Bala_Sir_Pass.pdf"); // trigger download
+          }, 3000); // 3 seconds ejecting
+        }, 4000); // 4 seconds processing
+      }, 1500); // 1.5 seconds feeding
       
     } catch (error) {
-      console.error('Failed to generate PDF:', error);
+      console.error("Failed to generate PDF", error);
       setPrintPhase('idle');
     }
   };
@@ -437,6 +435,26 @@ const BalaPass = ({ onNext, onPrev }) => {
               </p>
               <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Final Page →" />
             </div>
+          )}
+
+          {printPhase !== 'done' && (
+             <div style={{ position: 'absolute', bottom: '40px', left: '20px', zIndex: 100 }}>
+               <button 
+                 onClick={onPrev}
+                 style={{
+                   background: 'rgba(255, 255, 255, 0.1)',
+                   border: '1px solid rgba(255, 255, 255, 0.2)',
+                   color: '#fff',
+                   padding: '10px 20px',
+                   borderRadius: '20px',
+                   fontFamily: 'var(--font-cute)',
+                   cursor: 'pointer',
+                   backdropFilter: 'blur(5px)'
+                 }}
+               >
+                 ← Back
+               </button>
+             </div>
           )}
         </div>
       </div>
