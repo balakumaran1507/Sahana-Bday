@@ -23,30 +23,30 @@ function App() {
   const audioRef = useRef(null);
   
   // Track the *active* src to prevent resetting audio across slides that share the same song
-  const [activeAudioSrc, setActiveAudioSrc] = useState('/placeholder-audio.mp3');
+  const [activeAudioSrc, setActiveAudioSrc] = useState('/Unakkul Naane - Pritt.mp3');
 
   const steps = [
-    { component: Hero, audio: '/placeholder-audio.mp3' },
+    { component: Hero, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: NameReveal, audio: '/Michael Jackson - Childhood (Official Video).mp3', audioStart: 55 },
-    { component: PhotoGallery, audio: '/placeholder-audio.mp3' },
-    { component: CakeCut, audio: '/placeholder-audio.mp3' },
-    { component: Playlist, audio: '/placeholder-audio.mp3' },
-    { component: Letter, audio: '/placeholder-audio.mp3' },
-    { component: UrduPoem, audio: '/placeholder-audio.mp3' },
+    { component: PhotoGallery, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: CakeCut, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: Playlist, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: Letter, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: UrduPoem, audio: '/Unakkul Naane - Pritt.mp3' },
     
     // Magazine Section with custom audio
     { component: MagazineIntro, audio: '/Iraade.mp3', audioStart: 40 },
-    { component: MagazineLeft, audio: '/Iraade.mp3' }, // Continues playing seamlessly
+    { component: MagazineLeft, audio: '/Iraade.mp3' }, 
     { component: MagazineRight, audio: '/Iraade.mp3' },
     { component: MagazineCenter, audio: '/Iraade.mp3' },
     { component: MagazineShowcase, audio: '/Iraade.mp3' },
     
-    { component: IntroNabi1, audio: '/placeholder-audio.mp3' },
-    { component: IntroNabi2, audio: '/placeholder-audio.mp3' },
-    { component: IntroNabi3, audio: '/placeholder-audio.mp3' },
-    { component: HubblePhoto, audio: '/placeholder-audio.mp3' },
-    { component: BalaPass, audio: '/placeholder-audio.mp3' },
-    { component: Outro, audio: '/placeholder-audio.mp3' }
+    { component: IntroNabi1, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: IntroNabi2, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: IntroNabi3, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: HubblePhoto, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: BalaPass, audio: '/Unakkul Naane - Pritt.mp3' },
+    { component: Outro, audio: '/Unakkul Naane - Pritt.mp3' }
   ];
 
   const handleNext = () => {
@@ -77,12 +77,8 @@ function App() {
     
     if (activeAudioSrc !== targetAudio) {
       setActiveAudioSrc(targetAudio);
-      // We don't set currentTime here anymore.
-      // We wait for onLoadedMetadata on the audio tag to fire.
       
       if (audioRef.current && isPlaying) {
-        // The browser will automatically load the new src because of the state change
-        // We just need to ensure it plays once it's ready.
         audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
       }
     }
@@ -90,18 +86,27 @@ function App() {
 
   const handleLoadedMetadata = (e) => {
     const step = steps[currentStep];
-    if (step.audioStart) {
+    if (step.audioStart && activeAudioSrc === step.audio) {
       e.target.currentTime = step.audioStart;
-    } else {
+    } else if (activeAudioSrc !== '/Unakkul Naane - Pritt.mp3') {
       e.target.currentTime = 0;
     }
+    // Note: We don't reset currentTime for Unakkul Naane if it's already playing from a previous screen to allow continuous playback!
   };
 
   const CurrentComponent = steps[currentStep].component;
 
   return (
-    <div className="app-container" style={{ overflow: 'hidden' }}>
+    <div className="app-container" onClick={startAudio} style={{ overflow: 'hidden', minHeight: '100vh' }}>
       
+      {/* Global Audio Element */}
+      <audio 
+        ref={audioRef} 
+        loop 
+        src={activeAudioSrc} 
+        onLoadedMetadata={handleLoadedMetadata}
+      />
+
       {/* Flower wipe overlay */}
       {isTransitioning && (
         <FlowerTransition 
@@ -113,18 +118,9 @@ function App() {
       {!isAuthenticated ? (
         <Auth onLogin={() => setIsTransitioning(true)} />
       ) : (
-        <>
-          <audio 
-            ref={audioRef} 
-            loop 
-            src={activeAudioSrc} 
-            onLoadedMetadata={handleLoadedMetadata}
-          />
-          
-          <div onClick={startAudio} style={{ height: '100%' }}>
-            <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
-          </div>
-        </>
+        <div style={{ height: '100%' }}>
+          <CurrentComponent onNext={handleNext} onPrev={handlePrev} />
+        </div>
       )}
     </div>
   );
