@@ -87,21 +87,25 @@ function App() {
     
     if (activeAudioSrc !== targetAudio) {
       setActiveAudioSrc(targetAudio);
+      // We don't set currentTime here anymore.
+      // We wait for onLoadedMetadata on the audio tag to fire.
       
-      if (audioRef.current) {
-        audioRef.current.src = targetAudio;
-        if (step.audioStart) {
-          audioRef.current.currentTime = step.audioStart;
-        } else {
-          audioRef.current.currentTime = 0;
-        }
-        
-        if (isPlaying) {
-          audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
-        }
+      if (audioRef.current && isPlaying) {
+        // The browser will automatically load the new src because of the state change
+        // We just need to ensure it plays once it's ready.
+        audioRef.current.play().catch(e => console.error("Audio switch play failed:", e));
       }
     }
   }, [currentStep, isAuthenticated, isPlaying, activeAudioSrc]);
+
+  const handleLoadedMetadata = (e) => {
+    const step = steps[currentStep];
+    if (step.audioStart) {
+      e.target.currentTime = step.audioStart;
+    } else {
+      e.target.currentTime = 0;
+    }
+  };
 
   const CurrentComponent = steps[currentStep].component;
 
@@ -120,7 +124,12 @@ function App() {
         <Auth onLogin={() => setIsTransitioning(true)} />
       ) : (
         <>
-          <audio ref={audioRef} loop src={activeAudioSrc} />
+          <audio 
+            ref={audioRef} 
+            loop 
+            src={activeAudioSrc} 
+            onLoadedMetadata={handleLoadedMetadata}
+          />
           
           <button 
             onClick={toggleAudio}
