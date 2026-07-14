@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 const NameReveal = ({ onNext }) => {
   const [phase, setPhase] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Fade in the black screen itself smoothly
+    setMounted(true);
+
     // Cinematic timing sequence
     const t1 = setTimeout(() => setPhase(1), 1000);  // Show "Hello There"
     const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Nabeelah Anjum"
@@ -26,34 +30,62 @@ const NameReveal = ({ onNext }) => {
       justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden',
+      opacity: mounted ? 1 : 0,
+      transition: 'opacity 3s ease-in-out'
     }}>
       
       {/* Import beautiful cursive font */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
         
+        .svg-text-container {
+          width: 100%;
+          height: 300px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
         .name-reveal-text {
           font-family: 'Great Vibes', cursive;
           font-size: clamp(3rem, 10vw, 8rem);
-          white-space: nowrap;
-          color: #ffb6c1; /* Soft pink */
-          text-shadow: 0 0 30px rgba(255, 182, 193, 0.4);
-          
-          /* The clipping mask wipe effect with a beautifully feathered glowing edge */
-          -webkit-mask-image: linear-gradient(to right, black 40%, rgba(0,0,0,0.5) 50%, transparent 60%);
-          -webkit-mask-size: 250% 100%;
-          -webkit-mask-position: 100% 0;
-          
-          mask-image: linear-gradient(to right, black 40%, rgba(0,0,0,0.5) 50%, transparent 60%);
-          mask-size: 250% 100%;
-          mask-position: 100% 0;
+          fill: transparent;
+          stroke: #ffb6c1;
+          stroke-width: 2px;
+          stroke-dasharray: 2000; /* Large number to cover the text path */
+          stroke-dashoffset: 2000;
+          opacity: 0;
         }
 
         .name-reveal-text.writing {
-          -webkit-mask-position: 0% 0;
-          mask-position: 0% 0;
-          /* Perfectly smooth, linear 14-second wipe to match the music timing */
-          transition: -webkit-mask-position 14s linear, mask-position 14s linear;
+          opacity: 1;
+          /* Slower, smoother draw over 13 seconds */
+          animation: 
+            drawOutline 13s cubic-bezier(0.3, 0.1, 0.3, 1) forwards,
+            fillColor 2.5s ease-in forwards 12s; /* Fade in the fill color slightly before stroke finishes */
+        }
+
+        @keyframes drawOutline {
+          0% {
+            stroke-dashoffset: 2000;
+            filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0));
+          }
+          100% {
+            stroke-dashoffset: 0;
+            filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.6));
+          }
+        }
+
+        @keyframes fillColor {
+          0% {
+            fill: transparent;
+            stroke-width: 2px;
+          }
+          100% {
+            fill: #ffb6c1;
+            stroke-width: 0px;
+            filter: drop-shadow(0 0 25px rgba(255, 182, 193, 0.8));
+          }
         }
       `}</style>
 
@@ -68,14 +100,24 @@ const NameReveal = ({ onNext }) => {
         color: '#fff',
         opacity: phase >= 1 ? 0.7 : 0,
         transform: phase >= 1 ? 'translateY(0)' : 'translateY(20px)',
-        transition: 'all 2s ease-out'
+        transition: 'all 2.5s ease-out'
       }}>
         Hello There
       </div>
 
-      {/* Main Cursive Name (Smooth CSS Reveal) */}
-      <div className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}>
-        Nabeelah Anjum
+      {/* Main Cursive Name (SVG Stroke Animation) */}
+      <div className="svg-text-container">
+        <svg width="100%" height="100%" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
+          <text 
+            x="50%" 
+            y="50%" 
+            textAnchor="middle" 
+            dominantBaseline="middle"
+            className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}
+          >
+            Nabeelah Anjum
+          </text>
+        </svg>
       </div>
 
       {/* Continue Button */}
