@@ -67,17 +67,25 @@ const UrduPoem = ({ onNext, onPrev }) => {
         }
       `}</style>
 
-      {/* Cinematic Vignette */}
+      {/* Night Background Overlay */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-        background: 'radial-gradient(circle at center, transparent 0%, rgba(5,5,10,0.85) 100%)',
-        zIndex: 1, pointerEvents: 'none',
+        background: 'url(/bg-night.png) center/cover no-repeat',
+        zIndex: 0, pointerEvents: 'none',
         opacity: 0, animation: 'fadeIn 2s ease forwards'
       }} />
 
+      {/* Cinematic Vignette */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+        background: 'radial-gradient(circle at center, rgba(5,5,10,0.4) 0%, rgba(5,5,10,0.9) 100%)',
+        zIndex: 1, pointerEvents: 'none',
+        opacity: 0, animation: 'fadeIn 2.5s ease forwards'
+      }} />
+
       {/* Background Decor */}
-      <img src="/flower1.png" alt="decor" style={{ position: 'absolute', top: '5%', left: '5%', width: '120px', opacity: 0.3, zIndex: 0, animation: 'gentleSway 8s ease-in-out infinite' }} />
-      <img src="/flower2.png" alt="decor" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '150px', opacity: 0.3, zIndex: 0, animation: 'gentleSway 10s ease-in-out infinite reverse' }} />
+      <img src="/First-page-Corner-Flower.png" alt="decor" style={{ position: 'absolute', top: '5%', left: '5%', width: '120px', opacity: 0.15, zIndex: 1, animation: 'gentleSway 8s ease-in-out infinite' }} />
+      <img src="/First-page-big flower.png" alt="decor" style={{ position: 'absolute', bottom: '10%', right: '5%', width: '150px', opacity: 0.15, zIndex: 1, animation: 'gentleSway 10s ease-in-out infinite reverse' }} />
 
       {/* Floating Embers */}
       {embers.map((ember, i) => (
@@ -137,14 +145,15 @@ const UrduPoem = ({ onNext, onPrev }) => {
         <div style={{ 
           fontFamily: 'var(--font-main)',
           fontStyle: 'italic',
-          fontWeight: 300,
-          color: '#e0e0e0',
-          textShadow: '0 2px 4px rgba(0,0,0,0.8)'
+          fontWeight: 400,
+          letterSpacing: '1px',
+          color: '#ffffff',
+          textShadow: '0 3px 6px rgba(0,0,0,1)'
         }}>
           {englishLines.map((line, idx) => (
             <div key={idx} style={{ 
               fontSize: 'clamp(1rem, 2vw, 1.2rem)', 
-              lineHeight: '2', 
+              lineHeight: '2.2', 
               opacity: 0,
               animation: phase >= 2 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards` : 'none',
               animationDelay: `${idx * 0.8}s`
