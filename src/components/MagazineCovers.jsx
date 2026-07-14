@@ -3,7 +3,7 @@ import NavigationButtons from './NavigationButtons';
 
 const containerStyle = {
   minHeight: '100vh',
-  background: '#0a0a0a',
+  background: 'rgba(0,0,0,0.6)',
   color: '#fff',
   display: 'flex',
   flexDirection: 'column',

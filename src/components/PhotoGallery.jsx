@@ -59,7 +59,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       onTouchEnd={handlePointerUp}
       style={{ 
         minHeight: '100vh', 
-        background: '#0a0a0a', 
+        background: 'transparent', 
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', 

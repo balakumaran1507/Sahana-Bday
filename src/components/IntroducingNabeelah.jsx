@@ -3,7 +3,7 @@ import NavigationButtons from './NavigationButtons';
 
 export const IntroNabi1 = ({ onNext, onPrev }) => {
   return (
-    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'var(--pastel-peach)', position: 'relative' }}>
+    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative' }}>
       <div className="glass-card" style={{ textAlign: 'center', padding: '40px', position: 'relative', zIndex: 10 }}>
         <h2 style={{ fontSize: '2.2rem', marginBottom: '30px', color: '#ff4d85' }}>Happy Birthday Nabi! ✨</h2>
         <div style={{ 
@@ -21,7 +21,7 @@ export const IntroNabi1 = ({ onNext, onPrev }) => {
 
 export const IntroNabi2 = ({ onNext, onPrev }) => {
   return (
-    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'var(--pastel-yellow)', position: 'relative' }}>
+    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative' }}>
       <div className="glass-card" style={{ textAlign: 'center', padding: '40px', position: 'relative', zIndex: 10 }}>
         <div style={{ 
           background: 'white', padding: '15px', borderRadius: '20px', 
@@ -42,7 +42,7 @@ export const IntroNabi2 = ({ onNext, onPrev }) => {
 
 export const IntroNabi3 = ({ onNext, onPrev }) => {
   return (
-    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'var(--pastel-pink)', position: 'relative' }}>
+    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative' }}>
       <div className="glass-card" style={{ textAlign: 'center', padding: '40px', position: 'relative', zIndex: 10 }}>
         <h2 style={{ fontSize: '2rem', marginBottom: '30px', color: '#4a4a4a', lineHeight: '1.4' }}>And ofc ur my biggest self proclaimed bully 😹</h2>
         <div style={{ 

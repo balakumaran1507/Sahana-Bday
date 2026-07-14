@@ -3,7 +3,7 @@ import NavigationButtons from './NavigationButtons';
 
 const UrduPoem = ({ onNext, onPrev }) => {
   return (
-    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'var(--pastel-peach)', position: 'relative', overflow: 'hidden' }}>
+    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* Soft decor for the poem page */}
       <div style={{

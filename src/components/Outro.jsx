@@ -3,7 +3,7 @@ import NavigationButtons from './NavigationButtons';
 
 const Outro = ({ onPrev }) => {
   return (
-    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'var(--bg-gradient)', position: 'relative', overflow: 'hidden' }}>
+    <div className="page-section fade-in" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* New Decor */}
       <img src="/pngwing.com (12).png" alt="decor" className="floating" style={{ position: 'absolute', top: '10%', left: '15%', width: '90px', opacity: 0.9 }} />

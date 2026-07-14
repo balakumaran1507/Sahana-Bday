@@ -53,7 +53,7 @@ const Letter = ({ onNext, onPrev }) => {
   return (
     <div className="page-section fade-in" style={{ 
       minHeight: '100vh', 
-      background: 'var(--pastel-pink)', 
+      background: 'transparent', 
       position: 'relative', 
       overflow: 'hidden',
       display: 'flex',

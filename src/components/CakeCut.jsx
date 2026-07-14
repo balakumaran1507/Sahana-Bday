@@ -14,7 +14,7 @@ const CakeCut = ({ onNext, onPrev }) => {
   };
 
   return (
-    <div className="page-section" style={{ minHeight: '100vh', background: 'var(--pastel-yellow)', position: 'relative', overflow: 'hidden' }}>
+    <div className="page-section" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* New Decor */}
       <img src="/pngwing.com (4).png" alt="decor" className="floating" style={{ position: 'absolute', top: '5%', left: '10%', width: '90px', opacity: 0.9 }} />

@@ -3,7 +3,7 @@ import NavigationButtons from './NavigationButtons';
 
 const Playlist = ({ onNext, onPrev }) => {
   return (
-    <div className="page-section" style={{ minHeight: '100vh', background: 'var(--pastel-blue)', position: 'relative', overflow: 'hidden' }}>
+    <div className="page-section" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       {/* New Decor */}
       <img src="/pngwing.com (8).png" alt="decor" className="floating" style={{ position: 'absolute', top: '15%', left: '8%', width: '100px', opacity: 0.8 }} />
