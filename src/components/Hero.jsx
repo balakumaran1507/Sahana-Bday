@@ -130,7 +130,7 @@ const Hero = ({ onNext }) => {
           whiteSpace: 'nowrap'
         }}>
           Happy Birthday,<br/>
-          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Sahana Babe</span>
+          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Sahana Babe ❤️</span>
         </h1>
         
         <div style={{ width: '40px', height: '3px', background: '#d53f8c', borderRadius: '2px', margin: '20px auto 30px', opacity: 0.5 }} />

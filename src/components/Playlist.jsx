@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const TRACKS = [
-  { id: '6EivvaEepVTjmDde43eGiB', text: "ur vibes nabeelah is always goated" }, // Ve Kamleya
-  { id: '4wLU3zIFfECTdDxOzKseI5', text: "The #2 track just for you..." },
-  { id: '6qBLachpHaVUmpHKWyesmq', text: "Coming in at #3..." },
-  { id: '1UUgngRGzFWfgpyN0WAN1r', text: "Solid #4, absolute classic!" },
-  { id: '2cPUB8EOT6AfJ8oxhyoNXL', text: "Setting the perfect mood ✨" },
-  { id: '3vCzLB6kS2lGcIpm1OOUsy', text: "You can't skip this one!" },
-  { id: '2iZeKe5avjtKVmjfSFkpxd', text: "And one more for the road! 💖" },
+  { id: '5h3HxhOLripvupwSg686By', text: "Your music choices are just as beautiful as you are ✨" },
+  { id: '317JrLcl1s0i6cXmnEWzR8', text: "The #2 track just for you..." },
+  { id: '5KJSI1MjQeXEBHBYMjgP41', text: "Coming in at #3..." },
+  { id: '3KkXRkHbMCARz0aVfEt68P', text: "And one more for the road! 💖" },
 ];
 
 const Playlist = ({ onNext, onPrev }) => {
@@ -70,7 +67,7 @@ const Playlist = ({ onNext, onPrev }) => {
           font-weight: 900;
           text-transform: uppercase;
           line-height: 1.2;
-          background: linear-gradient(90deg, #ff4d85, #a855f7, #ff4d85); /* Soft pink/purple */
+          background: linear-gradient(90deg, #ff4d85, #ffb6c1, #ff4d85); /* Soft pink/peach */
           background-size: 200% auto;
           color: #fff;
           -webkit-background-clip: text;
@@ -96,7 +93,7 @@ const Playlist = ({ onNext, onPrev }) => {
       `}</style>
 
       {/* Dynamic Text */}
-      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', marginBottom: '50px', maxWidth: '800px', height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', marginBottom: '50px', maxWidth: '800px', minHeight: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <h1 key={currentIndex} className="wrapped-text" style={{ 
           fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', 
           margin: 0
@@ -162,7 +159,7 @@ const Playlist = ({ onNext, onPrev }) => {
               className="next-btn"
               onClick={handleNextTrack}
               style={{
-                background: 'linear-gradient(45deg, #ff4d85, #a855f7)', /* Soft pink/purple gradient */
+                background: 'linear-gradient(45deg, #ff4d85, #ffb6c1)', /* Soft pink/peach gradient */
                 border: 'none',
                 color: 'white',
                 padding: '12px 24px',

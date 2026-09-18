@@ -84,7 +84,7 @@ const HubblePhoto = ({ onNext, onPrev }) => {
         marginBottom: isMobile ? '25px' : '0'
       }}>
         <Clock size={14} color="#8e9aa8" />
-        <span>OBSERVATORY DATA • 14 JULY 2019</span>
+        <span>OBSERVATORY DATA • 19 SEPTEMBER 2006</span>
       </div>
 
       {/* The Supernova Photo */}
@@ -106,8 +106,8 @@ const HubblePhoto = ({ onNext, onPrev }) => {
           boxShadow: '0 25px 50px rgba(0,0,0,0.6)' // Normal depth shadow, no neon glow
         }}>
           <img 
-            src="/july-14-2019-supernova-remnant-n-49.jpg" 
-            alt="Supernova N49" 
+            src="/SAHANA-BDAY-STAR.jpg" 
+            alt="Ring Nebula" 
             style={{ 
               borderRadius: '12px', 
               width: isMobile ? '310px' : '420px', 
@@ -181,7 +181,7 @@ const HubblePhoto = ({ onNext, onPrev }) => {
           fontFamily: 'var(--font-heading)',
           letterSpacing: '1px'
         }}>
-          Supernova N 49
+          The Ring Nebula
         </h2>
         
         <p style={{ 
@@ -192,13 +192,13 @@ const HubblePhoto = ({ onNext, onPrev }) => {
           lineHeight: '1.7',
           fontWeight: 400
         }}>
-          This is exactly what the majestic Hubble Space Telescope saw when it gazed into the cosmos on July 14.
+          This is exactly what the majestic Hubble Space Telescope saw when it gazed into the cosmos on September 19, 2006.
           <br/><br/>
-          A breathtaking Supernova Remnant in the Large Magellanic Cloud. Bright, explosive, and just as beautiful as you are.
+          A breathtaking close-up view of the Ring Nebula. Bright, colorful, and just as beautiful as you are.
         </p>
 
         <a 
-          href="https://imagine.gsfc.nasa.gov/hst_bday/july-14" 
+          href="https://science.nasa.gov/asset/hubble/hubble-captures-a-ring/" 
           target="_blank" 
           rel="noopener noreferrer"
           style={{ 

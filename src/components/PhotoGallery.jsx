@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const images = [
-  '/memory-1.jpeg', 
-  '/memory-2.jpeg', 
-  '/memory-3.jpeg', 
-  '/memory-4.jpeg', 
-  '/memory-5.jpeg'
+  '/sahana1.jpeg', 
+  '/sahana2.jpeg', 
+  '/sahana3.jpeg', 
+  '/sahana4.jpeg', 
+  '/sahana5.png'
 ];
 
 const PhotoGallery = ({ onNext, onPrev }) => {
@@ -70,11 +70,25 @@ const PhotoGallery = ({ onNext, onPrev }) => {
       }} />
 
       {/* Header text */}
-      <div style={{ position: 'absolute', top: '10%', textAlign: 'center', zIndex: 10 }}>
-        <h2 style={{ fontFamily: 'var(--font-heading)', color: '#fff', fontSize: 'clamp(2.5rem, 5vw, 4rem)', margin: 0, textShadow: '0 4px 15px rgba(255, 105, 180, 0.5)' }}>
+      <div style={{ position: 'absolute', top: '8%', width: '100%', textAlign: 'center', zIndex: 10, padding: '0 20px' }}>
+        <h2 style={{ 
+          fontFamily: "'Great Vibes', cursive", 
+          color: '#d53f8c', 
+          fontSize: 'clamp(3.5rem, 8vw, 6rem)', 
+          margin: 0, 
+          textShadow: '0 2px 15px rgba(255, 255, 255, 0.9)',
+          lineHeight: '1.2'
+        }}>
           Print Our Memories
         </h2>
-        <p style={{ color: '#fff', fontFamily: 'var(--font-main)', fontSize: '1.2rem', textShadow: '0 2px 4px rgba(0,0,0,0.2)', fontWeight: 600 }}>
+        <p style={{ 
+          color: '#2d3748', 
+          fontFamily: 'var(--font-cute)', 
+          fontSize: 'clamp(1.2rem, 3vw, 1.8rem)', 
+          textShadow: '0 2px 10px rgba(255,255,255,0.9)', 
+          fontWeight: 700,
+          marginTop: '10px'
+        }}>
           {printedCount < images.length ? "Click the camera to print a photo!" : "All memories printed! ❤️"}
         </p>
       </div>
@@ -114,6 +128,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                   src={images[printedCount]} 
                   style={{
                     width: '100%', height: '100%', objectFit: 'cover',
+                    objectPosition: printedCount === 3 ? 'top' : 'center',
                     opacity: printingState === 'sliding' ? 0 : 1,
                     transition: 'opacity 1.2s ease-in 0.2s'
                   }} 
@@ -255,7 +270,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
                 onMouseOut={(e) => { e.currentTarget.style.transform = `scale(1) rotate(${(idx % 3 - 1) * 3}deg)`; e.currentTarget.style.zIndex = 1; }}
               >
                 <div style={{ width: '100%', height: '100%', background: '#222', overflow: 'hidden' }}>
-                    <img src={img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={`Memory ${idx+1}`} />
+                    <img src={img} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: img === '/sahana4.jpeg' ? 'top' : 'center' }} alt={`Memory ${idx+1}`} />
                 </div>
                 <div style={{ position: 'absolute', bottom: '8px', width: '100%', textAlign: 'center', fontFamily: 'var(--font-cute)', color: '#444', fontSize: '1rem', left: 0, fontWeight: 'bold' }}>
                    Memory #{idx + 1}
@@ -299,7 +314,7 @@ const PhotoGallery = ({ onNext, onPrev }) => {
              <div style={{ width: '100%', aspectRatio: '1/1', background: '#222', overflow: 'hidden', borderRadius: '2px' }}>
                 <img 
                   src={selectedPhoto} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: selectedPhoto === '/sahana4.jpeg' ? 'top' : 'center' }} 
                   alt="Fullscreen Memory" 
                 />
              </div>

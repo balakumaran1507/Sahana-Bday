@@ -87,12 +87,12 @@ function App() {
   const steps = [
     { component: Hero, audio: '/Unakkul Naane - Pritt.mp3' },
     { component: NameReveal, audio: '/Michael Jackson - Childhood (Official Video).mp3', audioStart: 55 },
-    { component: BdayBanner, audio: '/Arabu Naade.mp3' },
-    { component: PhotoGallery, audio: '/Arabu Naade.mp3' },
-    { component: CakeCut, audio: '/Arabu Naade.mp3' },
+    { component: BdayBanner, audio: '/Maryan.mp3', audioStart: 42 },
+    { component: PhotoGallery, audio: '/Maryan.mp3' },
+    { component: CakeCut, audio: '/Maryan.mp3' },
     { component: Playlist, audio: null }, // Pause background music so Spotify can play
-    { component: Letter, audio: '/anthaathi.mp3' },
-    { component: UrduPoem, audio: '/anthaathi.mp3' },
+    { component: Letter, audio: '/Maryan.mp3' },
+    { component: UrduPoem, audio: '/Maryan.mp3' },
     
     // Magazine Section with custom audio
     { component: MagazineIntro, audio: '/Iraade.mp3', audioStart: 40 },
@@ -102,12 +102,8 @@ function App() {
     { component: MagazineExtra, audio: '/Iraade.mp3' },
     { component: MagazineShowcase, audio: '/Iraade.mp3' },
     
-    { component: IntroNabi1, audio: '/anthaathi.mp3' },
-    { component: IntroNabi2, audio: '/anthaathi.mp3' },
-    { component: IntroNabi3, audio: '/anthaathi.mp3' },
-    { component: HubblePhoto, audio: '/anthaathi.mp3' },
-    { component: BalaPass, audio: '/anthaathi.mp3' },
-    { component: Outro, audio: '/anthaathi.mp3' },
+    { component: HubblePhoto, audio: '/Maryan.mp3' },
+    { component: Outro, audio: '/Maryan.mp3' },
     { component: Credits, audio: '/La petite fille de la mer (Remastered).mp3' }, // Note: We keep this playing the ending track as requested
     { component: BdayNight, audio: '/La petite fille de la mer (Remastered).mp3' },
     { component: TheEnd, audio: '/La petite fille de la mer (Remastered).mp3' },
@@ -222,13 +218,12 @@ function App() {
       e.target.currentTime = step.audioStart;
     } else if (
       activeAudioSrc !== '/Unakkul Naane - Pritt.mp3' && 
-      activeAudioSrc !== '/Arabu Naade.mp3' && 
-      activeAudioSrc !== '/La petite fille de la mer (Remastered).mp3' &&
-      activeAudioSrc !== '/anthaathi.mp3'
+      activeAudioSrc !== '/Maryan.mp3' && 
+      activeAudioSrc !== '/La petite fille de la mer (Remastered).mp3'
     ) {
       e.target.currentTime = 0;
     }
-    // Note: We don't reset currentTime for Unakkul Naane, Arabu Naade, La petite fille, and Anthaathi if they are already playing from a previous screen to allow continuous playback!
+    // Note: We don't reset currentTime for Unakkul Naane, Maryan, and La petite fille if they are already playing from a previous screen to allow continuous playback!
   };
 
   const CurrentComponent = steps[currentStep].component;

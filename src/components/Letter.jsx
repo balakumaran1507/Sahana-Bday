@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Heart } from 'lucide-react';
 import NavigationButtons from './NavigationButtons';
 
-const fullText = `Dear Nabeelah,
-
-First of all Happy Birthday!
-
-Lol that had to be said its been what 2 years now that we know each, tbh idk really how long it has been but it feels sooo long after all it has been a roller costers of events, now and here we are at last years of our college if anything u might be the biggest smartest and dumbed girl i have ever meet, god have mercy on you yet u pull through but you put me in a havoc to always wander around but ngl handling nabeelah is tuff but it aint impossible with all regards once again happy brithday nabeelah go rock ur life nabi.
-
-~Big B`;
+const fullText = `hey sahana first time unna pakum pothu edho oru feel vanthuchi its like my whole body in the freeze 
+idk wat to do in that time and the second time the gulab jamun u gave its my first time to have sweetest gulab jamun i have received from the sweetest person and the second eye contact that made in the water can filling area with rishi in the middle awww how can i explain that and that i got a mini heart attack in my heart...u know..and we also gave soo many paarvais..due that i got a pimple..btw..and also ur the one of the carinn person after my mom...after  i seeing u in my life it makes my life more beautiful ...and i am flying with the butterflies u gave me that time...the over used dialouge of yours "cha..pasame illa" I have said that i have infinity pasam u forever...
+and the moments..we share that all unforgottable..that time my key chain was caught on girl bag the angry bird reaction u gave..i saw how possesive u are....and also when it comes to that kannu mam...i just like her song btw...the nicknames u gave me..pilo,pilot,thangoo.chelo,but the name JB i liked it very much i always wished our dreams will definetly comes truee....i prayed the god(sahana) every day for that...i will be always there for u..untill my last breath.....and i love u forever my dear queen sahana....`;
 
 const Letter = ({ onNext, onPrev }) => {
   const [phase, setPhase] = useState('closed'); // 'closed' | 'opening' | 'extracted' | 'gone' | 'typing'
@@ -20,7 +16,7 @@ const Letter = ({ onNext, onPrev }) => {
     const t2 = setTimeout(() => setPhase('extracted'), 2000); // Letter slides up
     const t3 = setTimeout(() => setPhase('gone'), 3500); // Envelope drops, letter expands
     const t4 = setTimeout(() => setPhase('typing'), 4500); // Start typing
-    const t5 = setTimeout(() => setShowNav(true), 18000); // Show nav after typing finishes (approx 13s)
+    const t5 = setTimeout(() => setShowNav(true), 42000); // Show nav after typing finishes
 
     return () => {
       clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5);
@@ -74,7 +70,7 @@ const Letter = ({ onNext, onPrev }) => {
       {/* Main Scene Container */}
       <div style={{
         position: 'relative',
-        width: `${envWidth}px`,
+        width: isGone ? '100vw' : `${envWidth}px`,
         height: isGone ? 'auto' : `${envHeight}px`,
         perspective: '1500px',
         display: 'flex',
@@ -110,8 +106,8 @@ const Letter = ({ onNext, onPrev }) => {
         <div style={{
           position: isGone ? 'relative' : 'absolute',
           zIndex: 2,
-          width: isGone ? '90vw' : '360px',
-          maxWidth: isGone ? '600px' : '360px',
+          width: isGone ? '95vw' : '360px',
+          maxWidth: isGone ? '1200px' : '360px',
           height: isGone ? 'auto' : '220px',
           minHeight: isGone ? '480px' : '220px',
           background: '#fffef0',
@@ -124,47 +120,29 @@ const Letter = ({ onNext, onPrev }) => {
           overflow: isGone ? 'visible' : 'hidden'
         }}>
 
-          {/* Decorative Frame Image */}
-          <img src="/Flower Letter Border.png" alt="Flower Frame" style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'fill',
-            pointerEvents: 'none',
-            zIndex: 0,
-            opacity: 0.9,
-            borderRadius: '16px'
-          }} />
-
           {/* Decorative pin - only visible when fully expanded */}
           <div style={{
             position: 'absolute', top: '25px', left: '25px',
             display: 'flex', alignItems: 'center', gap: '10px',
             color: '#ff4d85', fontWeight: 'bold', fontFamily: 'var(--font-cute)',
-            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s',
-            zIndex: 1
+            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
           }}>
             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff4d85', boxShadow: '0 2px 5px rgba(255,77,133,0.5)' }} />
             To My Birthday Nigge
           </div>
           <img src="/flower6.png" alt="cute" style={{
             position: 'absolute', top: '-20px', right: '-20px', width: '90px', transform: 'rotate(15deg)',
-            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s',
-            zIndex: 1
+            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
           }} />
 
           {/* Typewriter Text */}
           <div style={{
-            position: 'relative',
-            zIndex: 1,
             fontFamily: 'var(--font-main)',
             fontSize: '1.15rem',
             lineHeight: '1.8',
             color: '#444',
             whiteSpace: 'pre-wrap',
-            marginTop: '40px',
-            padding: '0 20px',
+            marginTop: '30px',
             opacity: isGone ? 1 : 0,
             transition: 'opacity 0.5s'
           }}>

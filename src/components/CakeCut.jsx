@@ -255,7 +255,7 @@ const CakeCut = ({ onNext, onPrev }) => {
               type="text"
               value={wishText}
               onChange={(e) => setWishText(e.target.value)}
-              placeholder="Type your secret birthday wish..."
+              placeholder="i wish for us be in love together forever and ever"
               disabled={isWishCrafted}
               style={{
                 width: '85%',

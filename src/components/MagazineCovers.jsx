@@ -33,7 +33,7 @@ export const MagazineIntro = ({ onNext, onPrev }) => {
           opacity: 0,
           transform: 'translateY(50px) scale(0.95)'
         }}>
-          How I See Nabeelah
+          How I See Sahana
         </h2>
         
         <div style={{
@@ -166,19 +166,19 @@ const CoverSlide = ({ imageSrc, title, subtitle, onNext, onPrev, floatAnim }) =>
 );
 
 export const MagazineLeft = (props) => (
-  <CoverSlide imageSrc="/Nabeelah Left Cover.jpg" title="The Left Cover" subtitle="Edition 01" floatAnim="floatLeft" {...props} />
+  <CoverSlide imageSrc="/sahana1MAGAZINE.png" title="The Left Cover" subtitle="Edition 01" floatAnim="floatLeft" {...props} />
 );
 
 export const MagazineRight = (props) => (
-  <CoverSlide imageSrc="/Nabeelah Right cover.jpg" title="The Right Cover" subtitle="Edition 02" floatAnim="floatRight" {...props} />
+  <CoverSlide imageSrc="/image-3.png" title="The Right Cover" subtitle="Edition 02" floatAnim="floatRight" {...props} />
 );
 
 export const MagazineCenter = (props) => (
-  <CoverSlide imageSrc="/Nabeelah Centre Cover.jpg" title="The Center Cover" subtitle="Exclusive" floatAnim="floatCenter" {...props} />
+  <CoverSlide imageSrc="/image-2.png" title="The Center Cover" subtitle="Exclusive" floatAnim="floatCenter" {...props} />
 );
 
 export const MagazineExtra = (props) => (
-  <CoverSlide imageSrc="/Extra Cover.jpg" title="The Extra Cover" subtitle="Special Edition" floatAnim="floatCenter" {...props} />
+  <CoverSlide imageSrc="/image-4.png" title="The Extra Cover" subtitle="Special Edition" floatAnim="floatCenter" {...props} />
 );
 
 export const MagazineShowcase = ({ onNext, onPrev }) => {
@@ -186,10 +186,10 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
   const [dragStartX, setDragStartX] = React.useState(null);
 
   const images = [
-    { src: "/Nabeelah Left Cover.jpg", alt: "Left Cover" },
-    { src: "/Nabeelah Centre Cover.jpg", alt: "Center Cover" },
-    { src: "/Nabeelah Right cover.jpg", alt: "Right Cover" },
-    { src: "/Extra Cover.jpg", alt: "Extra Cover" }
+    { src: "/sahana1MAGAZINE.png", alt: "Left Cover" },
+    { src: "/image-2.png", alt: "Center Cover" },
+    { src: "/image-3.png", alt: "Right Cover" },
+    { src: "/image-4.png", alt: "Extra Cover" }
   ];
 
   const handleDragStart = (e) => {
