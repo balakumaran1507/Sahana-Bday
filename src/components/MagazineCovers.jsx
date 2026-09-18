@@ -70,16 +70,16 @@ export const MagazineIntro = ({ onNext, onPrev }) => {
         }}>
           You might see yourself one way, but this is exactly how I see you. <br/><br/>
           <span style={{ color: '#fff', fontWeight: 600, fontSize: '1.4rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
-            A breathtaking masterpiece. The true star of my world.
+            A breathtaking masterpiece I CREATED.
           </span>
           <br/><br/><br/>
-          <span style={{ fontSize: '0.9rem', color: '#555', fontStyle: 'italic' }}>
-            Or, you might just hate me entirely for making this... but honestly, it's a gamble I'm more than willing to take! 😉
+          <span style={{ fontSize: '0.95rem', color: '#aaa', fontStyle: 'italic', fontWeight: 500 }}>
+            Or, you might just kill me for making this... but honestly, it's a gamble I'm more than willing to take! 😉
           </span>
         </p>
       </div>
       
-      <div style={{ position: 'absolute', bottom: '50px', zIndex: 20, animation: 'fadeInNav 2s ease forwards 4s', opacity: 0 }}>
+      <div style={{ zIndex: 20, animation: 'fadeInNav 2s ease forwards 4s', opacity: 0, marginTop: '35px', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} />
       </div>
 
@@ -143,7 +143,7 @@ const CoverSlide = ({ imageSrc, title, subtitle, onNext, onPrev, floatAnim }) =>
       </h3>
     </div>
 
-    <div style={{ position: 'absolute', bottom: '40px', zIndex: 20 }}>
+    <div style={{ zIndex: 20, marginTop: '30px', width: '100%', display: 'flex', justifyContent: 'center' }}>
       <NavigationButtons onNext={onNext} onPrev={onPrev} />
     </div>
 
@@ -177,6 +177,10 @@ export const MagazineCenter = (props) => (
   <CoverSlide imageSrc="/Nabeelah Centre Cover.jpg" title="The Center Cover" subtitle="Exclusive" floatAnim="floatCenter" {...props} />
 );
 
+export const MagazineExtra = (props) => (
+  <CoverSlide imageSrc="/Extra Cover.jpg" title="The Extra Cover" subtitle="Special Edition" floatAnim="floatCenter" {...props} />
+);
+
 export const MagazineShowcase = ({ onNext, onPrev }) => {
   const [activeIndex, setActiveIndex] = React.useState(1);
   const [dragStartX, setDragStartX] = React.useState(null);
@@ -184,7 +188,8 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
   const images = [
     { src: "/Nabeelah Left Cover.jpg", alt: "Left Cover" },
     { src: "/Nabeelah Centre Cover.jpg", alt: "Center Cover" },
-    { src: "/Nabeelah Right cover.jpg", alt: "Right Cover" }
+    { src: "/Nabeelah Right cover.jpg", alt: "Right Cover" },
+    { src: "/Extra Cover.jpg", alt: "Extra Cover" }
   ];
 
   const handleDragStart = (e) => {
@@ -198,9 +203,9 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
     const diff = clientX - dragStartX;
 
     if (diff > 50) {
-      setActiveIndex((prev) => (prev === 0 ? 2 : prev - 1));
+      setActiveIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     } else if (diff < -50) {
-      setActiveIndex((prev) => (prev === 2 ? 0 : prev + 1));
+      setActiveIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     }
     setDragStartX(null);
   };
@@ -209,8 +214,8 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
     let position = index - activeIndex; 
     
     // Wrap around for continuous loop feel
-    if (position === 2) position = -1;
-    if (position === -2) position = 1;
+    if (position > 1) position -= images.length;
+    if (position < -1) position += images.length;
 
     let transform = '';
     let zIndex = 0;
@@ -258,6 +263,19 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
          zIndex,
          boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
          filter: 'brightness(0.6)'
+       };
+    } else {
+       // BACKGROUND ITEM
+       transform = 'translateX(0) translateZ(-100px) scale(0.6)';
+       zIndex = 5;
+       return {
+         ...baseStyle,
+         transform,
+         zIndex,
+         boxShadow: 'none',
+         filter: 'brightness(0.3) blur(2px)',
+         opacity: 0,
+         pointerEvents: 'none'
        };
     }
   };
@@ -323,7 +341,7 @@ export const MagazineShowcase = ({ onNext, onPrev }) => {
         Swipe left or right to explore. You are truly admired. ✨
       </p>
 
-      <div style={{ position: 'absolute', bottom: '40px', zIndex: 30 }}>
+      <div style={{ zIndex: 30, marginTop: '25px', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} />
       </div>
 

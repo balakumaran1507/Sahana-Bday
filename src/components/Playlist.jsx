@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavigationButtons from './NavigationButtons';
 
 const TRACKS = [
@@ -6,7 +6,6 @@ const TRACKS = [
   { id: '4wLU3zIFfECTdDxOzKseI5', text: "The #2 track just for you..." },
   { id: '6qBLachpHaVUmpHKWyesmq', text: "Coming in at #3..." },
   { id: '1UUgngRGzFWfgpyN0WAN1r', text: "Solid #4, absolute classic!" },
-  { id: '5vGiuYFSGekGLgbxhV1rD5', text: "Always on repeat..." },
   { id: '2cPUB8EOT6AfJ8oxhyoNXL', text: "Setting the perfect mood ✨" },
   { id: '3vCzLB6kS2lGcIpm1OOUsy', text: "You can't skip this one!" },
   { id: '2iZeKe5avjtKVmjfSFkpxd', text: "And one more for the road! 💖" },
@@ -15,6 +14,14 @@ const TRACKS = [
 const Playlist = ({ onNext, onPrev }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [fadeOpacity, setFadeOpacity] = useState(1);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOpacity(0);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleNextTrack = () => {
     if (currentIndex < TRACKS.length - 1 && !animating) {
@@ -180,13 +187,30 @@ const Playlist = ({ onNext, onPrev }) => {
 
       {/* Global Navigation - Only show when all tracks are done! */}
       <div style={{ 
-        position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 20,
+        zIndex: 20,
         opacity: isLast ? 1 : 0,
         pointerEvents: isLast ? 'auto' : 'none',
-        transition: 'opacity 1.5s ease 0.5s'
+        transition: 'opacity 1.5s ease 0.5s',
+        marginTop: '30px',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center'
       }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next Chapter →" />
       </div>
+
+      {/* Black Fade-in Overlay */}
+      {fadeOpacity > 0 && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: '#000',
+          zIndex: 99,
+          pointerEvents: 'none',
+          opacity: fadeOpacity,
+          transition: 'opacity 1.2s ease-in-out'
+        }} />
+      )}
 
     </div>
   );

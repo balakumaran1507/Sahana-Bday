@@ -5,11 +5,12 @@ const NavigationButtons = ({ onNext, onPrev, nextText = "Next", prevText = "Back
     <div style={{
       display: 'flex',
       justifyContent: 'space-between',
-      width: '100%',
-      maxWidth: '400px',
+      width: '400px',
+      maxWidth: '90vw',
       margin: '30px auto 0',
-      padding: '0 20px',
-      gap: '15px'
+      padding: '0 10px',
+      gap: '15px',
+      boxSizing: 'border-box'
     }}>
       {showPrev ? (
         <button 

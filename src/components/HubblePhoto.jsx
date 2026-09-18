@@ -1,48 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import NavigationButtons from './NavigationButtons';
-import { Telescope, Clock, ExternalLink } from 'lucide-react';
+import { Clock, ExternalLink } from 'lucide-react';
 
 const HubblePhoto = ({ onNext, onPrev }) => {
-  const [missionTime, setMissionTime] = useState("");
   const [stars, setStars] = useState([]);
+  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
-  // Space Timer logic
+  // Resize listener for responsiveness
   useEffect(() => {
-    const start = new Date();
-    start.setHours(0, 0, 0, 0); // Start of day for a larger number
-    const interval = setInterval(() => {
-      const now = new Date();
-      const diff = now - start;
-      const h = Math.floor(diff / 3600000).toString().padStart(2, '0');
-      const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-      const s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
-      const ms = Math.floor((diff % 1000) / 10).toString().padStart(2, '0');
-      setMissionTime(`T+ ${h}:${m}:${s}:${ms}`);
-    }, 47);
-    return () => clearInterval(interval);
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Generate random stars for the background
   useEffect(() => {
-    const newStars = Array.from({ length: 150 }).map(() => ({
+    const newStars = Array.from({ length: 60 }).map(() => ({
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      opacity: Math.random(),
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.7 + 0.1,
       delay: Math.random() * 5
     }));
     setStars(newStars);
   }, []);
 
+  const isMobile = screenWidth < 1024;
+
   return (
     <div className="page-section fade-in" style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(to bottom, #020612, #0b1528)', 
+      background: '#04060c', // Deep quiet pure space dark
       position: 'relative', 
-      overflow: 'hidden',
-      color: '#fff'
+      overflowX: 'hidden',
+      overflowY: isMobile ? 'auto' : 'hidden',
+      color: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: isMobile ? 'flex-start' : 'center',
+      padding: isMobile ? '40px 15px 100px 15px' : '20px'
     }}>
-      {/* Stars Background */}
+      {/* Quiet Stars Background */}
       {stars.map((star, i) => (
         <div key={i} style={{
           position: 'absolute',
@@ -53,128 +52,147 @@ const HubblePhoto = ({ onNext, onPrev }) => {
           backgroundColor: '#fff',
           borderRadius: '50%',
           opacity: star.opacity,
-          animation: `twinkle 3s ease-in-out infinite alternate ${star.delay}s`,
+          animation: `twinkle 4s ease-in-out infinite alternate ${star.delay}s`,
           zIndex: 1
         }} />
       ))}
       <style>{`
         @keyframes twinkle { 
           from { opacity: 0.1; } 
-          to { opacity: 1; transform: scale(1.5); box-shadow: 0 0 10px #fff; } 
+          to { opacity: 0.8; transform: scale(1.2); } 
         }
         @keyframes floatSpace {
-          from { transform: translateY(0) rotate(0deg); }
-          to { transform: translateY(-20px) rotate(2deg); }
-        }
-        @keyframes pulseBeam {
-          0% { opacity: 0; width: 0; }
-          50% { opacity: 0.8; width: 100%; }
-          100% { opacity: 0; width: 0; }
+          from { transform: translateY(0); }
+          to { transform: translateY(-10px); }
         }
       `}</style>
 
-      {/* Top Left: Space Timer */}
+      {/* Cool Astronomical Date Caption (Minimalist & Sleek) */}
       <div style={{
-        position: 'absolute', top: '40px', left: '40px', zIndex: 10,
-        background: 'rgba(2, 6, 18, 0.7)', border: '1px solid rgba(102, 252, 241, 0.4)',
-        padding: '12px 25px', borderRadius: '12px', backdropFilter: 'blur(10px)',
-        display: 'flex', alignItems: 'center', gap: '15px',
-        color: '#66fcf1', fontFamily: 'monospace', fontSize: '1.4rem', letterSpacing: '2px',
-        boxShadow: '0 0 20px rgba(102, 252, 241, 0.2)'
+        position: isMobile ? 'relative' : 'absolute', 
+        top: isMobile ? '0' : '40px', 
+        left: isMobile ? '0' : '40px', 
+        zIndex: 10,
+        color: '#8e9aa8',
+        fontFamily: 'var(--font-heading)',
+        fontSize: isMobile ? '0.85rem' : '0.95rem', 
+        letterSpacing: '5px',
+        textTransform: 'uppercase',
+        display: 'inline-flex', 
+        alignItems: 'center', 
+        gap: '10px',
+        marginBottom: isMobile ? '25px' : '0'
       }}>
-        <Clock size={24} color="#66fcf1" />
-        <span style={{ fontWeight: 'bold' }}>MISSION CLOCK:</span>
-        <span style={{ color: '#fff' }}>{missionTime}</span>
+        <Clock size={14} color="#8e9aa8" />
+        <span>OBSERVATORY DATA • 14 JULY 2019</span>
       </div>
 
-      {/* Center/Right: The Hubble Image Floating in Space */}
+      {/* The Supernova Photo */}
       <div style={{
-        position: 'absolute',
-        top: '15%',
-        left: '50%',
-        transform: 'translateX(-20%)',
+        position: isMobile ? 'relative' : 'absolute',
+        top: isMobile ? '0' : '15%',
+        left: isMobile ? '0' : '50%',
+        transform: isMobile ? 'none' : 'translateX(-50%)',
         zIndex: 10,
-        animation: 'floatSpace 8s ease-in-out infinite alternate',
+        animation: 'floatSpace 6s ease-in-out infinite alternate',
+        marginBottom: isMobile ? '25px' : '0'
       }}>
         <div style={{
           position: 'relative',
-          padding: '15px',
-          background: 'rgba(255,255,255,0.02)',
-          borderRadius: '24px',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 0 80px rgba(102, 252, 241, 0.15), inset 0 0 20px rgba(255,255,255,0.05)'
+          padding: '6px',
+          background: 'rgba(255,255,255,0.01)',
+          borderRadius: '16px',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 25px 50px rgba(0,0,0,0.6)' // Normal depth shadow, no neon glow
         }}>
           <img 
             src="/july-14-2019-supernova-remnant-n-49.jpg" 
             alt="Supernova N49" 
             style={{ 
-              borderRadius: '16px', 
-              width: '450px', 
-              maxWidth: '80vw',
-              boxShadow: '0 20px 50px rgba(0,0,0,0.9)' 
+              borderRadius: '12px', 
+              width: isMobile ? '310px' : '420px', 
+              maxWidth: '85vw',
+              display: 'block',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.5)' 
             }} 
           />
         </div>
       </div>
 
-      {/* Bottom Left: Telescope looking up */}
+      {/* Telescope looking up (Larger & glow-free) */}
       <div style={{
-        position: 'absolute',
-        bottom: '80px',
-        left: '80px',
+        position: isMobile ? 'relative' : 'absolute',
+        bottom: isMobile ? '0' : '80px',
+        left: isMobile ? '0' : '5%',
         zIndex: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginBottom: isMobile ? '25px' : '0'
       }}>
         <div style={{
-          transform: 'rotate(-15deg)', // Tilt slightly more upward to aim at the image
-          filter: 'drop-shadow(0 0 30px rgba(102, 252, 241, 0.6))',
-          color: '#66fcf1',
+          transform: isMobile ? 'rotate(0deg)' : 'rotate(-10deg)',
+          filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.4))',
           position: 'relative',
-          opacity: 0.9
+          opacity: 0.95
         }}>
-          <Telescope size={180} strokeWidth={1} />
-          {/* Faint sight-line ray targeting the supernova */}
-          <div style={{
-            position: 'absolute',
-            top: '20px',
-            left: '150px', 
-            width: '700px',
-            height: '2px',
-            background: 'linear-gradient(90deg, rgba(102,252,241,0.6), transparent)',
-            transform: 'rotate(-25deg)',
-            transformOrigin: 'left center',
-            animation: 'pulseBeam 5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
-          }} />
+          <img 
+            src="/telescope.webp" 
+            alt="Telescope" 
+            style={{ 
+              width: isMobile ? '135px' : '260px', // Enlarged telescope as requested
+              height: 'auto', 
+              display: 'block' 
+            }} 
+          />
         </div>
         <div style={{ 
-          color: '#45a29e', fontFamily: 'monospace', fontSize: '0.9rem', 
-          textAlign: 'center', marginTop: '15px', letterSpacing: '4px',
-          fontWeight: 'bold', textShadow: '0 0 10px rgba(69, 162, 158, 0.5)'
+          color: '#657382', 
+          fontFamily: 'monospace', 
+          fontSize: '0.8rem', 
+          textAlign: 'center', 
+          marginTop: '12px', 
+          letterSpacing: '4px',
+          fontWeight: 'bold'
         }}>
           OBSERVATORY ONLINE
         </div>
       </div>
 
-      {/* Bottom Right: Information Card */}
+      {/* Information Card (Glow-free, elegant and minimal) */}
       <div style={{
-        position: 'absolute',
-        bottom: '80px',
-        right: '60px',
+        position: isMobile ? 'relative' : 'absolute',
+        bottom: isMobile ? '0' : '80px',
+        right: isMobile ? '0' : '5%',
         zIndex: 20,
-        maxWidth: '420px',
-        background: 'rgba(2, 6, 18, 0.85)',
+        width: '95%',
+        maxWidth: isMobile ? '400px' : '360px',
+        background: 'rgba(5, 7, 14, 0.85)',
         backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(102, 252, 241, 0.3)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
         borderRadius: '20px',
-        padding: '35px',
-        boxShadow: '0 30px 60px rgba(0,0,0,0.7), inset 0 0 30px rgba(102, 252, 241, 0.05)'
+        padding: isMobile ? '20px' : '30px',
+        boxShadow: '0 25px 50px rgba(0,0,0,0.6)'
       }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '15px', color: '#66fcf1', fontFamily: 'var(--font-heading)', textShadow: '0 0 15px rgba(102, 252, 241, 0.4)' }}>
-          Supernova N 49 🌌
+        <h2 style={{ 
+          fontSize: isMobile ? '1.5rem' : '1.7rem', 
+          marginBottom: '14px', 
+          color: '#fff', // Pure clean white
+          fontFamily: 'var(--font-heading)',
+          letterSpacing: '1px'
+        }}>
+          Supernova N 49
         </h2>
         
-        <p style={{ fontSize: '1.1rem', color: '#c5c6c7', marginBottom: '30px', fontFamily: 'var(--font-cute)', lineHeight: '1.8' }}>
-          This is exactly what the majestic Hubble Space Telescope saw when it gazed into the cosmos on <strong>July 14</strong>! 
+        <p style={{ 
+          fontSize: isMobile ? '0.95rem' : '1.02rem', 
+          color: '#abb4be', 
+          marginBottom: '25px', 
+          fontFamily: 'var(--font-main)', 
+          lineHeight: '1.7',
+          fontWeight: 400
+        }}>
+          This is exactly what the majestic Hubble Space Telescope saw when it gazed into the cosmos on July 14.
           <br/><br/>
           A breathtaking Supernova Remnant in the Large Magellanic Cloud. Bright, explosive, and just as beautiful as you are.
         </p>
@@ -184,28 +202,43 @@ const HubblePhoto = ({ onNext, onPrev }) => {
           target="_blank" 
           rel="noopener noreferrer"
           style={{ 
-            display: 'inline-flex', alignItems: 'center', gap: '10px',
-            color: '#0b0c10', textDecoration: 'none', fontWeight: 'bold', fontSize: '1rem',
-            background: '#66fcf1', padding: '12px 24px', borderRadius: '30px',
-            transition: 'all 0.3s', boxShadow: '0 0 20px rgba(102, 252, 241, 0.4)'
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            color: '#fff', 
+            textDecoration: 'none', 
+            fontWeight: '600', 
+            fontSize: '0.85rem',
+            background: 'transparent', 
+            border: '1px solid rgba(255,255,255,0.25)',
+            padding: '10px 22px', 
+            borderRadius: '30px',
+            transition: 'all 0.3s'
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.background = '#45a29e';
-            e.currentTarget.style.color = '#fff';
-            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.background = '#66fcf1';
-            e.currentTarget.style.color = '#0b0c10';
-            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+            e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
-          NASA Official Archives <ExternalLink size={18} />
+          NASA Official Archives <ExternalLink size={14} />
         </a>
       </div>
 
       {/* Navigation Buttons */}
-      <div style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 30 }}>
+      <div style={{ 
+        position: isMobile ? 'relative' : 'absolute', 
+        bottom: isMobile ? '0' : '40px', 
+        left: isMobile ? '0' : '50%', 
+        transform: isMobile ? 'none' : 'translateX(-50%)', 
+        zIndex: 30,
+        marginTop: isMobile ? '30px' : '0'
+      }}>
         <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Next Chapter →" />
       </div>
 
