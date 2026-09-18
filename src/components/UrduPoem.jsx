@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import NavigationButtons from './NavigationButtons';
 
-const urduLines = [
-  "تمہاری آمد سے روشن ہوئی ہے دنیا ہماری،",
-  "مسکراہٹ میں تمہاری چھپی ہے جان ہماری۔",
-  "خدا کا بے حد شکر ہے جس نے تمہیں بنایا،",
-  "تمہارے بنا یہ کائنات تھی سونی اور خالی۔"
+const tamilLines = [
+  "சஹானா, உன் வருகையால் என் உலகம் ஒளிர்கிறது.",
+  "உன் சிரிப்பில் என் முழு வாழ்க்கையும் அடங்குகிறது.",
+  "உன்னை படைத்த இறைவனுக்கு நன்றிகள் பல.",
+  "நீ இல்லாமல் இந்த பிரபஞ்சம் தனிமையானது."
 ];
 
 const englishLines = [
-  "Your arrival has illuminated our world,",
-  "Our life resides in your beautiful smile.",
-  "Endless thanks to God who created you,",
-  "Without you, this universe was lonely and empty."
+  "Sahana, your arrival illuminates my world.",
+  "My whole life is contained in your beautiful smile.",
+  "Many thanks to the God who created you.",
+  "Without you, this universe is lonely."
 ];
 
 const UrduPoem = ({ onNext, onPrev }) => {
@@ -39,21 +39,21 @@ const UrduPoem = ({ onNext, onPrev }) => {
     <div className="page-section" style={{ minHeight: '100vh', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       
       <style>{`
-        @keyframes sweepRTL {
-          0% { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); opacity: 0; }
+        @keyframes sweepLTR {
+          0% { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); opacity: 0; }
           1% { opacity: 1; }
           100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); opacity: 1; }
         }
 
         @keyframes moveQuill {
-          0% { left: 100%; opacity: 0; transform: translate(0, 0) rotate(15deg); }
+          0% { left: 0%; opacity: 0; transform: translate(0, 0) rotate(-15deg) scaleX(-1); }
           1% { opacity: 1; }
-          20% { transform: translate(0, -10px) rotate(10deg); }
-          40% { transform: translate(0, 5px) rotate(20deg); }
-          60% { transform: translate(0, -10px) rotate(12deg); }
-          80% { transform: translate(0, 5px) rotate(18deg); }
+          20% { transform: translate(0, -10px) rotate(-10deg) scaleX(-1); }
+          40% { transform: translate(0, 5px) rotate(-20deg) scaleX(-1); }
+          60% { transform: translate(0, -10px) rotate(-12deg) scaleX(-1); }
+          80% { transform: translate(0, 5px) rotate(-18deg) scaleX(-1); }
           98% { opacity: 1; }
-          100% { left: 0%; opacity: 0; transform: translate(0, 0) rotate(15deg); }
+          100% { left: 100%; opacity: 0; transform: translate(0, 0) rotate(-15deg) scaleX(-1); }
         }
 
         @keyframes focusPull {
@@ -120,25 +120,26 @@ const UrduPoem = ({ onNext, onPrev }) => {
         padding: '20px'
       }}>
         
-        {/* Urdu Text Sequence with Animated Quill */}
+        {/* Tamil Text Sequence with Animated Quill */}
         <div style={{ 
           marginBottom: '50px',
-          fontFamily: "'Amiri', 'Noto Nastaliq Urdu', serif", 
-          direction: 'rtl',
+          fontFamily: "'Mukta Malar', 'Noto Sans Tamil', sans-serif", 
+          direction: 'ltr',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '10px'
+          gap: '15px'
         }}>
-          {urduLines.map((line, idx) => (
+          {tamilLines.map((line, idx) => (
             <div key={idx} style={{ position: 'relative', display: 'inline-block' }}>
-              <div style={{ 
-                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
-                lineHeight: '1.8', 
-                color: '#ffd700', // Golden text
+              <div style={{
+                fontSize: 'clamp(1.2rem, 2.5vw, 1.7rem)',
+                lineHeight: '1.8',
+                color: '#ffd700',
                 textShadow: '0 0 20px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0,0,0,0.8)',
-                opacity: 0, // Hidden by default
-                animation: phase >= 1 ? `sweepRTL 3.5s linear ${idx * 3.5}s forwards` : 'none'
+                opacity: 0,
+                whiteSpace: 'nowrap',
+                animation: phase >= 1 ? `sweepLTR 3.5s linear ${idx * 3.5}s forwards` : 'none'
               }}>
                 {line}
               </div>
@@ -149,7 +150,7 @@ const UrduPoem = ({ onNext, onPrev }) => {
                 pointerEvents: 'none',
                 opacity: 0,
                 zIndex: 15,
-                filter: 'invert(1) brightness(0.2) drop-shadow(0 0 5px rgba(0,0,0,0.5))', // Dark to match BG
+                filter: 'brightness(1.5) drop-shadow(0 0 8px rgba(255,215,0,0.8))',
                 animation: phase >= 1 ? `moveQuill 3.5s linear ${idx * 3.5}s forwards` : 'none'
               }} />
             </div>
@@ -175,10 +176,11 @@ const UrduPoem = ({ onNext, onPrev }) => {
           textShadow: '0 3px 6px rgba(0,0,0,1)'
         }}>
           {englishLines.map((line, idx) => (
-            <div key={idx} style={{ 
-              fontSize: 'clamp(1rem, 2vw, 1.2rem)', 
-              lineHeight: '2.2', 
+            <div key={idx} style={{
+              fontSize: 'clamp(0.9rem, 1.8vw, 1.1rem)',
+              lineHeight: '2.2',
               opacity: 0,
+              whiteSpace: 'nowrap',
               animation: phase >= 1 ? `focusPull 2s cubic-bezier(0.2, 0.8, 0.2, 1) ${idx * 3.5 + 2}s forwards` : 'none'
             }}>
               {line}

@@ -23,7 +23,7 @@ const Hero = ({ onNext }) => {
     setIsTransitioning(true);
     setTimeout(() => {
       onNext();
-    }, 1500);
+    }, 3000);
   };
 
   const offsetX = (mousePos.x - windowCenter.x) / windowCenter.x;
@@ -65,15 +65,15 @@ const Hero = ({ onNext }) => {
         pointerEvents: 'none'
       }} />
 
-      {/* Transition Overlay (Solid Black) */}
+      {/* Transition Overlay (Night BG) */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: '#000',
+        background: 'url(/bg-night.png) center/cover no-repeat',
         zIndex: 99, 
         pointerEvents: 'none',
         opacity: isTransitioning ? 1 : 0,
-        transition: 'opacity 1.5s ease-in-out'
+        transition: 'opacity 3s ease-in-out'
       }} />
 
       {/* The BIG Purple Flower Decors */}
@@ -81,14 +81,9 @@ const Hero = ({ onNext }) => {
         src="/Purple-Flower.png" 
         alt="Big Purple Flower Left" 
         style={{ 
-          position: 'absolute', 
-          bottom: windowCenter.x * 2 < 768 ? '5%' : '-15%', 
-          left: windowCenter.x * 2 < 768 ? '-5%' : '-10%', 
-          width: windowCenter.x * 2 < 768 ? '300px' : '600px', 
-          opacity: windowCenter.x * 2 < 768 ? 0.35 : 0.9, 
-          zIndex: 1,
+          position: 'absolute', bottom: '-15%', left: '-10%', width: '600px', opacity: 0.9, zIndex: 1,
           transform: `translate(${offsetX * -40}px, ${offsetY * 40}px) rotate(${offsetX * 5}deg)`,
-          transition: 'transform 0.2s ease-out, width 0.3s, opacity 0.3s',
+          transition: 'transform 0.2s ease-out',
           pointerEvents: 'none',
           filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.2))'
         }} 
@@ -97,14 +92,9 @@ const Hero = ({ onNext }) => {
         src="/Purple-Flower.png" 
         alt="Big Purple Flower Right" 
         style={{ 
-          position: 'absolute', 
-          top: windowCenter.x * 2 < 768 ? '5%' : '-15%', 
-          right: windowCenter.x * 2 < 768 ? '-5%' : '-10%', 
-          width: windowCenter.x * 2 < 768 ? '250px' : '500px', 
-          opacity: windowCenter.x * 2 < 768 ? 0.35 : 0.8, 
-          zIndex: 1,
+          position: 'absolute', top: '-15%', right: '-10%', width: '500px', opacity: 0.8, zIndex: 1,
           transform: `translate(${offsetX * 40}px, ${offsetY * -40}px) rotate(${offsetY * -15}deg)`,
-          transition: 'transform 0.2s ease-out, width 0.3s, opacity 0.3s',
+          transition: 'transform 0.2s ease-out',
           pointerEvents: 'none',
           filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.2))'
         }} 
@@ -114,37 +104,33 @@ const Hero = ({ onNext }) => {
       <div 
         className="fade-in" 
         style={{ 
-          maxWidth: '550px', width: '90%', position: 'relative', zIndex: 10,
+          maxWidth: '700px', width: '95%', position: 'relative', zIndex: 10,
           background: 'rgba(255, 255, 255, 0.4)', // Beautiful light frosted glass
           backdropFilter: 'blur(25px)',
           WebkitBackdropFilter: 'blur(25px)',
           border: '1px solid rgba(255, 255, 255, 0.7)',
           borderRadius: '24px',
-          padding: windowCenter.x * 2 < 768 ? '30px 20px' : '50px 40px',
+          padding: '40px 20px',
           transform: `translate(${offsetX * -15}px, ${offsetY * -15}px)`, 
-          transition: 'transform 0.3s ease-out, padding 0.3s',
+          transition: 'transform 0.3s ease-out',
           animation: 'pulseGlow 8s infinite',
           boxShadow: '0 20px 50px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.8)'
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', color: '#555' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase' }}>
-            Exclusive Event
-          </span>
-        </div>
-        
+
         {/* Beautiful Typography replacing the image */}
         <h1 style={{ 
-          fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+          fontSize: 'clamp(2rem, 4.5vw, 4rem)', 
           marginBottom: '15px', 
           fontFamily: 'var(--font-heading)',
           fontWeight: 700,
           color: '#2d3748', // Elegant dark slate
           letterSpacing: '1px',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          whiteSpace: 'nowrap'
         }}>
           Happy Birthday,<br/>
-          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Beautiful.</span>
+          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Sahana Babe</span>
         </h1>
         
         <div style={{ width: '40px', height: '3px', background: '#d53f8c', borderRadius: '2px', margin: '20px auto 30px', opacity: 0.5 }} />
@@ -157,7 +143,7 @@ const Hero = ({ onNext }) => {
           fontFamily: 'var(--font-main)',
           fontWeight: 500
         }}>
-          Today is all about celebrating Nabeelah, she deserves to be put on a pedestal, at least today! I've created something magical just for you.
+          Sahana Thangoo, I would love to celebrate your birthday today, and every single one from now until all of eternity.
         </p>
 
         {/* Premium Refined Button */}
@@ -193,14 +179,14 @@ const Hero = ({ onNext }) => {
         </button>
       </div>
 
-      <div style={{ position: 'absolute', bottom: '30px', zIndex: 10, width: '100%' }}>
+      <div style={{ position: 'absolute', bottom: '20px', zIndex: 10, width: '100%', textAlign: 'center' }}>
         <span style={{ 
-          fontSize: '0.9rem', 
+          fontSize: '1.2rem', 
           fontFamily: 'var(--font-cute)', 
-          fontWeight: 600, 
-          color: 'rgba(255,255,255,0.9)',
-          letterSpacing: '2px',
-          textShadow: '0 2px 5px rgba(0,0,0,0.9)'
+          fontWeight: 700, 
+          color: '#2d3748', // Dark elegant slate
+          letterSpacing: '1px',
+          textShadow: '0 2px 10px rgba(255,255,255,0.8)' // White glow for contrast
         }}>
           MADE WITH ENDLESS LOVE FOR YOUR SPECIAL DAY
         </span>

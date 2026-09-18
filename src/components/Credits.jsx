@@ -13,22 +13,21 @@ const Credits = ({ onNext, onPrev }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Standard roles where Big B is everything!
   const creativeTeam = [
-    { role: "Creative Director", name: "Big B" },
-    { role: "Art Director", name: "Big B" },
-    { role: "UI & UX Designer", name: "Big B" },
-    { role: "Motion Designer", name: "Big B" },
-    { role: "3D Artist & Modeler", name: "Big B" },
-    { role: "3D Animator", name: "Big B" },
-    { role: "VFX Artist & Colorist", name: "Big B" },
-    { role: "Video Editor", name: "Big B" },
-    { role: "Sound Designer & Composer", name: "Big B" },
-    { role: "Copywriter & UX Writer", name: "Big B" },
-    { role: "Frontend Developer", name: "Big B" },
-    { role: "Three.js / WebGL Developer", name: "Big B" },
-    { role: "GSAP Animation Developer", name: "Big B" },
-    { role: "Performance Engineer & QA", name: "Big B" }
+    { role: "Creative Director", name: "JB" },
+    { role: "Art Director", name: "JB" },
+    { role: "UI & UX Designer", name: "JB" },
+    { role: "Motion Designer", name: "JB" },
+    { role: "3D Artist & Modeler", name: "JB" },
+    { role: "3D Animator", name: "JB" },
+    { role: "VFX Artist & Colorist", name: "JB" },
+    { role: "Video Editor", name: "JB" },
+    { role: "Sound Designer & Composer", name: "JB" },
+    { role: "Copywriter & UX Writer", name: "JB" },
+    { role: "Frontend Developer", name: "JB" },
+    { role: "Three.js / WebGL Developer", name: "JB" },
+    { role: "GSAP Animation Developer", name: "JB" },
+    { role: "Performance Engineer & QA", name: "JB" }
   ];
 
   return (
@@ -96,7 +95,7 @@ const Credits = ({ onNext, onPrev }) => {
 
           <div style={{ marginBottom: '45px' }}>
             <h3 style={{ fontSize: '0.85rem', color: '#777', textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '12px' }}>Starring</h3>
-            <p style={{ fontSize: '1.6rem', letterSpacing: '1px', fontWeight: 600 }}>Nabeelah Anjum</p>
+            <p style={{ fontSize: '1.6rem', letterSpacing: '1px', fontWeight: 600 }}>Sahana</p>
           </div>
 
           {/* BTS: Sketch Efforts */}
@@ -120,29 +119,11 @@ const Credits = ({ onNext, onPrev }) => {
             </div>
           ))}
 
-          {/* Failed covers bloopers section */}
-          <div style={{ marginBottom: '55px' }}>
-            <h3 style={{ fontSize: '0.85rem', color: '#777', textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '15px' }}>Bloopers: Failed Covers</h3>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', maxWidth: '90%', margin: '0 auto' }}>
-              <div style={{ flex: 1, background: '#111', padding: '4px', borderRadius: '8px', border: '1px solid #222' }}>
-                <img src="/Bloopers-Cover-1.jpg" alt="Blooper 1" style={{ width: '100%', borderRadius: '6px', display: 'block' }} />
-              </div>
-              <div style={{ flex: 1, background: '#111', padding: '4px', borderRadius: '8px', border: '1px solid #222' }}>
-                <img src="/Bloopers-Cover-2.jpg" alt="Blooper 2" style={{ width: '100%', borderRadius: '6px', display: 'block' }} />
-              </div>
-              <div style={{ flex: 1, background: '#111', padding: '4px', borderRadius: '8px', border: '1px solid #222' }}>
-                <img src="/Bloopers-Cover-3.jpg" alt="Blooper 3" style={{ width: '100%', borderRadius: '6px', display: 'block' }} />
-              </div>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: '45px' }}>
+<div style={{ marginBottom: '45px' }}>
             <h3 style={{ fontSize: '0.85rem', color: '#777', textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '12px' }}>Music Tracks</h3>
-            <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>Unakkul Naane (Pritt)</p>
             <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>Childhood (Michael Jackson)</p>
-            <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>Arabu Naade (Yuvan Shankar Raja)</p>
-            <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>Iraade (Abdul Hannan)</p>
-            <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>La petite fille de la mer (Vangelis)</p>
+            <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>Maryan</p>
+            <p style={{ fontSize: '1.2rem', letterSpacing: '1px', margin: '4px 0' }}>Iraade</p>
           </div>
 
           <div style={{ marginBottom: '45px' }}>
@@ -165,7 +146,7 @@ const Credits = ({ onNext, onPrev }) => {
           <p style={{ fontSize: '1.2rem', color: '#888', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '40px' }}>
             This website is sponsored by
           </p>
-          <img src="/DMK-logo.png.png" alt="DMK Logo" style={{ maxWidth: '350px', objectFit: 'contain' }} />
+          <img src="/TVK_sponsor.png" alt="TVK Logo" style={{ maxWidth: '350px', objectFit: 'contain' }} />
           
           <div style={{ marginTop: '45px', width: '100%', display: 'flex', justifyContent: 'center' }}>
             <NavigationButtons onNext={onNext} onPrev={onPrev} nextText="Final Message →" prevText="Back" />

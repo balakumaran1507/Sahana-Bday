@@ -3,24 +3,17 @@ import React, { useEffect, useState } from 'react';
 const NameReveal = ({ onNext }) => {
   const [phase, setPhase] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [isFadingIn, setIsFadingIn] = useState(true);
 
   useEffect(() => {
     // Fade in the black screen itself smoothly
     setMounted(true);
 
-    // Start fading out the black overlay
-    const fadeTimer = setTimeout(() => {
-      setIsFadingIn(false);
-    }, 50);
-
-    // Cinematic timing sequence (adjusted to start after bg fade)
-    const t1 = setTimeout(() => setPhase(1), 1500);  // Show "Hello There"
-    const t2 = setTimeout(() => setPhase(2), 3500); // Start writing "Nabeelah Anjum"
-    const t3 = setTimeout(() => setPhase(3), 14500); // Animation finishes, show continue button
+    // Cinematic timing sequence
+    const t1 = setTimeout(() => setPhase(1), 1000);  // Show "My Most Precious"
+    const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Sahana"
+    const t3 = setTimeout(() => setPhase(3), 14000); // Animation finishes, show continue button earlier to remove pause
 
     return () => {
-      clearTimeout(fadeTimer);
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
@@ -100,38 +93,39 @@ const NameReveal = ({ onNext }) => {
         top: '25%',
         fontFamily: 'var(--font-main)',
         fontSize: '1.2rem',
-        letterSpacing: '10px',
+        letterSpacing: '8px',
         textTransform: 'uppercase',
         color: '#fff',
-        opacity: phase >= 1 ? 0.7 : 0,
+        textShadow: '0 0 12px rgba(255, 255, 255, 0.8)',
+        opacity: phase >= 1 ? 1 : 0,
         transform: phase >= 1 ? 'translateY(0)' : 'translateY(20px)',
         transition: 'all 2.5s ease-out'
       }}>
-        Hello There
+        My Most Precious
       </div>
 
       {/* Main Cursive Name (SVG Stroke Animation) */}
       <div className="svg-text-container">
         <svg width="100%" height="100%" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
           <text 
-            x="50%" 
+            x="45%" 
             y="50%" 
             textAnchor="middle" 
             dominantBaseline="middle"
             className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}
           >
-            Nabeelah Anjum
+            Sahana
           </text>
         </svg>
       </div>
 
       {/* Continue Button */}
       <div style={{
+        position: 'absolute',
+        bottom: '15%',
         opacity: phase === 3 ? 1 : 0,
         pointerEvents: phase === 3 ? 'auto' : 'none',
-        transition: 'opacity 2s ease-in',
-        marginTop: '40px',
-        zIndex: 10
+        transition: 'opacity 2s ease-in'
       }}>
         <button 
           onClick={onNext}
@@ -160,18 +154,23 @@ const NameReveal = ({ onNext }) => {
           Continue →
         </button>
       </div>
-
-      {/* Cinematic Fade-in from Black */}
+      
+      {/* Signature */}
       <div style={{
         position: 'absolute',
-        inset: 0,
-        background: '#000',
-        zIndex: 99,
-        pointerEvents: 'none',
-        opacity: isFadingIn ? 1 : 0,
-        transition: 'opacity 1.5s ease-out'
-      }} />
-      
+        bottom: '25%',
+        left: '60%',
+        transform: 'translateX(-50%)',
+        fontFamily: "'Great Vibes', cursive",
+        fontSize: '2.5rem',
+        color: '#ffb6c1',
+        opacity: phase === 3 ? 0.8 : 0,
+        transition: 'opacity 2s ease-in',
+        textShadow: '0 0 15px rgba(255, 182, 193, 0.6)'
+      }}>
+        ~ JB
+      </div>
+
     </div>
   );
 };

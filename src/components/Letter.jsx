@@ -124,29 +124,47 @@ const Letter = ({ onNext, onPrev }) => {
           overflow: isGone ? 'visible' : 'hidden'
         }}>
 
+          {/* Decorative Frame Image */}
+          <img src="/Flower Letter Border.png" alt="Flower Frame" style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'fill',
+            pointerEvents: 'none',
+            zIndex: 0,
+            opacity: 0.9,
+            borderRadius: '16px'
+          }} />
+
           {/* Decorative pin - only visible when fully expanded */}
           <div style={{
             position: 'absolute', top: '25px', left: '25px',
             display: 'flex', alignItems: 'center', gap: '10px',
             color: '#ff4d85', fontWeight: 'bold', fontFamily: 'var(--font-cute)',
-            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
+            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s',
+            zIndex: 1
           }}>
             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff4d85', boxShadow: '0 2px 5px rgba(255,77,133,0.5)' }} />
             To My Birthday Nigge
           </div>
           <img src="/flower6.png" alt="cute" style={{
             position: 'absolute', top: '-20px', right: '-20px', width: '90px', transform: 'rotate(15deg)',
-            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s'
+            opacity: isGone ? 1 : 0, transition: 'opacity 1s ease 0.5s',
+            zIndex: 1
           }} />
 
           {/* Typewriter Text */}
           <div style={{
+            position: 'relative',
+            zIndex: 1,
             fontFamily: 'var(--font-main)',
             fontSize: '1.15rem',
             lineHeight: '1.8',
             color: '#444',
             whiteSpace: 'pre-wrap',
-            marginTop: '30px',
+            marginTop: '40px',
+            padding: '0 20px',
             opacity: isGone ? 1 : 0,
             transition: 'opacity 0.5s'
           }}>

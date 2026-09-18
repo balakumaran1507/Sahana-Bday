@@ -52,8 +52,8 @@ const BdayBanner = ({ onNext, onPrev }) => {
           animation: 'bannerFloat 6s ease-in-out infinite alternate'
         }}>
           <img 
-            src="/Happy-Birthday-Nabeelah.png" 
-            alt="Happy Birthday Nabeelah" 
+            src="/Happy-Birthday-Sahana.png" 
+            alt="Happy Birthday Sahana" 
             style={{
               width: '100%',
               maxHeight: '65vh',

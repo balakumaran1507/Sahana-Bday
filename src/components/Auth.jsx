@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Delete } from 'lucide-react';
 
-// PIN is stored as a SHA-256 hash - never visible in source as plain text
-const CORRECT_HASH = 'a3346b8b4c26feb607f8a40699c934ef426dee5ceebf51f9f7209aa79c08a0da';
+// PIN is stored as a SHA-256 hash — never visible in source as plain text
+const CORRECT_HASH = '8e614d39a1f1279958da1c9f7e8df51db4aabca8cc3a3e84f8c3dc5f88e1fcfb';
 
 async function hashPin(pin) {
   const encoder = new TextEncoder();
@@ -54,11 +54,11 @@ const Auth = ({ onLogin }) => {
       fontFamily: 'var(--font-cute)',
       userSelect: 'none'
     }}>
-
-      <div style={{
-        maxWidth: '350px',
-        width: '90%',
-        padding: '40px 20px',
+      
+      <div style={{ 
+        maxWidth: '350px', 
+        width: '90%', 
+        padding: '40px 20px', 
         textAlign: 'center',
         background: 'rgba(255, 255, 255, 0.75)',
         backdropFilter: 'blur(15px)',
@@ -72,9 +72,9 @@ const Auth = ({ onLogin }) => {
           🦋
         </div>
 
-        <h1 style={{
-          fontSize: '1.6rem',
-          marginBottom: '10px',
+        <h1 style={{ 
+          fontSize: '1.6rem', 
+          marginBottom: '10px', 
           fontFamily: 'var(--font-heading)',
           color: '#3b82f6', // Elegant blue
           letterSpacing: '1px'
@@ -82,13 +82,13 @@ const Auth = ({ onLogin }) => {
           A Surprise Awaits!
         </h1>
 
-        <p style={{
-          fontSize: '0.9rem',
-          color: '#666',
+        <p style={{ 
+          fontSize: '0.9rem', 
+          color: '#666', 
           marginBottom: '30px',
           fontWeight: 600
         }}>
-          Guess the date we never forget (0101) 💙
+          Guess the date we never forget (1909) 💙
         </p>
 
         {/* PIN Indicators */}
