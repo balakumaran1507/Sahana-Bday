@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Delete } from 'lucide-react';
 
 // PIN is stored as a SHA-256 hash — never visible in source as plain text
-const CORRECT_HASH = 'a3346b8b4c26feb607f8a40699c934ef426dee5ceebf51f9f7209aa79c08a0da';
+const CORRECT_HASH = '8e614d39a1f1279958da1c9f7e8df51db4aabca8cc3a3e84f8c3dc5f88e1fcfb';
 
 async function hashPin(pin) {
   const encoder = new TextEncoder();
@@ -88,7 +88,7 @@ const Auth = ({ onLogin }) => {
           marginBottom: '30px',
           fontWeight: 600
         }}>
-          Guess the date we never forget (0101) 💙
+          Guess the date we never forget (1909) 💙
         </p>
 
         {/* PIN Indicators */}

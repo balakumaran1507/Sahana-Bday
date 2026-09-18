@@ -104,37 +104,33 @@ const Hero = ({ onNext }) => {
       <div 
         className="fade-in" 
         style={{ 
-          maxWidth: '550px', width: '90%', position: 'relative', zIndex: 10,
+          maxWidth: '700px', width: '95%', position: 'relative', zIndex: 10,
           background: 'rgba(255, 255, 255, 0.4)', // Beautiful light frosted glass
           backdropFilter: 'blur(25px)',
           WebkitBackdropFilter: 'blur(25px)',
           border: '1px solid rgba(255, 255, 255, 0.7)',
           borderRadius: '24px',
-          padding: '50px 40px',
+          padding: '40px 20px',
           transform: `translate(${offsetX * -15}px, ${offsetY * -15}px)`, 
           transition: 'transform 0.3s ease-out',
           animation: 'pulseGlow 8s infinite',
           boxShadow: '0 20px 50px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.8)'
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', color: '#555' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 700, letterSpacing: '6px', textTransform: 'uppercase' }}>
-            Exclusive Event
-          </span>
-        </div>
-        
+
         {/* Beautiful Typography replacing the image */}
         <h1 style={{ 
-          fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+          fontSize: 'clamp(2rem, 4.5vw, 4rem)', 
           marginBottom: '15px', 
           fontFamily: 'var(--font-heading)',
           fontWeight: 700,
           color: '#2d3748', // Elegant dark slate
           letterSpacing: '1px',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          whiteSpace: 'nowrap'
         }}>
           Happy Birthday,<br/>
-          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Beautiful.</span>
+          <span style={{ color: '#d53f8c', fontFamily: 'var(--font-cute)' }}>Sahana Babe</span>
         </h1>
         
         <div style={{ width: '40px', height: '3px', background: '#d53f8c', borderRadius: '2px', margin: '20px auto 30px', opacity: 0.5 }} />
@@ -147,7 +143,7 @@ const Hero = ({ onNext }) => {
           fontFamily: 'var(--font-main)',
           fontWeight: 500
         }}>
-          Today is all about celebrating the most amazing person in my world. I've created something magical just for you.
+          Sahana Thangoo, I would love to celebrate your birthday today, and every single one from now until all of eternity.
         </p>
 
         {/* Premium Refined Button */}
@@ -183,14 +179,14 @@ const Hero = ({ onNext }) => {
         </button>
       </div>
 
-      <div style={{ position: 'absolute', bottom: '30px', zIndex: 10, width: '100%' }}>
+      <div style={{ position: 'absolute', bottom: '20px', zIndex: 10, width: '100%', textAlign: 'center' }}>
         <span style={{ 
-          fontSize: '0.9rem', 
+          fontSize: '1.2rem', 
           fontFamily: 'var(--font-cute)', 
-          fontWeight: 600, 
-          color: 'rgba(255,255,255,0.9)',
-          letterSpacing: '2px',
-          textShadow: '0 2px 5px rgba(0,0,0,0.9)'
+          fontWeight: 700, 
+          color: '#2d3748', // Dark elegant slate
+          letterSpacing: '1px',
+          textShadow: '0 2px 10px rgba(255,255,255,0.8)' // White glow for contrast
         }}>
           MADE WITH ENDLESS LOVE FOR YOUR SPECIAL DAY
         </span>

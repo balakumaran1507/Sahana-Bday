@@ -9,8 +9,8 @@ const NameReveal = ({ onNext }) => {
     setMounted(true);
 
     // Cinematic timing sequence
-    const t1 = setTimeout(() => setPhase(1), 1000);  // Show "Hello There"
-    const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Nabeelah Anjum"
+    const t1 = setTimeout(() => setPhase(1), 1000);  // Show "My Most Precious"
+    const t2 = setTimeout(() => setPhase(2), 3000); // Start writing "Sahana"
     const t3 = setTimeout(() => setPhase(3), 14000); // Animation finishes, show continue button earlier to remove pause
 
     return () => {
@@ -93,27 +93,28 @@ const NameReveal = ({ onNext }) => {
         top: '25%',
         fontFamily: 'var(--font-main)',
         fontSize: '1.2rem',
-        letterSpacing: '10px',
+        letterSpacing: '8px',
         textTransform: 'uppercase',
         color: '#fff',
-        opacity: phase >= 1 ? 0.7 : 0,
+        textShadow: '0 0 12px rgba(255, 255, 255, 0.8)',
+        opacity: phase >= 1 ? 1 : 0,
         transform: phase >= 1 ? 'translateY(0)' : 'translateY(20px)',
         transition: 'all 2.5s ease-out'
       }}>
-        Hello There
+        My Most Precious
       </div>
 
       {/* Main Cursive Name (SVG Stroke Animation) */}
       <div className="svg-text-container">
         <svg width="100%" height="100%" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
           <text 
-            x="50%" 
+            x="45%" 
             y="50%" 
             textAnchor="middle" 
             dominantBaseline="middle"
             className={`name-reveal-text ${phase >= 2 ? 'writing' : ''}`}
           >
-            Nabeelah Anjum
+            Sahana
           </text>
         </svg>
       </div>
@@ -154,6 +155,22 @@ const NameReveal = ({ onNext }) => {
         </button>
       </div>
       
+      {/* Signature */}
+      <div style={{
+        position: 'absolute',
+        bottom: '25%',
+        left: '60%',
+        transform: 'translateX(-50%)',
+        fontFamily: "'Great Vibes', cursive",
+        fontSize: '2.5rem',
+        color: '#ffb6c1',
+        opacity: phase === 3 ? 0.8 : 0,
+        transition: 'opacity 2s ease-in',
+        textShadow: '0 0 15px rgba(255, 182, 193, 0.6)'
+      }}>
+        ~ JB
+      </div>
+
     </div>
   );
 };
