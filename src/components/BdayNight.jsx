@@ -77,7 +77,7 @@ const BdayNight = ({ onNext, onPrev }) => {
           boxShadow: '0 25px 50px rgba(0,0,0,0.7)'
         }}>
           <img 
-            src="/Nabeelah-Happy-Birthday-Night.png" 
+            src="/Nabeelah-Happy-Birthday-Night-1.png" 
             alt="Nabeelah Happy Birthday Night" 
             style={{
               width: '100%',

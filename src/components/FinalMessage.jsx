@@ -144,6 +144,7 @@ const FinalMessage = ({ onNext, onPrev }) => {
         </h2>
 
         <div style={{
+          position: 'relative',
           fontFamily: 'var(--font-main)',
           fontSize: '1.1rem',
           lineHeight: '1.8',
@@ -152,28 +153,30 @@ const FinalMessage = ({ onNext, onPrev }) => {
           marginBottom: '35px',
           whiteSpace: 'pre-wrap',
           background: 'rgba(255, 255, 255, 0.4)',
-          padding: '25px',
+          padding: '35px 25px',
           borderRadius: '20px',
-          border: '1px dashed rgba(255, 117, 160, 0.3)'
+          overflow: 'hidden'
         }}>
-          <strong>Dear Nabeelah,</strong>
-          <br /><br />
-          From the bottom of my heart, thank you for being who you are. I hope this little virtual journey and celebration brought a massive smile to your face today.
-          <br /><br />
-          No matter where life takes us, always remember that you are deeply appreciated, celebrated, and cared for. You are a true masterpiece!
-          <br /><br />
-          Wishing you a wonderful year ahead filled with magic, laughter, and endless beautiful moments. Happy Birthday! 💖🎂✨
-          <br /><br />
-          <span style={{
-            display: 'block',
-            textAlign: 'right',
-            fontFamily: 'var(--font-cute)',
-            fontSize: '1.3rem',
-            color: '#ff4d85',
-            fontWeight: 'bold'
-          }}>
-            ~ Big B
-          </span>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <strong>Dear Sahana,</strong>
+            <br /><br />
+            From the bottom of my heart, thank you for being who you are. I hope this little virtual journey and celebration brought a massive smile to your face today.
+            <br /><br />
+            No matter where life takes us, always remember that you are deeply appreciated, celebrated, and cared for. You are a true masterpiece!
+            <br /><br />
+            Wishing you a wonderful year ahead filled with magic, laughter, and endless beautiful moments. Happy Birthday! 💖🎂✨
+            <br /><br />
+            <span style={{
+              display: 'block',
+              textAlign: 'right',
+              fontFamily: 'var(--font-cute)',
+              fontSize: '1.3rem',
+              color: '#ff4d85',
+              fontWeight: 'bold'
+            }}>
+              ~ JB
+            </span>
+          </div>
         </div>
 
         <NavigationButtons
