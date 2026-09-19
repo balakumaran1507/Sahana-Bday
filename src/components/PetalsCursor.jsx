@@ -56,16 +56,16 @@ export default function PetalsCursor() {
         this.x = scattered ? Math.random() * canvas.width : (mouse.isActive ? mouse.x : canvas.width / 2) + (Math.random() - 0.5) * 300;
         this.y = scattered ? Math.random() * canvas.height : (mouse.isActive ? mouse.y : canvas.height / 2) + (Math.random() - 0.5) * 300;
 
-        // Continuous distribution — no tiers so petals don't cluster
-        const r = Math.random();
-        this.followStrength = 0.0008 + r * 0.004;
-        this.maxSpeed = 10 + Math.random() * 22;
-        this.drag = 0.88 + Math.random() * 0.06;
-        this.rollSpeed = 0.005 + Math.random() * 0.022;
-        this.pitchSpeed = 0.004 + Math.random() * 0.014;
-        this.swayFreq = 0.0008 + Math.random() * 0.0014;
-        this.swayAmp = 0.03 + Math.random() * 0.08;
-        this.wakeFactor = 0.015 + Math.random() * 0.05;
+        // Tight followStrength range so all petals orbit at the same radius —
+        // visual variety comes from drag/sway/speed, not distance from cursor
+        this.followStrength = 0.008 + Math.random() * 0.006;
+        this.maxSpeed = 28 + Math.random() * 24;
+        this.drag = 0.91 + Math.random() * 0.05;
+        this.rollSpeed = 0.005 + Math.random() * 0.025;
+        this.pitchSpeed = 0.004 + Math.random() * 0.016;
+        this.swayFreq = 0.0006 + Math.random() * 0.002;
+        this.swayAmp = 0.06 + Math.random() * 0.12;
+        this.wakeFactor = 0.02 + Math.random() * 0.06;
 
         this.vx = (Math.random() - 0.5) * 0.4;
         this.vy = (Math.random() - 0.5) * 0.4;
@@ -199,22 +199,21 @@ export default function PetalsCursor() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => { p.update(now); p.draw(); });
 
-      // Pointer dot — drawn last so it's always on top
-      if (mouse.isActive) {
-        ctx.save();
-        ctx.globalAlpha = 1;
-        ctx.shadowColor = 'rgba(236,72,153,0.8)';
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#f9a8d4';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
-        ctx.restore();
-      }
+      // Pointer dot — always visible
+      ctx.save();
+      ctx.globalAlpha = 1;
+      ctx.shadowColor = 'rgba(236,72,153,1)';
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#ec4899';
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.restore();
 
       rafId = requestAnimationFrame(animate);
     }
