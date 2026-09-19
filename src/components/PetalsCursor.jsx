@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const PARTICLE_COUNT = 150;
+const PARTICLE_COUNT = 80;
 
 export default function PetalsCursor() {
   const canvasRef = useRef(null);
@@ -56,15 +56,15 @@ export default function PetalsCursor() {
         this.x = scattered ? Math.random() * canvas.width : (mouse.isActive ? mouse.x : canvas.width / 2) + (Math.random() - 0.5) * 300;
         this.y = scattered ? Math.random() * canvas.height : (mouse.isActive ? mouse.y : canvas.height / 2) + (Math.random() - 0.5) * 300;
 
-        // Tight followStrength range so all petals orbit at the same radius —
-        // visual variety comes from drag/sway/speed, not distance from cursor
-        this.followStrength = 0.018 + Math.random() * 0.010;
-        this.maxSpeed = 55 + Math.random() * 35;
-        this.drag = 0.91 + Math.random() * 0.05;
-        this.rollSpeed = 0.005 + Math.random() * 0.025;
+        // 2 groups: fast (inner) and slow (outer), small speed gap
+        const isFast = Math.random() < 0.5;
+        this.followStrength = isFast ? 0.022 + Math.random() * 0.004 : 0.014 + Math.random() * 0.004;
+        this.maxSpeed      = isFast ? 62  + Math.random() * 10       : 45  + Math.random() * 10;
+        this.drag          = isFast ? 0.93 + Math.random() * 0.02    : 0.91 + Math.random() * 0.02;
+        this.rollSpeed  = 0.005 + Math.random() * 0.025;
         this.pitchSpeed = 0.004 + Math.random() * 0.016;
-        this.swayFreq = 0.0006 + Math.random() * 0.002;
-        this.swayAmp = 0.06 + Math.random() * 0.12;
+        this.swayFreq   = 0.0006 + Math.random() * 0.002;
+        this.swayAmp    = 0.06 + Math.random() * 0.12;
         this.wakeFactor = 0.02 + Math.random() * 0.06;
 
         this.vx = (Math.random() - 0.5) * 0.4;
@@ -199,18 +199,20 @@ export default function PetalsCursor() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => { p.update(now); p.draw(); });
 
-      // Pointer dot — always visible
+      // Pink pointer dot — bold, always on top
       ctx.save();
       ctx.globalAlpha = 1;
-      ctx.shadowColor = 'rgba(236,72,153,1)';
-      ctx.shadowBlur = 12;
+      // outer glow ring
+      ctx.shadowColor = '#ff69b4';
+      ctx.shadowBlur = 16;
       ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = '#ec4899';
+      ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = '#ff1493';
       ctx.fill();
+      // bright white core
       ctx.shadowBlur = 0;
       ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+      ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
       ctx.restore();
