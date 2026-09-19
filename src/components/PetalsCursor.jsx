@@ -56,35 +56,16 @@ export default function PetalsCursor() {
         this.x = scattered ? Math.random() * canvas.width : (mouse.isActive ? mouse.x : canvas.width / 2) + (Math.random() - 0.5) * 300;
         this.y = scattered ? Math.random() * canvas.height : (mouse.isActive ? mouse.y : canvas.height / 2) + (Math.random() - 0.5) * 300;
 
-        const speedRand = Math.random();
-        if (speedRand < 0.28) {
-          this.speedType = 'fast';
-          this.followStrength = 0.002 + Math.random() * 0.001;
-          this.maxSpeed = 18 + Math.random() * 5;
-          this.drag = 0.93;
-          this.rollSpeed = 0.016 + Math.random() * 0.012;
-          this.pitchSpeed = 0.011 + Math.random() * 0.008;
-          this.swayFreq = 0.0016 + Math.random() * 0.001;
-          this.swayAmp = 0.08 + Math.random() * 0.05;
-        } else if (speedRand < 0.72) {
-          this.speedType = 'medium';
-          this.followStrength = 0.001 + Math.random() * 0.0006;
-          this.maxSpeed = 12 + Math.random() * 4;
-          this.drag = 0.91;
-          this.rollSpeed = 0.010 + Math.random() * 0.008;
-          this.pitchSpeed = 0.007 + Math.random() * 0.005;
-          this.swayFreq = 0.0012 + Math.random() * 0.0008;
-          this.swayAmp = 0.05 + Math.random() * 0.04;
-        } else {
-          this.speedType = 'slow';
-          this.followStrength = 0.0004 + Math.random() * 0.0003;
-          this.maxSpeed = 7 + Math.random() * 3;
-          this.drag = 0.89;
-          this.rollSpeed = 0.005 + Math.random() * 0.005;
-          this.pitchSpeed = 0.004 + Math.random() * 0.003;
-          this.swayFreq = 0.0008 + Math.random() * 0.0005;
-          this.swayAmp = 0.035 + Math.random() * 0.025;
-        }
+        // Continuous distribution — no tiers so petals don't cluster
+        const r = Math.random();
+        this.followStrength = 0.0008 + r * 0.004;
+        this.maxSpeed = 10 + Math.random() * 22;
+        this.drag = 0.88 + Math.random() * 0.06;
+        this.rollSpeed = 0.005 + Math.random() * 0.022;
+        this.pitchSpeed = 0.004 + Math.random() * 0.014;
+        this.swayFreq = 0.0008 + Math.random() * 0.0014;
+        this.swayAmp = 0.03 + Math.random() * 0.08;
+        this.wakeFactor = 0.015 + Math.random() * 0.05;
 
         this.vx = (Math.random() - 0.5) * 0.4;
         this.vy = (Math.random() - 0.5) * 0.4;
@@ -132,9 +113,8 @@ export default function PetalsCursor() {
 
         if (mouse.speed > 0.5) {
           const wakeDist = Math.max(0, 1 - dist / 350);
-          const wf = this.speedType === 'fast' ? 0.045 : this.speedType === 'medium' ? 0.025 : 0.012;
-          this.vx += mouse.vx * wf * wakeDist;
-          this.vy += mouse.vy * wf * wakeDist;
+          this.vx += mouse.vx * this.wakeFactor * wakeDist;
+          this.vy += mouse.vy * this.wakeFactor * wakeDist;
         }
 
         this.vx *= this.drag;
@@ -147,14 +127,6 @@ export default function PetalsCursor() {
 
         this.x += this.vx;
         this.y += this.vy;
-
-        // Bounce off viewport edges
-        const margin = this.sizeH;
-        if (this.x < margin) { this.x = margin; this.vx = Math.abs(this.vx) * 0.6; }
-        if (this.x > canvas.width - margin) { this.x = canvas.width - margin; this.vx = -Math.abs(this.vx) * 0.6; }
-        if (this.y < margin) { this.y = margin; this.vy = Math.abs(this.vy) * 0.6; }
-        if (this.y > canvas.height - margin) { this.y = canvas.height - margin; this.vy = -Math.abs(this.vy) * 0.6; }
-
         this.angle = Math.atan2(this.vy, this.vx) + Math.PI / 2 + Math.sin(time * 0.0015 + this.phaseX) * 0.12;
         this.roll += this.rollSpeed;
         this.pitch += this.pitchSpeed;
