@@ -58,8 +58,8 @@ export default function PetalsCursor() {
 
         // Tight followStrength range so all petals orbit at the same radius —
         // visual variety comes from drag/sway/speed, not distance from cursor
-        this.followStrength = 0.008 + Math.random() * 0.006;
-        this.maxSpeed = 28 + Math.random() * 24;
+        this.followStrength = 0.018 + Math.random() * 0.010;
+        this.maxSpeed = 55 + Math.random() * 35;
         this.drag = 0.91 + Math.random() * 0.05;
         this.rollSpeed = 0.005 + Math.random() * 0.025;
         this.pitchSpeed = 0.004 + Math.random() * 0.016;
