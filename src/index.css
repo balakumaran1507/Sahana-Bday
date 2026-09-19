@@ -14,6 +14,13 @@
   --font-cute: 'Quicksand', sans-serif;
 }
 
+/* Hide native cursor on non-touch devices — petals canvas replaces it */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* ============================================
    GLOBAL SECURITY - Prevent casual content theft
    ============================================ */

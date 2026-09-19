@@ -18,61 +18,8 @@ import TheEnd from './components/TheEnd';
 import FinalMessage from './components/FinalMessage';
 import Auth from './components/Auth';
 import FlowerTransition from './components/FlowerTransition';
+import PetalsCursor from './components/PetalsCursor';
 import './index.css';
-
-// --- Custom Quill Cursor ---
-const CustomCursor = () => {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Only show custom cursor on devices with a mouse
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    const updateMousePos = (e) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
-    };
-    
-    const handleMouseOver = (e) => {
-      // Check if we are hovering a clickable element
-      const isClickable = e.target.closest('button, a, input, [role="button"]');
-      setIsHovering(!!isClickable);
-    };
-
-    const handleMouseOut = () => setIsHovering(false);
-
-    window.addEventListener('mousemove', updateMousePos);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mouseout', handleMouseOut);
-    
-    return () => {
-      window.removeEventListener('mousemove', updateMousePos);
-      window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('mouseout', handleMouseOut);
-    };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
-
-  return (
-    <div style={{
-      position: 'fixed',
-      top: 0, left: 0,
-      width: '32px', height: '32px', // Adjust based on your Quill-Cursor image aspect ratio
-      transform: `translate(${pos.x}px, ${pos.y}px)`,
-      backgroundImage: 'url(/Quill-Cursor.png)',
-      backgroundSize: 'contain',
-      backgroundRepeat: 'no-repeat',
-      pointerEvents: 'none',
-      zIndex: 99999,
-      filter: isHovering ? 'invert(1) drop-shadow(0 0 5px rgba(255,255,255,0.8))' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
-      transition: 'filter 0.2s ease, transform 0.05s linear', // smooth color invert, snappy follow
-      transformOrigin: 'top left'
-    }} />
-  );
-};
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -230,7 +177,7 @@ function App() {
 
   return (
     <div className="app-container" onClick={startAudio} style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
-      <CustomCursor />
+      <PetalsCursor />
       
       {/* Global Audio Element */}
       <audio 
