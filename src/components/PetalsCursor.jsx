@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const PARTICLE_COUNT = 80;
+const PARTICLE_COUNT = 120;
 
 export default function PetalsCursor() {
   const canvasRef = useRef(null);
@@ -58,8 +58,8 @@ export default function PetalsCursor() {
 
         // 2 groups: fast (inner) and slow (outer), small speed gap
         const isFast = Math.random() < 0.5;
-        this.followStrength = isFast ? 0.022 + Math.random() * 0.004 : 0.014 + Math.random() * 0.004;
-        this.maxSpeed      = isFast ? 62  + Math.random() * 10       : 45  + Math.random() * 10;
+        this.followStrength = isFast ? 0.015 + Math.random() * 0.003 : 0.009 + Math.random() * 0.003;
+        this.maxSpeed      = isFast ? 42  + Math.random() * 8        : 28  + Math.random() * 8;
         this.drag          = isFast ? 0.93 + Math.random() * 0.02    : 0.91 + Math.random() * 0.02;
         this.rollSpeed  = 0.005 + Math.random() * 0.025;
         this.pitchSpeed = 0.004 + Math.random() * 0.016;
